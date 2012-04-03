@@ -15,12 +15,12 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
 
     @Override
     protected Asn nextOf(Asn rangeItem) {
-        return Asn.of(rangeItem.value() + 1);
+        return rangeItem.next();
     }
 
     @Override
     protected Asn previousOf(Asn rangeItem) {
-        return Asn.of(rangeItem.value() - 1);
+        return rangeItem.previous();
     }
 
     public static AsnRangeBuilder from(Asn from) {

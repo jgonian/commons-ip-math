@@ -131,4 +131,13 @@ public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
         return leadingOnesCount > 0 && (leadingOnesCount + trailingZeroesCount) == IPv4_NUMBER_OF_BITS;
     }*/
 
+    @Override
+    public Ipv4 next() {
+        return new Ipv4(value() + 1);
+    }
+
+    @Override
+    public Ipv4 previous() {
+        return new Ipv4(value() - 1);
+    }
 }

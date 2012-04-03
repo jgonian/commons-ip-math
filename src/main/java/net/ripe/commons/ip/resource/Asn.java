@@ -2,7 +2,7 @@ package net.ripe.commons.ip.resource;
 
 import org.apache.commons.lang.Validate;
 
-public class Asn extends SingleValue<Long> implements Resource<Asn> {
+public class Asn extends SingleValue<Long> implements InternetResource<Asn> {
 
     private static final long serialVersionUID = -1L;
 
@@ -27,5 +27,15 @@ public class Asn extends SingleValue<Long> implements Resource<Asn> {
     @Override
     public int compareTo(Asn other) {
         return value().compareTo(other.value());
+    }
+
+    @Override
+    public Asn next() {
+        return new Asn(value() + 1);
+    }
+
+    @Override
+    public Asn previous() {
+        return new Asn(value() - 1);
     }
 }

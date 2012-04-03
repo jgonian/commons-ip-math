@@ -15,12 +15,12 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> {
 
     @Override
     protected Ipv4 nextOf(Ipv4 rangeItem) {
-        return Ipv4.of(rangeItem.value() + 1);
+        return rangeItem.next();
     }
 
     @Override
     protected Ipv4 previousOf(Ipv4 rangeItem) {
-        return Ipv4.of(rangeItem.value() - 1);
+        return rangeItem.previous();
     }
 
     public static Ipv4RangeBuilder from(Ipv4 from) {
