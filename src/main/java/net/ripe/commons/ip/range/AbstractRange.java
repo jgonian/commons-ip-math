@@ -116,6 +116,10 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         }
     }
 
+    public boolean same(R other) {
+        return hasSameStart(other) && hasSameEnd(other);
+    }
+
     private boolean hasSameStart(R other) {
         return this.start.equals(other.start);
     }

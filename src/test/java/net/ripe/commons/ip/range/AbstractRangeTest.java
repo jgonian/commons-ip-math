@@ -895,6 +895,57 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     //---------------------------------------------------------------
+    // boolean same(R arg)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testSame() {
+        // range      |------|      [10, 20]
+        // other |---|.      .      [2, 9]
+        // other  |---|      .      [5, 10]
+        // other      |      .      [10, 10]
+        // other    |---|    .      [5, 15]
+        // other      |---|  .      [10, 15]
+        // other      . |--| .      [13, 15]
+        // other      .  |---|      [15, 20]
+        // other      .    |---|    [15, 25]
+        // other      .      |      [20, 20]
+        // other      .      |---|  [20, 25]
+        // other      .      .|---| [21, 25]
+        // other    |--------|      [5, 20]
+        // other      |------|      [10, 20]
+        // other      |--------|    [10, 25]
+        // other    |----------|    [5, 25]
+        R range = getTestRange(from("10"), to("20"));
+
+        assertNotSame(range, getTestRange(from("2"), to("9")));
+        assertNotSame(range, getTestRange(from("5"), to("10")));
+        assertNotSame(range, getTestRange(from("10"), to("10")));
+        assertNotSame(range, getTestRange(from("5"), to("15")));
+        assertNotSame(range, getTestRange(from("10"), to("15")));
+        assertNotSame(range, getTestRange(from("13"), to("15")));
+        assertNotSame(range, getTestRange(from("15"), to("20")));
+        assertNotSame(range, getTestRange(from("15"), to("25")));
+        assertNotSame(range, getTestRange(from("20"), to("20")));
+        assertNotSame(range, getTestRange(from("20"), to("25")));
+        assertNotSame(range, getTestRange(from("21"), to("25")));
+        assertNotSame(range, getTestRange(from("5"), to("20")));
+        assertSame(range, getTestRange(from("10"), to("20")));
+        assertNotSame(range, getTestRange(from("10"), to("25")));
+        assertNotSame(range, getTestRange(from("5"), to("25")));
+    }
+
+    private void assertSame(R range, R other) {
+        assertTrue(range.same(other));
+        assertTrue(other.same(range));
+    }
+
+    private void assertNotSame(R range, R other) {
+        assertFalse(range.same(other));
+        assertFalse(other.same(range));
+    }
+
+    //---------------------------------------------------------------
     // List<R> remove(R other)
     //---------------------------------------------------------------
 
