@@ -7,6 +7,7 @@ import org.junit.Test;
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
 
     Ipv4Address ip1 = Ipv4Address.valueOf("1.0.0.1");
+    Ipv4Address ip2 = Ipv4Address.valueOf("1.0.0.2");
     Ipv4Address ip3 = Ipv4Address.valueOf("1.0.0.3");
 
     @Override
@@ -33,6 +34,20 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
     public void testToString() {
         Ipv4Range range = new Ipv4Range(ip1, ip3);
         assertEquals("[1.0.0.1..1.0.0.3]", range.toString());
+    }
+
+    @Override
+    public void testNextOf() {
+        Ipv4Range range = new Ipv4Range(ip1, ip2);
+        assertEquals(ip2, range.nextOf(ip1));
+        assertEquals(ip3, range.nextOf(ip2));
+    }
+
+    @Override
+    public void testPreviousOf() {
+        Ipv4Range range = new Ipv4Range(ip2, ip3);
+        assertEquals(ip2, range.nextOf(ip1));
+        assertEquals(ip3, range.nextOf(ip2));
     }
 
     @Test

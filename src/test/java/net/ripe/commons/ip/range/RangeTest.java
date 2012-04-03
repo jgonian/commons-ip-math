@@ -32,6 +32,20 @@ public class RangeTest extends AbstractRangeTest<Date,Range<Date>> {
         assertEquals("[a..c]", range.toString());
     }
 
+    @Override
+    public void testNextOf() {
+        Range<Integer> range = Range.from(1).to(2);
+        assertEquals(new Integer(2), range.nextOf(1));
+        assertEquals(new Integer(3), range.nextOf(2));
+    }
+
+    @Override
+    public void testPreviousOf() {
+        Range<Integer> range = Range.from(2).to(3);
+        assertEquals(new Integer(2), range.previousOf(3));
+        assertEquals(new Integer(1), range.previousOf(2));
+    }
+
     @Test
     public void testBuilder() {
         Range<Integer> range = Range.from(1).to(3);

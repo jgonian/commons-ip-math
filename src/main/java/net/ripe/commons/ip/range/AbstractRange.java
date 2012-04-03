@@ -18,7 +18,8 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
     }
 
     protected abstract R newInstance(C start, C end);
-    protected abstract C nextOf(C end);
+    protected abstract C nextOf(C rangeItem);
+    protected abstract C previousOf(C rangeItem);
 
 
     public C start() {

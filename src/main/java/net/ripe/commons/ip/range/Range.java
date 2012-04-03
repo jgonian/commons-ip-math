@@ -2,8 +2,11 @@ package net.ripe.commons.ip.range;
 
 public class Range<T extends Comparable<T>> extends AbstractRange<T, Range<T>> {
 
+    private final Sequence sequence;
+
     protected Range(T start, T end) {
         super(start, end);
+        sequence = DefaultSequenceImpl.getSequence(start.getClass());
     }
 
     @Override
@@ -13,9 +16,14 @@ public class Range<T extends Comparable<T>> extends AbstractRange<T, Range<T>> {
 
     @SuppressWarnings({"unchecked"})
     @Override
-    protected T nextOf(T end) {
-        Sequence sequence = DefaultSequenceImpl.getSequence(end.getClass());
-        return (T) sequence.nextOf(end);
+    protected T nextOf(T rangeItem) {
+        return (T) sequence.nextOf(rangeItem);
+    }
+
+    @SuppressWarnings({"unchecked"})
+    @Override
+    protected T previousOf(T rangeItem) {
+        return (T) sequence.previous(rangeItem);
     }
 
     public static <K extends Comparable<K>> RangeBuilder<K> from(K start) {

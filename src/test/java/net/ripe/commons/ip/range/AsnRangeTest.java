@@ -7,6 +7,7 @@ import org.junit.Test;
 public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     private final Asn as1 = Asn.valueOf(1L);
+    private final Asn as2 = Asn.valueOf(2L);
     private final Asn as3 = Asn.valueOf(3L);
 
     @Override
@@ -33,6 +34,20 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
     public void testToString() {
         AsnRange range = new AsnRange(as1, as3);
         assertEquals("[1..3]", range.toString());
+    }
+
+    @Override
+    public void testNextOf() {
+        AsnRange range = new AsnRange(as1, as2);
+        assertEquals(as2, range.nextOf(as1));
+        assertEquals(as3, range.nextOf(as2));
+    }
+
+    @Override
+    public void testPreviousOf() {
+        AsnRange range = new AsnRange(as2, as3);
+        assertEquals(as2, range.previousOf(as3));
+        assertEquals(as1, range.previousOf(as2));
     }
 
     @Test
