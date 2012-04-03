@@ -40,20 +40,6 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range>{
     }
 
     @Override
-    public void testNextOf() {
-        Ipv4Range range = new Ipv4Range(ip1, ip2);
-        assertEquals(ip2, range.nextOf(ip1));
-        assertEquals(ip3, range.nextOf(ip2));
-    }
-
-    @Override
-    public void testPreviousOf() {
-        Ipv4Range range = new Ipv4Range(ip2, ip3);
-        assertEquals(ip2, range.nextOf(ip1));
-        assertEquals(ip3, range.nextOf(ip2));
-    }
-
-    @Override
     public void testIterator() {
         List<Ipv4> result = new ArrayList<Ipv4>();
         for (Ipv4 ipv4 : new Ipv4Range(ip1, ip3)) {

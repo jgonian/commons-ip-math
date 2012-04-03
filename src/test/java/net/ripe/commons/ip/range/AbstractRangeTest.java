@@ -21,12 +21,6 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     public abstract void testToString();
 
     @Test
-    public abstract void testNextOf();
-
-    @Test
-    public abstract void testPreviousOf();
-
-    @Test
     public abstract void testIterator();
 
     //---------------------------------------------------------------

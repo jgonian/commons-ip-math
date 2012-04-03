@@ -13,16 +13,6 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
         return new AsnRange(start, end);
     }
 
-    @Override
-    protected Asn nextOf(Asn rangeItem) {
-        return rangeItem.next();
-    }
-
-    @Override
-    protected Asn previousOf(Asn rangeItem) {
-        return rangeItem.previous();
-    }
-
     public static AsnRangeBuilder from(Asn from) {
         return new AsnRangeBuilder(from);
     }

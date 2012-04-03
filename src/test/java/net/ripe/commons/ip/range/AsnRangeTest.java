@@ -40,20 +40,6 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
     }
 
     @Override
-    public void testNextOf() {
-        AsnRange range = new AsnRange(as1, as2);
-        assertEquals(as2, range.nextOf(as1));
-        assertEquals(as3, range.nextOf(as2));
-    }
-
-    @Override
-    public void testPreviousOf() {
-        AsnRange range = new AsnRange(as2, as3);
-        assertEquals(as2, range.previousOf(as3));
-        assertEquals(as1, range.previousOf(as2));
-    }
-
-    @Override
     public void testIterator() {
         List<Asn> result = new ArrayList<Asn>();
         for (Asn asn : new AsnRange(as1, as3)) {

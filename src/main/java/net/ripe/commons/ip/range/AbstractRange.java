@@ -22,9 +22,6 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     protected abstract R newInstance(C start, C end);
-    protected abstract C nextOf(C rangeItem);
-    protected abstract C previousOf(C rangeItem);
-
 
     public C start() {
         return start;
@@ -97,18 +94,18 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
             return Collections.singletonList(newInstance(other.end.next(), this.end));
 
         } else if (this.contains(other.start) && !this.contains(other.end)) {
-            return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
+            return Collections.singletonList(newInstance(this.start, other.start.previous()));
 
         } else {
             if (this.hasSameStart(other)) {
                 return Collections.singletonList(newInstance(other.end.next(), this.end));
 
             } else if (this.hasSameEnd(other)) {
-                return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
+                return Collections.singletonList(newInstance(this.start, other.start.previous()));
 
             } else {
                 ArrayList<R> rs = new ArrayList<R>(2);
-                rs.add(newInstance(this.start, previousOf(other.start)));
+                rs.add(newInstance(this.start, other.start.previous()));
                 rs.add(newInstance(other.end.next(), this.end));
                 return rs;
             }

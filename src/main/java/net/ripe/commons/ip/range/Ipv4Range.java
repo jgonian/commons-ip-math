@@ -13,16 +13,6 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> {
         return new Ipv4Range(start, end);
     }
 
-    @Override
-    protected Ipv4 nextOf(Ipv4 rangeItem) {
-        return rangeItem.next();
-    }
-
-    @Override
-    protected Ipv4 previousOf(Ipv4 rangeItem) {
-        return rangeItem.previous();
-    }
-
     public static Ipv4RangeBuilder from(Ipv4 from) {
         return new Ipv4RangeBuilder(from);
     }
