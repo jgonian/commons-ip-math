@@ -43,7 +43,7 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
     }
 
     public boolean isAdjacent(R other) {
-        return true;
+        return this.end.equals(other.start) || other.end.equals(this.start);
     }
 
     public boolean isConsecutive(R other) {
