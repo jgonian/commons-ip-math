@@ -1,34 +1,34 @@
 package net.ripe.commons.ip.range;
 
-import net.ripe.commons.ip.resource.Ipv4Address;
+import net.ripe.commons.ip.resource.Ipv4;
 
-public class Ipv4Range extends AbstractRange<Ipv4Address, Ipv4Range> {
+public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> {
 
-    protected Ipv4Range(Ipv4Address start, Ipv4Address end) {
+    protected Ipv4Range(Ipv4 start, Ipv4 end) {
         super(start, end);
     }
 
     @Override
-    protected Ipv4Range newInstance(Ipv4Address start, Ipv4Address end) {
+    protected Ipv4Range newInstance(Ipv4 start, Ipv4 end) {
         return new Ipv4Range(start, end);
     }
 
     @Override
-    protected Ipv4Address nextOf(Ipv4Address rangeItem) {
-        return Ipv4Address.of(rangeItem.value() + 1);
+    protected Ipv4 nextOf(Ipv4 rangeItem) {
+        return Ipv4.of(rangeItem.value() + 1);
     }
 
     @Override
-    protected Ipv4Address previousOf(Ipv4Address rangeItem) {
-        return Ipv4Address.of(rangeItem.value() - 1);
+    protected Ipv4 previousOf(Ipv4 rangeItem) {
+        return Ipv4.of(rangeItem.value() - 1);
     }
 
-    public static Ipv4RangeBuilder from(Ipv4Address from) {
+    public static Ipv4RangeBuilder from(Ipv4 from) {
         return new Ipv4RangeBuilder(from);
     }
 
-    public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4Address, Ipv4Range> {
-        protected Ipv4RangeBuilder(Ipv4Address from) {
+    public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
+        protected Ipv4RangeBuilder(Ipv4 from) {
             super(from, Ipv4Range.class);
         }
     }

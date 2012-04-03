@@ -2,7 +2,7 @@ package net.ripe.commons.ip.resource;
 
 import org.apache.commons.lang.Validate;
 
-public class Ipv4Address extends SingleValue<Long> implements IpResource<Ipv4Address> {
+public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
 
     private static final long serialVersionUID = -1L;
 
@@ -11,27 +11,27 @@ public class Ipv4Address extends SingleValue<Long> implements IpResource<Ipv4Add
     public static final long IPv4_MINIMUM_VALUE = 0;
     public static final long IPv4_MAXIMUM_VALUE = (1L << IPv4_NUMBER_OF_BITS) - 1;
 
-    protected Ipv4Address(Long value) {
+    protected Ipv4(Long value) {
         super(value);
-        Validate.isTrue(value.compareTo(IPv4_MINIMUM_VALUE) >= 0, "Value of Ipv4Address has to be greater than or equal to " + IPv4_MINIMUM_VALUE);
-        Validate.isTrue(value.compareTo(IPv4_MAXIMUM_VALUE) <= 0, "Value of Ipv4Address has to be less than or equal to " + IPv4_MAXIMUM_VALUE);
+        Validate.isTrue(value.compareTo(IPv4_MINIMUM_VALUE) >= 0, "Value of Ipv4 has to be greater than or equal to " + IPv4_MINIMUM_VALUE);
+        Validate.isTrue(value.compareTo(IPv4_MAXIMUM_VALUE) <= 0, "Value of Ipv4 has to be less than or equal to " + IPv4_MAXIMUM_VALUE);
     }
 
-    public static Ipv4Address of(Long value) {
-        return new Ipv4Address(value);
+    public static Ipv4 of(Long value) {
+        return new Ipv4(value);
     }
 
-    public static Ipv4Address of(String value) {
+    public static Ipv4 of(String value) {
         return parse(value);
     }
 
-    public static Ipv4Address parse(String ipv4String) {
+    public static Ipv4 parse(String ipv4String) {
         // 127.0.0.1/8
 
         return parse(ipv4String, false);
     }
 
-    public static Ipv4Address parse(String ipv4String, boolean defaultMissingOctets) {
+    public static Ipv4 parse(String ipv4String, boolean defaultMissingOctets) {
         Validate.notNull(ipv4String, "ipv4String must not be empty");
         ipv4String = ipv4String.trim();
         Validate.isTrue(!ipv4String.isEmpty()
@@ -65,7 +65,7 @@ public class Ipv4Address extends SingleValue<Long> implements IpResource<Ipv4Add
             throw new IllegalArgumentException("invalid IPv4 address: " + ipv4String);
         }
 
-        return new Ipv4Address(value);
+        return new Ipv4(value);
     }
 
     private static long addOctet(long value, int octet) {
@@ -95,7 +95,7 @@ public class Ipv4Address extends SingleValue<Long> implements IpResource<Ipv4Add
     }*/
 
     @Override
-    public int compareTo(Ipv4Address other) {
+    public int compareTo(Ipv4 other) {
         return value().compareTo(other.value());
     }
 

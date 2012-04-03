@@ -4,32 +4,32 @@ import static junit.framework.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.ripe.commons.ip.resource.Ipv4Address;
+import net.ripe.commons.ip.resource.Ipv4;
 import org.junit.Test;
 
-public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
+public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range>{
 
-    Ipv4Address ip1 = Ipv4Address.of("1.0.0.1");
-    Ipv4Address ip2 = Ipv4Address.of("1.0.0.2");
-    Ipv4Address ip3 = Ipv4Address.of("1.0.0.3");
+    Ipv4 ip1 = Ipv4.of("1.0.0.1");
+    Ipv4 ip2 = Ipv4.of("1.0.0.2");
+    Ipv4 ip3 = Ipv4.of("1.0.0.3");
 
     @Override
-    protected Ipv4Address from(String s) {
-        return Ipv4Address.of(Long.parseLong(s));
+    protected Ipv4 from(String s) {
+        return Ipv4.of(Long.parseLong(s));
     }
 
     @Override
-    protected Ipv4Address to(String s) {
-        return Ipv4Address.of(Long.parseLong(s));
+    protected Ipv4 to(String s) {
+        return Ipv4.of(Long.parseLong(s));
     }
 
     @Override
-    protected Ipv4Address item(String s) {
-        return Ipv4Address.of(Long.parseLong(s));
+    protected Ipv4 item(String s) {
+        return Ipv4.of(Long.parseLong(s));
     }
 
     @Override
-    protected Ipv4Range getTestRange(Ipv4Address start, Ipv4Address end) {
+    protected Ipv4Range getTestRange(Ipv4 start, Ipv4 end) {
         return new Ipv4Range(start, end);
     }
 
@@ -55,8 +55,8 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
 
     @Override
     public void testIterator() {
-        List<Ipv4Address> result = new ArrayList<Ipv4Address>();
-        for (Ipv4Address ipv4 : new Ipv4Range(ip1, ip3)) {
+        List<Ipv4> result = new ArrayList<Ipv4>();
+        for (Ipv4 ipv4 : new Ipv4Range(ip1, ip3)) {
             result.add(ipv4);
         }
         assertEquals(Arrays.asList(ip1, ip2, ip3), result);
@@ -76,11 +76,11 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullStart() {
-        Range.from((Ipv4Address)null).to(ip3);
+        Range.from((Ipv4)null).to(ip3);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullEnd() {
-        Range.from(ip1).to((Ipv4Address)null);
+        Range.from(ip1).to((Ipv4)null);
     }
 }
