@@ -1,6 +1,9 @@
 package net.ripe.commons.ip.range;
 
 import static junit.framework.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.ripe.commons.ip.resource.Ipv4Address;
 import org.junit.Test;
 
@@ -48,6 +51,15 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
         Ipv4Range range = new Ipv4Range(ip2, ip3);
         assertEquals(ip2, range.nextOf(ip1));
         assertEquals(ip3, range.nextOf(ip2));
+    }
+
+    @Override
+    public void testIterator() {
+        List<Ipv4Address> result = new ArrayList<Ipv4Address>();
+        for (Ipv4Address ipv4 : new Ipv4Range(ip1, ip3)) {
+            result.add(ipv4);
+        }
+        assertEquals(Arrays.asList(ip1, ip2, ip3), result);
     }
 
     @Test

@@ -1,7 +1,10 @@
 package net.ripe.commons.ip.range;
 
 import static junit.framework.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import org.junit.Test;
 
 public class RangeTest extends AbstractRangeTest<Date,Range<Date>> {
@@ -44,6 +47,15 @@ public class RangeTest extends AbstractRangeTest<Date,Range<Date>> {
         Range<Integer> range = Range.from(2).to(3);
         assertEquals(new Integer(2), range.previousOf(3));
         assertEquals(new Integer(1), range.previousOf(2));
+    }
+
+    @Override
+    public void testIterator() {
+        List<Integer> result = new ArrayList<Integer>();
+        for (Integer integer : new Range<Integer>(1, 3)) {
+            result.add(integer);
+        }
+        assertEquals(Arrays.asList(1, 2, 3), result);
     }
 
     @Test

@@ -2,12 +2,13 @@ package net.ripe.commons.ip.range;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import net.ripe.commons.ip.resource.EqualsSupport;
 import org.apache.commons.lang.Validate;
 
 public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractRange<C, R>>
-        extends EqualsSupport {
+        extends EqualsSupport implements Iterable<C> {
 
     private final C start;
     private final C end;
@@ -125,6 +126,33 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
     @Override
     public String toString() {
         return String.format("[%s..%s]", start.toString(), end.toString());
+    }
+
+    @Override
+    public Iterator<C> iterator() {
+        return new RangeIterator();
+    }
+
+    private class RangeIterator implements Iterator<C> {
+
+        private C nextValue = start;
+
+        @Override
+        public boolean hasNext() {
+            return nextValue.compareTo(end) <= 0;
+        }
+
+        @Override
+        public C next() {
+            C valueToReturn = nextValue;
+            nextValue = nextOf(valueToReturn);
+            return valueToReturn;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     protected static abstract class AbstractRangeBuilder<C extends Comparable<C>, R extends AbstractRange<C, R>> {

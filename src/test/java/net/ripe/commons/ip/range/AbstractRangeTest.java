@@ -25,6 +25,9 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
     @Test
     public abstract void testPreviousOf();
 
+    @Test
+    public abstract void testIterator();
+
     //---------------------------------------------------------------
     // boolean overlaps(R arg)
     //---------------------------------------------------------------
