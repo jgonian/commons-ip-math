@@ -1,6 +1,6 @@
 package net.ripe.commons.ip.resource;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
 
@@ -27,7 +27,6 @@ public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
 
     public static Ipv4 parse(String ipv4String) {
         // 127.0.0.1/8
-
         return parse(ipv4String, false);
     }
 

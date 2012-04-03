@@ -1,7 +1,7 @@
 package net.ripe.commons.ip.resource;
 
 import java.io.Serializable;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 public abstract class SingleValue<T> extends EqualsSupport implements Serializable {
 

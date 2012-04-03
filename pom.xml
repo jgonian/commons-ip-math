@@ -8,32 +8,34 @@
     <name>commons-ip-math</name>
 
     <parent>
-        <groupId>net.ripe.maven2-utils</groupId>
+        <groupId>net.ripe.maven-utils</groupId>
         <artifactId>ripe-parent-pom</artifactId>
-        <version>1.11</version>
+        <version>1.16</version>
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>net.ripe.commons</groupId>
             <artifactId>commons-internet-resources</artifactId>
             <version>1.36</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
+
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

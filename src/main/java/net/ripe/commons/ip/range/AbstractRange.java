@@ -1,12 +1,13 @@
 package net.ripe.commons.ip.range;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import net.ripe.commons.ip.resource.EqualsSupport;
 import net.ripe.commons.ip.resource.Rangeable;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>>
         extends EqualsSupport implements Iterable<C> {
@@ -15,11 +16,9 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     private final C end;
 
     protected AbstractRange(C start, C end) {
-        Validate.notNull(start, "start of range must not be null");
-        Validate.notNull(end, "end of range must not be null");
-        Validate.isTrue(start.compareTo(end) <= 0, String.format("Invalid range [%s..%s]", start.toString(), end.toString()));
-        this.start = start;
-        this.end = end;
+        this.start = Validate.notNull(start, "start of range must not be null");
+        this.end = Validate.notNull(end, "end of range must not be null");
+        Validate.isTrue(this.start.compareTo(this.end) <= 0, String.format("Invalid range [%s..%s]", start, end));
     }
 
     protected abstract R newInstance(C start, C end);
@@ -165,17 +164,29 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         private final Class<R> typeOfRange;
 
         protected AbstractRangeBuilder(C from, Class<R> typeOfRange) {
+            Validate.notNull(from);
+            Validate.notNull(typeOfRange);
             this.start = from;
             this.typeOfRange = typeOfRange;
         }
 
         public R to(C end) {
+            Validate.notNull(end);
             try {
-                return typeOfRange
-                        .getDeclaredConstructor(start.getClass(), end.getClass())
-                        .newInstance(start, end);
+                return typeOfRange.getDeclaredConstructor(start.getClass(), end.getClass()).newInstance(start, end);
+            } catch (InvocationTargetException e) {
+                handleValidationExceptions(e);
+                throw new RuntimeException(String.format("Failed to create range [%s..%s]", start, end), e);
             } catch (Exception e) {
-                throw new RuntimeException(String.format("Failed to create range [%s..%s]", start.toString(), end.toString()));
+                throw new RuntimeException(String.format("Failed to create range [%s..%s]", start, end), e);
+            }
+        }
+
+        private void handleValidationExceptions(InvocationTargetException e) {
+            if (e.getCause() instanceof IllegalArgumentException) {
+                throw (IllegalArgumentException) e.getCause();
+            } else if (e.getCause() instanceof NullPointerException) {
+                throw (NullPointerException) e.getCause();
             }
         }
     }

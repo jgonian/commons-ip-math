@@ -1,6 +1,6 @@
 package net.ripe.commons.ip.resource;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 public class Asn extends SingleValue<Long> implements InternetResource<Asn> {
 
