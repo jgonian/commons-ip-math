@@ -36,8 +36,15 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
         return start.compareTo(value) <= 0 && end.compareTo(value) >= 0;
     }
 
-    public boolean overlaps(R arg) {
-        return arg.contains(start) || arg.contains(end) || this.contains(arg);
+    public R merge(R other) {
+        Validate.isTrue(this.overlaps(other), "Merge is only possible for overlapping ranges");
+        C start = min(this.start(), other.start());
+        C end = max(this.end(), other.end());
+        return newInstance(start, end);
+    }
+
+    public boolean overlaps(R other) {
+        return other.contains(start) || other.contains(end) || this.contains(other);
     }
 
     public R intersection(R other) {
