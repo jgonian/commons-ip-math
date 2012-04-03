@@ -3,7 +3,7 @@ package net.ripe.commons.ip.range;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
@@ -1027,7 +1027,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result      |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("2"), to("9"));
-        List<R> result = Arrays.asList(range);
+        List<R> result = Collections.singletonList(range);
         assertEquals(result, range.remove(other));
     }
 
@@ -1038,7 +1038,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result      |-----|      [11, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("10"));
-        List<R> result = Arrays.asList(getTestRange(from("11"), to("20")));
+        List<R> result = Collections.singletonList(getTestRange(from("11"), to("20")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1049,7 +1049,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result      |-----|      [11, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("10"));
-        List<R> result = Arrays.asList(getTestRange(from("11"), to("20")));
+        List<R> result = Collections.singletonList(getTestRange(from("11"), to("20")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1060,7 +1060,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result        |---|      [16, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("15"));
-        List<R> result = Arrays.asList(getTestRange(from("16"), to("20")));
+        List<R> result = Collections.singletonList(getTestRange(from("16"), to("20")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1071,7 +1071,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result          |-|      [16, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("15"));
-        List<R> result = Arrays.asList(getTestRange(from("16"), to("20")));
+        List<R> result = Collections.singletonList(getTestRange(from("16"), to("20")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1082,7 +1082,10 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |-|    |--|    [10, 12] [16, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("13"), to("15"));
-        List<R> result = Arrays.asList(getTestRange(from("10"), to("12")), getTestRange(from("16"), to("20")));
+        List<R> result = new ArrayList<R>() {{
+            add(getTestRange(from("10"), to("12")));
+            add(getTestRange(from("16"), to("20")));
+        }};
         assertEquals(result, range.remove(other));
     }
 
@@ -1093,7 +1096,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |-|           [10, 14]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("20"));
-        List<R> result = Arrays.asList(getTestRange(from("10"), to("14")));
+        List<R> result = Collections.singletonList(getTestRange(from("10"), to("14")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1104,7 +1107,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |---|         [10, 14]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("25"));
-        List<R> result = Arrays.asList(getTestRange(from("10"), to("14")));
+        List<R> result = Collections.singletonList(getTestRange(from("10"), to("14")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1115,7 +1118,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |-----|       [10, 19]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("20"));
-        List<R> result = Arrays.asList(getTestRange(from("10"), to("19")));
+        List<R> result = Collections.singletonList(getTestRange(from("10"), to("19")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1126,7 +1129,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |-----|       [10, 19]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("25"));
-        List<R> result = Arrays.asList(getTestRange(from("10"), to("19")));
+        List<R> result = Collections.singletonList(getTestRange(from("10"), to("19")));
         assertEquals(result, range.remove(other));
     }
 
@@ -1137,7 +1140,7 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
         // result     |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("21"), to("25"));
-        List<R> result = Arrays.asList(range);
+        List<R> result = Collections.singletonList(range);
         assertEquals(result, range.remove(other));
     }
 
