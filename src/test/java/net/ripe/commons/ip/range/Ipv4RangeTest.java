@@ -20,8 +20,19 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
     }
 
     @Override
+    protected Ipv4Address item(String s) {
+        return Ipv4Address.valueOf(Long.parseLong(s));
+    }
+
+    @Override
     protected Ipv4Range getTestRange(Ipv4Address start, Ipv4Address end) {
         return new Ipv4Range(start, end);
+    }
+
+    @Override
+    public void testToString() {
+        Ipv4Range range = new Ipv4Range(ip1, ip3);
+        assertEquals("[1.0.0.1..1.0.0.3]", range.toString());
     }
 
     @Test

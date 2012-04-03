@@ -27,23 +27,17 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
         return end;
     }
 
+    public boolean contains(R other) {
+        return start.compareTo(other.start) <= 0 && end.compareTo(other.end) >= 0;
+    }
+
+    public boolean contains(C value) {
+        Validate.notNull(value, "A value is required");
+        return start.compareTo(value) <= 0 && end.compareTo(value) >= 0;
+    }
+
     public boolean overlaps(R arg) {
         return arg.contains(start) || arg.contains(end) || this.contains(arg);
-    }
-
-    public boolean contains(R arg) {
-        return this.contains(arg.start) && this.contains(arg.end);
-    }
-
-    public boolean contains(C arg) {
-        Validate.notNull(arg, "A value is required");
-        return start.compareTo(arg) <= 0 && end.compareTo(arg) >= 0;
-    }
-
-    public boolean intersects(R other) {
-        C start = max(this.start(), other.start());
-        C end = min(this.end(), other.end());
-        return start.compareTo(end) <= 0;
     }
 
     public R intersection(R other) {

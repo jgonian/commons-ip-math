@@ -17,8 +17,19 @@ public class RangeTest extends AbstractRangeTest<Date,Range<Date>> {
     }
 
     @Override
+    protected Date item(String s) {
+        return new Date(Long.parseLong(s));
+    }
+
+    @Override
     protected Range<Date> getTestRange(Date start, Date end) {
         return new Range<Date>(start, end);
+    }
+
+    @Override
+    public void testToString() {
+        Range<Character> range = new Range<Character>('a', 'c');
+        assertEquals("[a..c]", range.toString());
     }
 
     @Test
