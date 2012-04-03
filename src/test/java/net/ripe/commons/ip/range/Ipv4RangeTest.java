@@ -71,16 +71,16 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range>{
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithInvalidRange() {
-        Range.from(ip3).to(ip1);
+        Ipv4Range.from(ip3).to(ip1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullStart() {
-        Range.from((Ipv4)null).to(ip3);
+        Ipv4Range.from((Ipv4)null).to(ip3);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullEnd() {
-        Range.from(ip1).to((Ipv4)null);
+        Ipv4Range.from(ip1).to((Ipv4)null);
     }
 }

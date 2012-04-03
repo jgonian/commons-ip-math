@@ -71,17 +71,17 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithInvalidRange() {
-        Range.from(as3).to(as1);
+        AsnRange.from(as3).to(as1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullStart() {
-        Range.from((Asn)null).to(as3);
+        AsnRange.from((Asn)null).to(as3);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullEnd() {
-        Range.from(as1).to((Asn)null);
+        AsnRange.from(as1).to((Asn)null);
     }
 
 
