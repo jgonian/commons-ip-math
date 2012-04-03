@@ -34,153 +34,50 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     //---------------------------------------------------------------
 
     @Test
-    public void shouldNotOverlapWhenOtherIsBefore() {
+    public void testOverlaps() {
         // range      |------|      [10, 20]
-        // other |---|              [2, 9]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("2"), to("9"));
-        assertFalse(range.overlaps(other));
-        assertFalse(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherMeetsBefore() {
-        // range      |------|      [10, 20]
-        // other  |---|             [5, 10]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("10"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOnStart() {
-        // range      |------|      [10, 20]
-        // other      |             [10, 10]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("10"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOverlapsBefore() {
-        // range      |------|      [10, 20]
-        // other    |---|           [5, 15]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("15"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherIsContainedAndOnStart() {
-        // range      |------|      [10, 20]
-        // other      |---|         [10, 15]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("15"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherIsContained() {
-        // range      |------|      [10, 20]
-        // other        |--|        [13, 15]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("13"), to("15"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherIsContainedAndOnFinish() {
-        // range      |------|      [10, 20]
-        // other         |---|      [15, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("15"), to("20"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOverlapsAfter() {
-        // range      |------|      [10, 20]
-        // other           |---|    [15, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("15"), to("25"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOnFinish() {
-        // range      |------|      [10, 20]
-        // other             |      [20, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("20"), to("20"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherMeetsAfter() {
-        // range      |------|      [10, 20]
-        // other             |---|  [20, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("20"), to("25"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherIsAfter() {
-        // range      |------|      [10, 20]
-        // other              |---| [21, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("21"), to("25"));
-        assertFalse(range.overlaps(other));
-        assertFalse(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOverlapsStartAndOnFinish() {
-        // range      |------|      [10, 20]
+        // other |---|.      .      [2, 9]
+        // other  |---|      .      [5, 10]
+        // other      |      .      [10, 10]
+        // other    |---|    .      [5, 15]
+        // other      |---|  .      [10, 15]
+        // other      . |--| .      [13, 15]
+        // other      .  |---|      [15, 20]
+        // other      .    |---|    [15, 25]
+        // other      .      |      [20, 20]
+        // other      .      |---|  [20, 25]
+        // other      .      .|---| [21, 25]
         // other    |--------|      [5, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("20"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherEquals() {
-        // range      |------|      [10, 20]
         // other      |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("20"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOverlapsFinishAndOnStart() {
-        // range      |------|      [10, 20]
         // other      |--------|    [10, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("25"));
-        assertTrue(range.overlaps(other));
-        assertTrue(other.overlaps(range));
-    }
-
-    @Test
-    public void shouldOverlapWhenOtherOverlapsStartAndFinish() {
-        // range      |------|      [10, 20]
         // other    |----------|    [5, 25]
         R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("25"));
+
+        assertNotOverlapping(range, getTestRange(from("2"), to("9")));
+        assertOverlapping(range, getTestRange(from("5"), to("10")));
+        assertOverlapping(range, getTestRange(from("10"), to("10")));
+        assertOverlapping(range, getTestRange(from("5"), to("15")));
+        assertOverlapping(range, getTestRange(from("10"), to("15")));
+        assertOverlapping(range, getTestRange(from("13"), to("15")));
+        assertOverlapping(range, getTestRange(from("15"), to("20")));
+        assertOverlapping(range, getTestRange(from("15"), to("25")));
+        assertOverlapping(range, getTestRange(from("20"), to("20")));
+        assertOverlapping(range, getTestRange(from("20"), to("25")));
+        assertNotOverlapping(range, getTestRange(from("21"), to("25")));
+        assertOverlapping(range, getTestRange(from("5"), to("20")));
+        assertOverlapping(range, getTestRange(from("10"), to("20")));
+        assertOverlapping(range, getTestRange(from("10"), to("25")));
+        assertOverlapping(range, getTestRange(from("5"), to("25")));
+    }
+
+    private void assertOverlapping(R range, R other) {
         assertTrue(range.overlaps(other));
         assertTrue(other.overlaps(range));
+    }
+
+    private void assertNotOverlapping(R range, R other) {
+        assertFalse(range.overlaps(other));
+        assertFalse(other.overlaps(range));
     }
 
     //---------------------------------------------------------------
