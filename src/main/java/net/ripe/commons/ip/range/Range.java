@@ -11,6 +11,13 @@ public class Range<T extends Comparable<T>> extends AbstractRange<T, Range<T>> {
         return new Range<T>(start, end);
     }
 
+    @SuppressWarnings({"unchecked"})
+    @Override
+    protected T nextOf(T end) {
+        Sequence sequence = DefaultSequenceImpl.getSequence(end.getClass());
+        return (T) sequence.nextOf(end);
+    }
+
     public static <K extends Comparable<K>> RangeBuilder<K> from(K start) {
         return new RangeBuilder<K>(start);
     }

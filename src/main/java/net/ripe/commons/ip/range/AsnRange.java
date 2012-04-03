@@ -13,6 +13,11 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
         return new AsnRange(start, end);
     }
 
+    @Override
+    protected Asn nextOf(Asn end) {
+        return Asn.valueOf(end.value() + 1);
+    }
+
     public static AsnRangeBuilder from(Asn from) {
         return new AsnRangeBuilder(from);
     }
