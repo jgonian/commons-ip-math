@@ -14,6 +14,12 @@
     </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>net.ripe.commons</groupId>
+            <artifactId>commons-internet-resources</artifactId>
+            <version>1.36</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -23,6 +29,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
     </dependencies>
 </project>
