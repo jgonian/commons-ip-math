@@ -4,8 +4,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import net.ripe.commons.ip.resource.Rangeable;
 
-public class NormalizedAbstractRangeSet<C extends Comparable<C>, R extends AbstractRange<C, R>> implements Iterable<AbstractRange<C, R>> {
+public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<AbstractRange<C, R>> {
 
     private Set<AbstractRange<C, R>> set;
 

@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import net.ripe.commons.ip.resource.EqualsSupport;
+import net.ripe.commons.ip.resource.Rangeable;
 import org.apache.commons.lang.Validate;
 
-public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractRange<C, R>>
+public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>>
         extends EqualsSupport implements Iterable<C> {
 
     private final C start;
@@ -52,7 +53,7 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
     }
 
     public boolean isConsecutive(R other) {
-        return nextOf(this.end).equals(other.start) || nextOf(other.end).equals(this.start);
+        return this.end.next().equals(other.start) || other.end.next().equals(this.start);
     }
 
     public R merge(R other) {
@@ -94,14 +95,14 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
             return Collections.emptyList();
 
         } else if (!this.contains(other.start) && this.contains(other.end)) {
-            return Collections.singletonList(newInstance(nextOf(other.end), this.end));
+            return Collections.singletonList(newInstance(other.end.next(), this.end));
 
         } else if (this.contains(other.start) && !this.contains(other.end)) {
             return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
 
         } else {
             if (this.hasSameStart(other)) {
-                return Collections.singletonList(newInstance(nextOf(other.end), this.end));
+                return Collections.singletonList(newInstance(other.end.next(), this.end));
 
             } else if (this.hasSameEnd(other)) {
                 return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
@@ -109,7 +110,7 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
             } else {
                 ArrayList<R> rs = new ArrayList<R>(2);
                 rs.add(newInstance(this.start, previousOf(other.start)));
-                rs.add(newInstance(nextOf(other.end), this.end));
+                rs.add(newInstance(other.end.next(), this.end));
                 return rs;
             }
         }
@@ -145,7 +146,7 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
         @Override
         public C next() {
             C valueToReturn = nextValue;
-            nextValue = nextOf(valueToReturn);
+            nextValue = valueToReturn.next();
             return valueToReturn;
         }
 
@@ -155,7 +156,7 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
         }
     }
 
-    protected static abstract class AbstractRangeBuilder<C extends Comparable<C>, R extends AbstractRange<C, R>> {
+    protected static abstract class AbstractRangeBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
         private final C start;
         private final Class<R> typeOfRange;
 

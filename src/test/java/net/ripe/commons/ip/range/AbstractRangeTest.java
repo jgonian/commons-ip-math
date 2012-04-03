@@ -6,9 +6,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.ripe.commons.ip.resource.Rangeable;
 import org.junit.Test;
 
-public abstract class AbstractRangeTest<C extends Comparable<C>, R extends AbstractRange<C, R>> {
+public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
 
 
     protected abstract C from(String s);
