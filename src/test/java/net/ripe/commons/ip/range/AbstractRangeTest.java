@@ -503,42 +503,19 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
     //---------------------------------------------------------------
 
     @Test
-    public void shouldNotContainItemWhenIsLessThanStart() {
-        // range      |------|      [10, 20]
-        // item      |              [9]
+    public void testContains() {
+        // range      |------|   [10, 20]
+        // item      |.      .   [9]
+        // item       |      .   [10]
+        // item       .  |   .   [15]
+        // item       .      |   [20]
+        // item       .      .|  [21]
         R range = getTestRange(from("10"), to("20"));
+
         assertFalse(range.contains(item("9")));
-    }
-
-    @Test
-    public void shouldContainItemWhenIsEqualsToStart() {
-        // range      |------|      [10, 20]
-        // item       |             [10]
-        R range = getTestRange(from("10"), to("20"));
         assertTrue(range.contains(item("10")));
-    }
-
-    @Test
-    public void shouldContainItemWhenIsGreaterThanStartAndLessThanEnd() {
-        // range      |------|      [10, 20]
-        // item           |           [15]
-        R range = getTestRange(from("10"), to("20"));
         assertTrue(range.contains(item("15")));
-    }
-
-    @Test
-    public void shouldContainItemWhenIsEqualsToEnd() {
-        // range      |------|      [10, 20]
-        // item              |          [20]
-        R range = getTestRange(from("10"), to("20"));
         assertTrue(range.contains(item("20")));
-    }
-
-    @Test
-    public void shouldNotContainItemWhenIsGreaterThanEnd() {
-        // range      |------|      [10, 20]
-        // item               |         [21]
-        R range = getTestRange(from("10"), to("20"));
         assertFalse(range.contains(item("21")));
     }
 
