@@ -509,6 +509,18 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     //---------------------------------------------------------------
+    // boolean isEmpty()
+    //---------------------------------------------------------------
+
+    @Test
+    public void testIsEmpty() {
+        // empty         |          [10]
+        // notEmpty      |------|   [10, 20]
+        assertTrue(getTestRange(from("10"), to("10")).isEmpty());
+        assertFalse(getTestRange(from("10"), to("20")).isEmpty());
+    }
+
+    //---------------------------------------------------------------
     // R merge(R other)
     //---------------------------------------------------------------
 

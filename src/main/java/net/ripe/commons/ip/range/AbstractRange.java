@@ -52,6 +52,10 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         return this.end.next().equals(other.start) || other.end.next().equals(this.start);
     }
 
+    public boolean isEmpty() {
+        return end.equals(start);
+    }
+
     public R merge(R other) {
         Validate.isTrue(this.overlaps(other), "Merge is only possible for overlapping ranges");
         return mergeWith(other);
