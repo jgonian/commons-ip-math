@@ -815,6 +815,208 @@ public abstract class AbstractRangeTest<C extends Comparable<C>, R extends Abstr
     }
 
     //---------------------------------------------------------------
+    // R mergeConsecutive(R other)
+    //---------------------------------------------------------------
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotMergeNonConsecutiveWhenOtherIsBefore() {
+        // range       |------|    [10, 20]
+        // other |---|             [2, 8]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("2"), to("8"));
+        range.mergeConsecutive(other);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotMergeNonConsecutiveWhenOtherIsAfter() {
+        // range      |------|         [10, 20]
+        // other               |---|   [22, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("22"), to("25"));
+        range.mergeConsecutive(other);
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherIsBefore() {
+        // range         |------|    [10, 20]
+        // other    |---|            [2, 9]
+        // expected |-----------|    [2, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("2"), to("9"));
+        R expected = getTestRange(from("2"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherIsAfter() {
+        // range      |------|       [10, 20]
+        // other              |---|  [21, 25]
+        // expected   |-----------|  [10, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("21"), to("25"));
+        R expected = getTestRange(from("10"), to("25"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherMeetsBefore() {
+        // range        |------|    [10, 20]
+        // other    |---|           [5, 10]
+        // expected |----------|    [5, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("5"), to("10"));
+        R expected = getTestRange(from("5"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOnStart() {
+        // range      |------|     [10, 20]
+        // other      |            [10, 10]
+        // expected   |------|     [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("10"), to("10"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOverlapsBefore() {
+        // range      |------|      [10, 20]
+        // other    |---|           [5, 15]
+        // expected |--------|      [5, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("5"), to("15"));
+        R expected = getTestRange(from("5"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherIsContainedAndOnStart() {
+        // range      |------|      [10, 20]
+        // other      |---|         [10, 15]
+        // expected   |------|      [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("10"), to("15"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherIsContained() {
+        // range      |------|      [10, 20]
+        // other        |--|        [13, 15]
+        // expected   |------|      [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("13"), to("15"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherIsContainedAndOnFinish() {
+        // range      |------|      [10, 20]
+        // other         |---|      [15, 20]
+        // expected   |------|      [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("15"), to("20"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOverlapsAfter() {
+        // range      |------|      [10, 20]
+        // other           |---|    [15, 25]
+        // expected   |--------|    [10, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("15"), to("25"));
+        R expected = getTestRange(from("10"), to("25"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOnFinish() {
+        // range      |------|      [10, 20]
+        // other             |      [20, 20]
+        // expected   |------|      [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("20"), to("20"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherMeetsAfter() {
+        // range      |------|      [10, 20]
+        // other             |---|  [20, 25]
+        // expected   |------|      [10, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("20"), to("25"));
+        R expected = getTestRange(from("10"), to("25"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOverlapsStartAndOnFinish() {
+        // range      |------|      [10, 20]
+        // other    |--------|      [5, 20]
+        // expected |--------|      [5, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("5"), to("20"));
+        R expected = getTestRange(from("5"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherEquals() {
+        // range      |------|      [10, 20]
+        // other      |------|      [10, 20]
+        // expected   |------|      [10, 20]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("10"), to("20"));
+        R expected = getTestRange(from("10"), to("20"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOverlapsFinishAndOnStart() {
+        // range      |------|      [10, 20]
+        // other      |--------|    [10, 25]
+        // expected   |--------|    [10, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("10"), to("25"));
+        R expected = getTestRange(from("10"), to("25"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    @Test
+    public void shouldMergeConsecutiveWhenOtherOverlapsStartAndFinish() {
+        // range      |------|      [10, 20]
+        // other    |----------|    [5, 25]
+        // expected |----------|    [5, 25]
+        R range = getTestRange(from("10"), to("20"));
+        R other = getTestRange(from("5"), to("25"));
+        R expected = getTestRange(from("5"), to("25"));
+        assertEquals(expected, range.mergeConsecutive(other));
+        assertEquals(expected, other.mergeConsecutive(range));
+    }
+
+    //---------------------------------------------------------------
     // List<R> remove(R other)
     //---------------------------------------------------------------
 

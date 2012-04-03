@@ -56,6 +56,15 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
 
     public R merge(R other) {
         Validate.isTrue(this.overlaps(other), "Merge is only possible for overlapping ranges");
+        return mergeWith(other);
+    }
+
+    public R mergeConsecutive(R other) {
+        Validate.isTrue(this.overlaps(other) || this.isConsecutive(other), "Merge is only possible for overlapping or consecutive ranges");
+        return mergeWith(other);
+    }
+
+    private R mergeWith(R other) {
         C start = min(this.start(), other.start());
         C end = max(this.end(), other.end());
         return newInstance(start, end);
