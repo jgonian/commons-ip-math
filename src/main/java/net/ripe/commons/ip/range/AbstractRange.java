@@ -1,5 +1,8 @@
 package net.ripe.commons.ip.range;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.ripe.commons.ip.resource.EqualsSupport;
 import org.apache.commons.lang.Validate;
 
@@ -70,6 +73,44 @@ public abstract class AbstractRange<C extends Comparable<C>, R extends AbstractR
 
     private C min(C a, C b) {
         return a.compareTo(b) <= 0 ? a : b;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public List<R> remove(R other) {
+        if (!overlaps(other)) {
+            return Collections.singletonList((R)this);
+
+        } else if (other.contains((R) this)) {
+            return Collections.emptyList();
+
+        } else if (!this.contains(other.start) && this.contains(other.end)) {
+            return Collections.singletonList(newInstance(nextOf(other.end), this.end));
+
+        } else if (this.contains(other.start) && !this.contains(other.end)) {
+            return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
+
+        } else {
+            if (this.hasSameStart(other)) {
+                return Collections.singletonList(newInstance(nextOf(other.end), this.end));
+
+            } else if (this.hasSameEnd(other)) {
+                return Collections.singletonList(newInstance(this.start, previousOf(other.start)));
+
+            } else {
+                ArrayList<R> rs = new ArrayList<R>(2);
+                rs.add(newInstance(this.start, previousOf(other.start)));
+                rs.add(newInstance(nextOf(other.end), this.end));
+                return rs;
+            }
+        }
+    }
+
+    private boolean hasSameStart(R other) {
+        return this.start.equals(other.start);
+    }
+
+    private boolean hasSameEnd(R other) {
+        return this.end.equals(other.end);
     }
 
     @Override
