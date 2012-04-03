@@ -9,23 +9,23 @@ import org.junit.Test;
 
 public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
-    private final Asn as1 = Asn.valueOf(1L);
-    private final Asn as2 = Asn.valueOf(2L);
-    private final Asn as3 = Asn.valueOf(3L);
+    private final Asn as1 = Asn.of(1L);
+    private final Asn as2 = Asn.of(2L);
+    private final Asn as3 = Asn.of(3L);
 
     @Override
     protected Asn from(String s) {
-        return Asn.valueOf(s);
+        return Asn.of(s);
     }
 
     @Override
     protected Asn to(String s) {
-        return Asn.valueOf(s);
+        return Asn.of(s);
     }
 
     @Override
     protected Asn item(String s) {
-        return Asn.valueOf(s);
+        return Asn.of(s);
     }
 
     @Override

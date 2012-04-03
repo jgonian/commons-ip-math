@@ -17,15 +17,11 @@ public class Ipv4Address extends SingleValue<Long> implements IpResource<Ipv4Add
         Validate.isTrue(value.compareTo(IPv4_MAXIMUM_VALUE) <= 0, "Value of Ipv4Address has to be less than or equal to " + IPv4_MAXIMUM_VALUE);
     }
 
-    public static Ipv4Address valueOf(Long value) {
+    public static Ipv4Address of(Long value) {
         return new Ipv4Address(value);
     }
 
-    public static Ipv4Address $(String value) {
-        return parse(value);
-    }
-
-    public static Ipv4Address valueOf(String value) {
+    public static Ipv4Address of(String value) {
         return parse(value);
     }
 

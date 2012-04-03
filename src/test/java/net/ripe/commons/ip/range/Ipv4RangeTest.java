@@ -9,23 +9,23 @@ import org.junit.Test;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4Address, Ipv4Range>{
 
-    Ipv4Address ip1 = Ipv4Address.valueOf("1.0.0.1");
-    Ipv4Address ip2 = Ipv4Address.valueOf("1.0.0.2");
-    Ipv4Address ip3 = Ipv4Address.valueOf("1.0.0.3");
+    Ipv4Address ip1 = Ipv4Address.of("1.0.0.1");
+    Ipv4Address ip2 = Ipv4Address.of("1.0.0.2");
+    Ipv4Address ip3 = Ipv4Address.of("1.0.0.3");
 
     @Override
     protected Ipv4Address from(String s) {
-        return Ipv4Address.valueOf(Long.parseLong(s));
+        return Ipv4Address.of(Long.parseLong(s));
     }
 
     @Override
     protected Ipv4Address to(String s) {
-        return Ipv4Address.valueOf(Long.parseLong(s));
+        return Ipv4Address.of(Long.parseLong(s));
     }
 
     @Override
     protected Ipv4Address item(String s) {
-        return Ipv4Address.valueOf(Long.parseLong(s));
+        return Ipv4Address.of(Long.parseLong(s));
     }
 
     @Override

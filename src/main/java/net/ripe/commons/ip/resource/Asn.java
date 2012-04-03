@@ -16,11 +16,11 @@ public class Asn extends SingleValue<Long> implements Resource<Asn> {
         Validate.isTrue(value.compareTo(ASN_32_BIT_MAX_VALUE) <= 0, "Value of ASN has to be less than or equal to " + ASN_32_BIT_MAX_VALUE);
     }
 
-    public static Asn valueOf(Long value) {
+    public static Asn of(Long value) {
         return new Asn(value);
     }
 
-    public static Asn valueOf(String value) {
+    public static Asn of(String value) {
         return new Asn(Long.parseLong(value));
     }
 
