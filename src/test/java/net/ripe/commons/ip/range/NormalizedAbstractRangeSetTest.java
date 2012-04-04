@@ -87,18 +87,22 @@ public class NormalizedAbstractRangeSetTest {
 
     @Test
     public void testContainsRange() {
-        // subject        |--------|     [10,20]
-        // contains   |--|.        .     [6,9]
-        // contains    |--|        .     [7,10]
-        // contains     |--|       .     [8,11]
-        // contains       |--|     .     [10,13]
-        // contains       .  |--|  .     [13,16]
-        // contains       .     |--|     [17,20]
-        // contains       .       |--|   [18,21]
-        // contains       .        |--|  [20,23]
-        // contains       .        .|--| [21,24]
+        // subject    |-|     |--------|      [0,2] [10,20]
+        // contains   |-|     |--------|      [0,2] [10,20]
+        // contains   |-| |--|.        .      [0,2] [6,9]
+        // contains   |-|  |--|        .      [0,2] [7,10]
+        // contains   |-|   |--|       .      [0,2] [8,11]
+        // contains   |-|     |--|     .      [0,2] [10,13]
+        // contains   |-|     .  |--|  .      [0,2] [13,16]
+        // contains   |-|     .     |--|      [0,2] [17,20]
+        // contains   |-|     .       |--|    [0,2] [18,21]
+        // contains   |-|     .        |--|   [0,2] [20,23]
+        // contains   |-|     .        .|--|  [0,2] [21,24]
+        // contains   |-|   |------------|    [0,2] [8,22]
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(2l)));
         subject.add(new AsnRange(Asn.of(10l), Asn.of(20l)));
 
+        assertTrue(subject.contains(new AsnRange(Asn.of(10l), Asn.of(20l))));
         assertFalse(subject.contains(new AsnRange(Asn.of(6l), Asn.of(9l))));
         assertFalse(subject.contains(new AsnRange(Asn.of(7l), Asn.of(10l))));
         assertFalse(subject.contains(new AsnRange(Asn.of(8l), Asn.of(11l))));
@@ -107,7 +111,7 @@ public class NormalizedAbstractRangeSetTest {
         assertTrue(subject.contains(new AsnRange(Asn.of(17l), Asn.of(20l))));
         assertFalse(subject.contains(new AsnRange(Asn.of(18l), Asn.of(21l))));
         assertFalse(subject.contains(new AsnRange(Asn.of(20l), Asn.of(23l))));
-        assertFalse(subject.contains(new AsnRange(Asn.of(21l), Asn.of(24l))));
+        assertFalse(subject.contains(new AsnRange(Asn.of(8l), Asn.of(22l))));
     }
 
     @Test
