@@ -10,8 +10,7 @@ public abstract class SingleValue<T> extends EqualsSupport implements Serializab
     private final T value;
 
     protected SingleValue(T value) {
-        Validate.notNull(value, "value is required");
-        this.value = value;
+        this.value = Validate.notNull(value, "value is required");
     }
 
     public T value() {
