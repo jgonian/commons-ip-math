@@ -1,17 +1,31 @@
 package net.ripe.commons.ip.range;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
+import net.ripe.commons.ip.range.compare.RangeComparator;
+import net.ripe.commons.ip.range.compare.StartAndSizeComparator;
 import net.ripe.commons.ip.resource.Rangeable;
 
 public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<AbstractRange<C, R>> {
 
+    private static StartAndSizeComparator<?, ?> DEFAULT_COMPARATOR;
+
     private Set<AbstractRange<C, R>> set;
 
+    /**
+     * Creates an instance of {@link NormalizedAbstractRangeSet} with a default
+     * {@link StartAndSizeComparator} which compares only the start and end of the range.
+     * <em>Note, this comparator imposes orderings that might be inconsistent with the equals
+     * method of the compared ranges.</em>
+     */
     public NormalizedAbstractRangeSet() {
-        set = new HashSet<AbstractRange<C, R>>();
+        this(NormalizedAbstractRangeSet.<C, R>getDefaultComparator());
+    }
+
+    public NormalizedAbstractRangeSet(RangeComparator<C, R> rangeComparator) {
+        set = new TreeSet<AbstractRange<C, R>> (rangeComparator);
     }
 
     public void add(R rangeToAdd) {
@@ -55,5 +69,13 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
     @Override
     public String toString() {
         return set.toString();
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private static <C extends Rangeable<C>, R extends AbstractRange<C, R>> RangeComparator<C, R> getDefaultComparator() {
+        if (DEFAULT_COMPARATOR == null) {
+            DEFAULT_COMPARATOR = new StartAndSizeComparator<C, R>();
+        }
+        return (StartAndSizeComparator<C, R>) DEFAULT_COMPARATOR;
     }
 }

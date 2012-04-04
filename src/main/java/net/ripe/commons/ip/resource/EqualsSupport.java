@@ -9,11 +9,7 @@ public abstract class EqualsSupport {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || this.getClass() != obj.getClass()) {
-            return false;
-        } else {
-            return EqualsBuilder.reflectionEquals(this, obj);
-        }
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
