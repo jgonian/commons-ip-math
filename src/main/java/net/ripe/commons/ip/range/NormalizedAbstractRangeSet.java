@@ -8,11 +8,11 @@ import net.ripe.commons.ip.range.compare.RangeComparator;
 import net.ripe.commons.ip.range.compare.StartAndSizeComparator;
 import net.ripe.commons.ip.resource.Rangeable;
 
-public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<AbstractRange<C, R>> {
+public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
 
     private static StartAndSizeComparator<?, ?> DEFAULT_COMPARATOR;
 
-    private Set<AbstractRange<C, R>> set;
+    private Set<R> set;
 
     /**
      * Creates an instance of {@link NormalizedAbstractRangeSet} with a default
@@ -25,13 +25,13 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
     }
 
     public NormalizedAbstractRangeSet(RangeComparator<C, R> rangeComparator) {
-        set = new TreeSet<AbstractRange<C, R>> (rangeComparator);
+        set = new TreeSet<R> (rangeComparator);
     }
 
     public void add(R rangeToAdd) {
-        Iterator<AbstractRange<C, R>> it = set.iterator();
+        Iterator<R> it = set.iterator();
         while (it.hasNext()) {
-            AbstractRange<C, R> rangeInSet = it.next();
+            R rangeInSet = it.next();
             if (rangeInSet.overlaps(rangeToAdd) || rangeInSet.isConsecutive(rangeToAdd)) {
                 rangeToAdd = rangeInSet.mergeConsecutive(rangeToAdd);
                 it.remove();
@@ -41,7 +41,7 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
     }
 
     public boolean contains(R range) {
-        for (AbstractRange<C, R> rangeInSet : set) {
+        for (R rangeInSet : set) {
             if (rangeInSet.contains(range)) {
                 return true;
             }
@@ -57,12 +57,12 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
         return set.isEmpty();
     }
 
-    public Set<AbstractRange<C, R>> unmodifiableSet() {
+    public Set<R> unmodifiableSet() {
         return Collections.unmodifiableSet(set);
     }
 
     @Override
-    public Iterator<AbstractRange<C, R>> iterator() {
+    public Iterator<R> iterator() {
         return set.iterator();
     }
 

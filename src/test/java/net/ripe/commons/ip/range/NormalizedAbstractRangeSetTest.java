@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Set;
 import net.ripe.commons.ip.resource.Asn;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class NormalizedAbstractRangeSetTest {
@@ -32,11 +31,11 @@ public class NormalizedAbstractRangeSetTest {
         // result      |--------|  |--|  [0,15] [20,25]
         subject.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
 
-        Set<AbstractRange<Asn, AsnRange>> result = new HashSet<AbstractRange<Asn, AsnRange>>();
+        Set<AsnRange> result = new HashSet<AsnRange>();
         result.add(new AsnRange(Asn.of(0l), Asn.of(15l)));
         result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
 
-        Set<AbstractRange<Asn, AsnRange>> actual = subject.unmodifiableSet();
+        Set<AsnRange> actual = subject.unmodifiableSet();
         assertEquals(result, actual);
     }
 
@@ -50,7 +49,7 @@ public class NormalizedAbstractRangeSetTest {
         subject.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
         subject.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
 
-        Set<AbstractRange<Asn, AsnRange>> result = new HashSet<AbstractRange<Asn, AsnRange>>();
+        Set<AsnRange> result = new HashSet<AsnRange>();
         result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
 
         assertEquals(result, subject.unmodifiableSet());
@@ -65,14 +64,14 @@ public class NormalizedAbstractRangeSetTest {
         subject.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
         subject.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
 
-        Set<AbstractRange<Asn, AsnRange>> result = new HashSet<AbstractRange<Asn, AsnRange>>();
+        Set<AsnRange> result = new HashSet<AsnRange>();
         result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
 
         assertEquals(result, subject.unmodifiableSet());
     }
 
     @Test
-    public void testAddConsecutive() {
+    public void testAddConsecutiveRanges() {
         initSubject();
         // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
         // add             |--|    |--|      [6,9] [16,19]
@@ -80,7 +79,7 @@ public class NormalizedAbstractRangeSetTest {
         subject.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
         subject.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
 
-        Set<AbstractRange<Asn, AsnRange>> result = new HashSet<AbstractRange<Asn, AsnRange>>();
+        Set<AsnRange> result = new HashSet<AsnRange>();
         result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
 
         assertEquals(result, subject.unmodifiableSet());
@@ -135,7 +134,7 @@ public class NormalizedAbstractRangeSetTest {
         AsnRange range2 = new AsnRange(Asn.of(10l), Asn.of(20l));
         subject.add(range1);
         subject.add(range2);
-        Iterator<AbstractRange<Asn,AsnRange>> it = subject.iterator();
+        Iterator<AsnRange> it = subject.iterator();
         assertTrue(it.hasNext());
         assertEquals(range1, it.next());
         it.remove();
