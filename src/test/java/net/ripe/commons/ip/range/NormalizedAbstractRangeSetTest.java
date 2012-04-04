@@ -144,6 +144,113 @@ public class NormalizedAbstractRangeSetTest {
         assertEquals(result, subject.unmodifiableSet());
     }
 
+    //---------------------------------------------------------------
+    // boolean remove(R rangeToRemove)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testRemoveOverlappingRange() {
+        initSubject();
+        // subject    |---|  |---|  |---|  [0,5] [10,15] [20,25]
+        // remove     |---|                [0,5]
+        // remove     |---|                [0,5]
+        // result            |---|  |---|        [10,15] [20,25]
+        assertTrue(subject.remove(new AsnRange(Asn.of(0l), Asn.of(5l))));
+        assertFalse(subject.remove(new AsnRange(Asn.of(0l), Asn.of(5l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(10l), Asn.of(15l)));
+        result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+
+        Set<AsnRange> actual = subject.unmodifiableSet();
+        assertEquals(result, actual);
+    }
+
+    @Test
+    public void testRemoveFullyContainedRange() {
+        initSubject();
+        // subject    |---|  |---|  |---|  [0,5] [10,15] [20,25]
+        // remove             |-|                [11,14]
+        // result     |---|  |   |  |---|  [0,5][10,10][15,15][20,25]
+        assertTrue(subject.remove(new AsnRange(Asn.of(11l), Asn.of(14l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+        result.add(new AsnRange(Asn.of(10l), Asn.of(10l)));
+        result.add(new AsnRange(Asn.of(15l), Asn.of(15l)));
+        result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+
+        Set<AsnRange> actual = subject.unmodifiableSet();
+        assertEquals(result, actual);
+    }
+
+    @Test
+    public void testRemoveRangesThatAreContained() {
+        initSubject();
+        // subject    |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // remove          |----------|       [9,26]
+        // result     |---|             [0,5]
+        assertTrue(subject.remove(new AsnRange(Asn.of(9l), Asn.of(26l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+
+        Set<AsnRange> actual = subject.unmodifiableSet();
+        assertEquals(result, actual);
+    }
+
+    @Test
+    public void testRemoveOverlappingRanges() {
+        initSubject();
+        // subject    |---| |---| |---|  [0,5] [10,15] [20,25]
+        // remove              |---|     [14,22]
+        // remove        |---|           [4,12]
+        // result     |-|     |     |-|  [0,3][13,13][23,25]
+        assertTrue(subject.remove(new AsnRange(Asn.of(14l), Asn.of(22l))));
+        assertTrue(subject.remove(new AsnRange(Asn.of(4l), Asn.of(12l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(3l)));
+        result.add(new AsnRange(Asn.of(13l), Asn.of(13l)));
+        result.add(new AsnRange(Asn.of(23l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveAdjacentRanges() {
+        initSubject();
+        // subject    |---|   |---|   |---|  [0,5] [10,15] [20,25]
+        // remove         |---|   |---|      [5,10] [15,20]
+        // result     |--|     |-|     |--|  [0,4] [11,14] [21,25]
+        assertTrue(subject.remove(new AsnRange(Asn.of(5l), Asn.of(10l))));
+        assertTrue(subject.remove(new AsnRange(Asn.of(15l), Asn.of(20l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(4l)));
+        result.add(new AsnRange(Asn.of(11l), Asn.of(14l)));
+        result.add(new AsnRange(Asn.of(21l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveConsecutiveRanges() {
+        initSubject();
+        // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        // remove          |--|    |--|      [6,9] [16,19]
+        // result      |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        assertFalse(subject.remove(new AsnRange(Asn.of(6l), Asn.of(9l))));
+        assertFalse(subject.remove(new AsnRange(Asn.of(16l), Asn.of(19l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+        result.add(new AsnRange(Asn.of(10l), Asn.of(15l)));
+        result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
     @Test
     public void testContainsRange() {
         // subject    |-|     |--------|      [0,2] [10,20]

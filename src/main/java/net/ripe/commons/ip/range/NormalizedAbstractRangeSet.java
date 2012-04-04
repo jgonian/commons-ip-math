@@ -1,7 +1,9 @@
 package net.ripe.commons.ip.range;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import net.ripe.commons.ip.range.compare.RangeComparator;
@@ -44,6 +46,22 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
             }
         }
         set.add(rangeToAdd);
+    }
+
+    public boolean remove(R rangeToRemove) {
+        boolean removed = false;
+        List<R> remainders = new ArrayList<R>();
+        Iterator<R> it = iterator();
+        while (it.hasNext()) {
+            R rangeInIpSpace = it.next();
+            if (rangeInIpSpace.overlaps(rangeToRemove)) {
+                remainders.addAll(rangeInIpSpace.remove(rangeToRemove));
+                it.remove();
+                removed = true;
+            }
+        }
+        set.addAll(remainders);
+        return removed;
     }
 
     public boolean contains(R range) {
