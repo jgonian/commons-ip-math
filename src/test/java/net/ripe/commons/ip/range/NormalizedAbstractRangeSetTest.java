@@ -23,6 +23,10 @@ public class NormalizedAbstractRangeSetTest {
         subject.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
     }
 
+    //---------------------------------------------------------------
+    // void add(R rangeToAdd)
+    //---------------------------------------------------------------
+
     @Test
     public void testAddOverlappingRange() {
         initSubject();
@@ -78,6 +82,61 @@ public class NormalizedAbstractRangeSetTest {
         // result      |------------------|  [0,25]
         subject.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
         subject.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    //---------------------------------------------------------------
+    // void addAll(NormalizedAbstractRangeSet<C, R> rangesToAdd)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testAddAllOverlappingRanges() {
+        initSubject();
+        // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // add all       |----||----|    [13,22] [4,11]
+        // result      |--------------|  [0,25]
+        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
+        setToAdd.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
+        subject.addAll(setToAdd);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testAddAllAdjacentRanges() {
+        initSubject();
+        // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // add            |--|  |--|     [5,10] [15,20]
+        // result      |--------------|  [0,25]
+        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
+        setToAdd.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
+        subject.addAll(setToAdd);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testAddAllConsecutiveRanges() {
+        initSubject();
+        // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        // add             |--|    |--|      [6,9] [16,19]
+        // result      |------------------|  [0,25]
+        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
+        setToAdd.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
+        subject.addAll(setToAdd);
 
         Set<AsnRange> result = new HashSet<AsnRange>();
         result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));

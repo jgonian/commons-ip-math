@@ -28,6 +28,12 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
         set = new TreeSet<R> (rangeComparator);
     }
 
+    public void addAll(NormalizedAbstractRangeSet<C, R> rangesToAdd) {
+        for (R range : rangesToAdd) {
+            add(range);
+        }
+    }
+
     public void add(R rangeToAdd) {
         Iterator<R> it = set.iterator();
         while (it.hasNext()) {
