@@ -56,17 +56,17 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         return end.equals(start);
     }
 
-    public R merge(R other) {
+    public R mergeOverlapping(R other) {
         Validate.isTrue(this.overlaps(other), "Merge is only possible for overlapping ranges");
-        return mergeWith(other);
+        return merge(other);
     }
 
     public R mergeConsecutive(R other) {
         Validate.isTrue(this.overlaps(other) || this.isConsecutive(other), "Merge is only possible for overlapping or consecutive ranges");
-        return mergeWith(other);
+        return merge(other);
     }
 
-    private R mergeWith(R other) {
+    private R merge(R other) {
         C start = min(this.start(), other.start());
         C end = max(this.end(), other.end());
         return newInstance(start, end);

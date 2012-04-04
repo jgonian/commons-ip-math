@@ -521,181 +521,181 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     //---------------------------------------------------------------
-    // R merge(R other)
+    // R mergeOverlapping(R other)
     //---------------------------------------------------------------
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldNotMergeWhenOtherIsBefore() {
+    public void shouldNotMergeOverlappingWhenOtherIsBefore() {
         // range      |------|      [10, 20]
         // other |---|              [2, 9]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("2"), to("9"));
-        range.merge(other);
+        range.mergeOverlapping(other);
     }
 
     @Test
-    public void shouldMergeWhenOtherMeetsBefore() {
+    public void shouldMergeOverlappingWhenOtherMeetsBefore() {
         // range        |------|    [10, 20]
         // other    |---|           [5, 10]
         // expected |----------|    [5, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("10"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOnStart() {
+    public void shouldMergeOverlappingWhenOtherOnStart() {
         // range      |------|     [10, 20]
         // other      |            [10, 10]
         // expected   |------|     [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("10"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOverlapsBefore() {
+    public void shouldMergeOverlappingWhenOtherOverlapsBefore() {
         // range      |------|      [10, 20]
         // other    |---|           [5, 15]
         // expected |--------|      [5, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("15"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherIsContainedAndOnStart() {
+    public void shouldMergeOverlappingWhenOtherIsContainedAndOnStart() {
         // range      |------|      [10, 20]
         // other      |---|         [10, 15]
         // expected   |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("15"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherIsContained() {
+    public void shouldMergeOverlappingWhenOtherIsContained() {
         // range      |------|      [10, 20]
         // other        |--|        [13, 15]
         // expected   |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("13"), to("15"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherIsContainedAndOnFinish() {
+    public void shouldMergeOverlappingWhenOtherIsContainedAndOnFinish() {
         // range      |------|      [10, 20]
         // other         |---|      [15, 20]
         // expected   |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOverlapsAfter() {
+    public void shouldMergeOverlappingWhenOtherOverlapsAfter() {
         // range      |------|      [10, 20]
         // other           |---|    [15, 25]
         // expected   |--------|    [10, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOnFinish() {
+    public void shouldMergeOverlappingWhenOtherOnFinish() {
         // range      |------|      [10, 20]
         // other             |      [20, 20]
         // expected   |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherMeetsAfter() {
+    public void shouldMergeOverlappingWhenOtherMeetsAfter() {
         // range      |------|      [10, 20]
         // other             |---|  [20, 25]
         // expected   |------|      [10, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldMergeWhenOtherIsAfter() {
+    public void shouldMergeOverlappingWhenOtherIsAfter() {
         // range      |------|      [10, 20]
         // other              |---| [21, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("21"), to("25"));
-        range.merge(other);
+        range.mergeOverlapping(other);
     }
 
     @Test
-    public void shouldMergeWhenOtherOverlapsStartAndOnFinish() {
+    public void shouldMergeOverlappingWhenOtherOverlapsStartAndOnFinish() {
         // range      |------|      [10, 20]
         // other    |--------|      [5, 20]
         // expected |--------|      [5, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("20"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherEquals() {
+    public void shouldMergeOverlappingWhenOtherEquals() {
         // range      |------|      [10, 20]
         // other      |------|      [10, 20]
         // expected   |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOverlapsFinishAndOnStart() {
+    public void shouldMergeOverlappingWhenOtherOverlapsFinishAndOnStart() {
         // range      |------|      [10, 20]
         // other      |--------|    [10, 25]
         // expected   |--------|    [10, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     @Test
-    public void shouldMergeWhenOtherOverlapsStartAndFinish() {
+    public void shouldMergeOverlappingWhenOtherOverlapsStartAndFinish() {
         // range      |------|      [10, 20]
         // other    |----------|    [5, 25]
         // expected |----------|    [5, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("25"));
         R expected = getTestRange(from("5"), to("25"));
-        assertEquals(expected, range.merge(other));
-        assertEquals(expected, other.merge(range));
+        assertEquals(expected, range.mergeOverlapping(other));
+        assertEquals(expected, other.mergeOverlapping(range));
     }
 
     //---------------------------------------------------------------
