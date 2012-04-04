@@ -10,33 +10,34 @@ import net.ripe.commons.ip.range.compare.RangeComparator;
 import net.ripe.commons.ip.range.compare.StartAndSizeComparator;
 import net.ripe.commons.ip.resource.Rangeable;
 
-public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
+public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
 
     private static StartAndSizeComparator<?, ?> DEFAULT_COMPARATOR;
 
     private Set<R> set;
 
     /**
-     * Creates an instance of {@link NormalizedAbstractRangeSet} with a default
+     * Creates an instance of {@link SortedRangeSet} with a default
      * {@link StartAndSizeComparator} which compares only the start and end of the range.
      * <em>Note, this comparator imposes orderings that might be inconsistent with the equals
      * method of the compared ranges.</em>
      */
-    public NormalizedAbstractRangeSet() {
-        this(NormalizedAbstractRangeSet.<C, R>getDefaultComparator());
+    public SortedRangeSet() {
+        this(SortedRangeSet.<C, R>getDefaultComparator());
     }
 
-    public NormalizedAbstractRangeSet(RangeComparator<C, R> rangeComparator) {
+    public SortedRangeSet(RangeComparator<C, R> rangeComparator) {
         set = new TreeSet<R> (rangeComparator);
     }
 
-    public void addAll(NormalizedAbstractRangeSet<C, R> rangesToAdd) {
+    public void addAll(SortedRangeSet<C, R> rangesToAdd) {
         for (R range : rangesToAdd) {
             add(range);
         }
     }
 
     public void add(R rangeToAdd) {
+        // TODO: change the implementation to take advantage of the sorted set
         Iterator<R> it = set.iterator();
         while (it.hasNext()) {
             R rangeInSet = it.next();

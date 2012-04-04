@@ -8,13 +8,13 @@ import net.ripe.commons.ip.resource.Asn;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NormalizedAbstractRangeSetTest {
+public class SortedRangeSetTest {
 
-    private static NormalizedAbstractRangeSet<Asn, AsnRange> subject;
+    private static SortedRangeSet<Asn, AsnRange> subject;
 
     @Before
     public void before() {
-        subject = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        subject = new SortedRangeSet<Asn, AsnRange>();
     }
 
     private static void initSubject() {
@@ -90,7 +90,7 @@ public class NormalizedAbstractRangeSetTest {
     }
 
     //---------------------------------------------------------------
-    // void addAll(NormalizedAbstractRangeSet<C, R> rangesToAdd)
+    // void addAll(SortedRangeSet<C, R> rangesToAdd)
     //---------------------------------------------------------------
 
     @Test
@@ -99,7 +99,7 @@ public class NormalizedAbstractRangeSetTest {
         // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
         // add all       |----||----|    [13,22] [4,11]
         // result      |--------------|  [0,25]
-        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        SortedRangeSet<Asn, AsnRange> setToAdd = new SortedRangeSet<Asn, AsnRange>();
         setToAdd.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
         setToAdd.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
         subject.addAll(setToAdd);
@@ -116,7 +116,7 @@ public class NormalizedAbstractRangeSetTest {
         // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
         // add            |--|  |--|     [5,10] [15,20]
         // result      |--------------|  [0,25]
-        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        SortedRangeSet<Asn, AsnRange> setToAdd = new SortedRangeSet<Asn, AsnRange>();
         setToAdd.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
         setToAdd.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
         subject.addAll(setToAdd);
@@ -133,7 +133,7 @@ public class NormalizedAbstractRangeSetTest {
         // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
         // add             |--|    |--|      [6,9] [16,19]
         // result      |------------------|  [0,25]
-        NormalizedAbstractRangeSet<Asn, AsnRange> setToAdd = new NormalizedAbstractRangeSet<Asn, AsnRange>();
+        SortedRangeSet<Asn, AsnRange> setToAdd = new SortedRangeSet<Asn, AsnRange>();
         setToAdd.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
         setToAdd.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
         subject.addAll(setToAdd);
