@@ -32,8 +32,8 @@ public class NormalizedAbstractRangeSet<C extends Rangeable<C>, R extends Abstra
         Iterator<AbstractRange<C, R>> it = set.iterator();
         while (it.hasNext()) {
             AbstractRange<C, R> rangeInSet = it.next();
-            if (rangeInSet.overlaps(rangeToAdd)) {
-                rangeToAdd = rangeInSet.merge(rangeToAdd);
+            if (rangeInSet.overlaps(rangeToAdd) || rangeInSet.isConsecutive(rangeToAdd)) {
+                rangeToAdd = rangeInSet.mergeConsecutive(rangeToAdd);
                 it.remove();
             }
         }

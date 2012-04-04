@@ -71,7 +71,6 @@ public class NormalizedAbstractRangeSetTest {
         assertEquals(result, subject.unmodifiableSet());
     }
 
-    @Ignore("TODO: support consecutive ranges?")
     @Test
     public void testAddConsecutive() {
         initSubject();
