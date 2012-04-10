@@ -1,9 +1,12 @@
 package net.ripe.commons.ip.range;
 
 import static junit.framework.Assert.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 import net.ripe.commons.ip.resource.Asn;
 import org.junit.Before;
 import org.junit.Test;
@@ -134,6 +137,61 @@ public class SortedRangeSetTest {
         // add             |--|    |--|      [6,9] [16,19]
         // result      |------------------|  [0,25]
         SortedRangeSet<Asn, AsnRange> setToAdd = new SortedRangeSet<Asn, AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
+        setToAdd.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
+        subject.addAll(setToAdd);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    //---------------------------------------------------------------
+    // void addAll(Collection<R> rangesToAdd)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testAddAllOverlappingRangesFromCollection() {
+        initSubject();
+        // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // add all       |----||----|    [13,22] [4,11]
+        // result      |--------------|  [0,25]
+        List<AsnRange> setToAdd = new ArrayList<AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
+        setToAdd.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
+        subject.addAll(setToAdd);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testAddAllAdjacentRangesFromCollection() {
+        initSubject();
+        // subject     |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // add            |--|  |--|     [5,10] [15,20]
+        // result      |--------------|  [0,25]
+        Set<AsnRange> setToAdd = new HashSet<AsnRange>();
+        setToAdd.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
+        setToAdd.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
+        subject.addAll(setToAdd);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testAddAllConsecutiveRangesFromCollection() {
+        initSubject();
+        // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        // add             |--|    |--|      [6,9] [16,19]
+        // result      |------------------|  [0,25]
+        Vector<AsnRange> setToAdd = new Vector<AsnRange>();
         setToAdd.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
         setToAdd.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
         subject.addAll(setToAdd);

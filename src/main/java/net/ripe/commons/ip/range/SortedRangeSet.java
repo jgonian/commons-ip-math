@@ -1,6 +1,7 @@
 package net.ripe.commons.ip.range;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +32,12 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
     }
 
     public void addAll(SortedRangeSet<C, R> rangesToAdd) {
+        for (R range : rangesToAdd) {
+            add(range);
+        }
+    }
+
+    public void addAll(Collection<R> rangesToAdd) {
         for (R range : rangesToAdd) {
             add(range);
         }
