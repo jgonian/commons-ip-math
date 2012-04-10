@@ -1,8 +1,9 @@
 package net.ripe.commons.ip.range;
 
+import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv4;
 
-public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> {
+public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements InternetResourceRange<Ipv4, Ipv4Range> {
 
     protected Ipv4Range(Ipv4 start, Ipv4 end) {
         super(start, end);

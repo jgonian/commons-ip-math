@@ -1,8 +1,9 @@
 package net.ripe.commons.ip.range;
 
 import net.ripe.commons.ip.resource.Asn;
+import net.ripe.commons.ip.resource.InternetResourceRange;
 
-public class AsnRange extends AbstractRange<Asn, AsnRange> {
+public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
 
     protected AsnRange(Asn start, Asn end) {
         super(start, end);

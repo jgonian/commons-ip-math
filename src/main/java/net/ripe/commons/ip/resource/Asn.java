@@ -1,8 +1,9 @@
 package net.ripe.commons.ip.resource;
 
+import net.ripe.commons.ip.range.AsnRange;
 import org.apache.commons.lang3.Validate;
 
-public class Asn extends SingleValue<Long> implements InternetResource<Asn> {
+public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn, AsnRange> {
 
     private static final long serialVersionUID = -1L;
 
@@ -42,5 +43,10 @@ public class Asn extends SingleValue<Long> implements InternetResource<Asn> {
     @Override
     public String toString() {
         return String.format("AS%d", value());
+    }
+
+    @Override
+    public AsnRange asRange() {
+        return AsnRange.from(this).to(this);
     }
 }

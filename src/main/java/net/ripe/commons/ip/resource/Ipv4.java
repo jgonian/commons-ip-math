@@ -1,8 +1,9 @@
 package net.ripe.commons.ip.resource;
 
+import net.ripe.commons.ip.range.Ipv4Range;
 import org.apache.commons.lang3.Validate;
 
-public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
+public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;
 
@@ -138,5 +139,10 @@ public class Ipv4 extends SingleValue<Long> implements IpResource<Ipv4> {
     @Override
     public Ipv4 previous() {
         return new Ipv4(value() - 1);
+    }
+
+    @Override
+    public Ipv4Range asRange() {
+        return Ipv4Range.from(this).to(this);
     }
 }
