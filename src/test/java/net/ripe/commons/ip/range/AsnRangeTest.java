@@ -49,6 +49,13 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
     }
 
     @Test
+    public void testBuilderWithLongs() {
+        AsnRange range = AsnRange.from(1l).to(3l);
+        assertEquals(as1, range.start());
+        assertEquals(as3, range.end());
+    }
+
+    @Test
     public void testBuilder() {
         AsnRange range = AsnRange.from(as1).to(as3);
         assertEquals(as1, range.start());

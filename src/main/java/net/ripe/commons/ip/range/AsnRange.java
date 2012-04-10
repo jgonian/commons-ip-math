@@ -13,6 +13,10 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
         return new AsnRange(start, end);
     }
 
+    public static AsnRangeBuilder from(Long from) {
+        return from(Asn.of(from));
+    }
+
     public static AsnRangeBuilder from(Asn from) {
         return new AsnRangeBuilder(from);
     }
@@ -20,6 +24,10 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
         protected AsnRangeBuilder(Asn from) {
             super(from, AsnRange.class);
+        }
+
+        public AsnRange to(Long end) {
+            return super.to(Asn.of(end));
         }
     }
 }
