@@ -7,9 +7,13 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     private static final long serialVersionUID = -1L;
 
-    private static long ASN_MIN_VALUE = 0L;
-    private static long ASN_16_BIT_MAX_VALUE = (1L << 16) - 1L;
-    private static long ASN_32_BIT_MAX_VALUE = (1L << 32) - 1L;
+    public static final long ASN_MIN_VALUE = 0L;
+    public static final long ASN_16_BIT_MAX_VALUE = (1L << 16) - 1L;
+    public static final long ASN_32_BIT_MAX_VALUE = (1L << 32) - 1L;
+
+    public static final Asn FIRST_ASN = Asn.of(ASN_MIN_VALUE);
+    public static final Asn LAST_16_BIT_ASN = Asn.of(ASN_16_BIT_MAX_VALUE);
+    public static final Asn LAST_32_BIT_ASN = Asn.of(ASN_32_BIT_MAX_VALUE);
 
     public Asn(Long value) {
         super(value);

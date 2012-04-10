@@ -3,7 +3,7 @@ package net.ripe.commons.ip.range;
 import net.ripe.commons.ip.resource.Asn;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 
-public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
+public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange, Long> {
 
     protected AsnRange(Asn start, Asn end) {
         super(start, end);
@@ -25,6 +25,11 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
     @Override
     public String toString() {
         return isEmpty() ? start().toString() : String.format("%s-%s", start(), end());
+    }
+
+    @Override
+    public Long size() {
+        return (end().value() - start().value()) + 1;
     }
 
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {

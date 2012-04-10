@@ -14,6 +14,9 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
     public static final BigInteger IPv6_MINIMUM_VALUE = ZERO;
     public static final BigInteger IPv6_MAXIMUM_VALUE = new BigInteger(String.valueOf((ONE.shiftLeft(IPv6_NUMBER_OF_BITS)).subtract(ONE)));
 
+    public static final Ipv6 FIRST_IPV6_ADDRESS = Ipv6.of(IPv6_MINIMUM_VALUE);
+    public static final Ipv6 LAST_IPV6_ADDRESS = Ipv6.of(IPv6_MAXIMUM_VALUE);
+
     protected Ipv6(BigInteger value) {
         super(value);
         Validate.isTrue(value.compareTo(IPv6_MINIMUM_VALUE) >= 0, "Value of Ipv6 has to be greater than or equal to " + IPv6_MINIMUM_VALUE);

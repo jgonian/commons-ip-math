@@ -1,6 +1,7 @@
 package net.ripe.commons.ip.range;
 
 import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Asn.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,13 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
     public void testToString() {
         assertEquals("AS1", AsnRange.from(as1).to(as1).toString());
         assertEquals("AS1-AS3", AsnRange.from(as1).to(as3).toString());
+    }
+
+    @Test
+    public void testSize() {
+        assertEquals(new Long(1), as1.asRange().size());
+        assertEquals(new Long(ASN_16_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_16_BIT_ASN).size());
+        assertEquals(new Long(ASN_32_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_32_BIT_ASN).size());
     }
 
     @Override

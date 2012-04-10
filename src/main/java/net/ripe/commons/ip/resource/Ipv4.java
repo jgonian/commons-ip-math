@@ -12,6 +12,9 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
     public static final long IPv4_MINIMUM_VALUE = 0;
     public static final long IPv4_MAXIMUM_VALUE = (1L << IPv4_NUMBER_OF_BITS) - 1;
 
+    public static final Ipv4 FIRST_IPV4_ADDRESS = Ipv4.of(IPv4_MINIMUM_VALUE);
+    public static final Ipv4 LAST_IPV4_ADDRESS = Ipv4.of(IPv4_MAXIMUM_VALUE);
+
     protected Ipv4(Long value) {
         super(value);
         Validate.isTrue(value.compareTo(IPv4_MINIMUM_VALUE) >= 0, "Value of Ipv4 has to be greater than or equal to " + IPv4_MINIMUM_VALUE);

@@ -1,13 +1,14 @@
 package net.ripe.commons.ip.range;
 
 import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Ipv4.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv4;
 import org.junit.Test;
 
-public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range>{
+public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     Ipv4 ip1 = Ipv4.of("1.0.0.1");
     Ipv4 ip2 = Ipv4.of("1.0.0.2");
@@ -37,6 +38,12 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range>{
     public void testToString() {
         Ipv4Range range = new Ipv4Range(ip1, ip3);
         assertEquals("[1.0.0.1..1.0.0.3]", range.toString());
+    }
+
+    @Test
+    public void testSize() {
+        assertEquals(new Long(1), ip1.asRange().size());
+        assertEquals(new Long(IPv4_MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
     }
 
     @Override

@@ -3,7 +3,7 @@ package net.ripe.commons.ip.range;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv4;
 
-public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements InternetResourceRange<Ipv4, Ipv4Range> {
+public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements InternetResourceRange<Ipv4, Ipv4Range, Long> {
 
     protected Ipv4Range(Ipv4 start, Ipv4 end) {
         super(start, end);
@@ -16,6 +16,11 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
 
     public static Ipv4RangeBuilder from(Ipv4 from) {
         return new Ipv4RangeBuilder(from);
+    }
+
+    @Override
+    public Long size() {
+        return (end().value() - start().value()) + 1;
     }
 
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
