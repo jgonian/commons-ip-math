@@ -63,7 +63,7 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         while (it.hasNext()) {
             R rangeInIpSpace = it.next();
             if (rangeInIpSpace.overlaps(rangeToRemove)) {
-                remainders.addAll(rangeInIpSpace.remove(rangeToRemove));
+                remainders.addAll(rangeInIpSpace.exclude(rangeToRemove));
                 it.remove();
                 removed = true;
             }

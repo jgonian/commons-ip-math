@@ -87,7 +87,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     @SuppressWarnings({"unchecked"})
-    public List<R> remove(R other) {
+    public List<R> exclude(R other) {
         if (!overlaps(other)) {
             return Collections.singletonList((R)this);
 

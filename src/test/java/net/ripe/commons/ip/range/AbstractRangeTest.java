@@ -952,51 +952,51 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     //---------------------------------------------------------------
-    // List<R> remove(R other)
+    // List<R> exclude(R other)
     //---------------------------------------------------------------
 
      @Test
-    public void shouldNotRemoveIfOtherIsBefore() {
+    public void shouldNotExcludeIfOtherIsBefore() {
         // range       |------|      [10, 20]
         // other  |---|              [2, 9]
         // result      |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("2"), to("9"));
         List<R> result = Collections.singletonList(range);
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherMeetsBefore() {
+    public void shouldExcludeIfOtherMeetsBefore() {
         // range      |------|      [10, 20]
         // other  |---|             [5, 10]
         // result      |-----|      [11, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("10"));
         List<R> result = Collections.singletonList(getTestRange(from("11"), to("20")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOnStart() {
+    public void shouldExcludeIfOtherOnStart() {
         // range      |------|      [10, 20]
         // other      |             [10, 10]
         // result      |-----|      [11, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("10"));
         List<R> result = Collections.singletonList(getTestRange(from("11"), to("20")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOverlapsBefore() {
+    public void shouldExcludeIfOtherOverlapsBefore() {
         // range      |------|      [10, 20]
         // other    |---|           [5, 15]
         // result        |---|      [16, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("15"));
         List<R> result = Collections.singletonList(getTestRange(from("16"), to("20")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
@@ -1007,7 +1007,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("15"));
         List<R> result = Collections.singletonList(getTestRange(from("16"), to("20")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
@@ -1021,7 +1021,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
             add(getTestRange(from("10"), to("12")));
             add(getTestRange(from("16"), to("20")));
         }};
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
@@ -1032,94 +1032,94 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("20"));
         List<R> result = Collections.singletonList(getTestRange(from("10"), to("14")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOverlapsAfter() {
+    public void shouldExcludeIfOtherOverlapsAfter() {
         // range      |------|      [10, 20]
         // other           |---|    [15, 25]
         // result     |---|         [10, 14]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("25"));
         List<R> result = Collections.singletonList(getTestRange(from("10"), to("14")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOnFinish() {
+    public void shouldExcludeIfOtherOnFinish() {
         // range      |------|      [10, 20]
         // other             |      [20, 20]
         // result     |-----|       [10, 19]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("20"));
         List<R> result = Collections.singletonList(getTestRange(from("10"), to("19")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherMeetsAfter() {
+    public void shouldExcludeIfOtherMeetsAfter() {
         // range      |------|      [10, 20]
         // other             |---|  [20, 25]
         // result     |-----|       [10, 19]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("25"));
         List<R> result = Collections.singletonList(getTestRange(from("10"), to("19")));
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherIsAfter() {
+    public void shouldExcludeIfOtherIsAfter() {
         // range      |------|      [10, 20]
         // other              |---| [21, 25]
         // result     |------|      [10, 20]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("21"), to("25"));
         List<R> result = Collections.singletonList(range);
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOverlapsStartAndOnFinish() {
+    public void shouldExcludeIfOtherOverlapsStartAndOnFinish() {
         // range      |------|      [10, 20]
         // other    |--------|      [5, 20]
         // result                   []
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("20"));
         List<R> result = Collections.emptyList();
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherEquals() {
+    public void shouldExcludeIfOtherEquals() {
         // range      |------|      [10, 20]
         // other      |------|      [10, 20]
         // result                   []
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("20"));
         List<R> result = Collections.emptyList();
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOverlapsFinishAndOnStart() {
+    public void shouldExcludeIfOtherOverlapsFinishAndOnStart() {
         // range      |------|      [10, 20]
         // other      |--------|    [10, 25]
         // result                   []
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("25"));
         List<R> result = Collections.emptyList();
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 
     @Test
-    public void shouldRemoveIfOtherOverlapsStartAndFinish() {
+    public void shouldExcludeIfOtherOverlapsStartAndFinish() {
         // range      |------|      [10, 20]
         // other    |----------|    [5, 25]
         // result                   []
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("25"));
         List<R> result = Collections.emptyList();
-        assertEquals(result, range.remove(other));
+        assertEquals(result, range.exclude(other));
     }
 }
