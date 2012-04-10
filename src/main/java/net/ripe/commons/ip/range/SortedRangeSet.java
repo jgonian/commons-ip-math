@@ -13,8 +13,6 @@ import net.ripe.commons.ip.resource.Rangeable;
 
 public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
 
-    private static StartAndSizeComparator<?, ?> DEFAULT_COMPARATOR;
-
     private Set<R> set;
 
     /**
@@ -24,7 +22,7 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
      * method of the compared ranges.</em>
      */
     public SortedRangeSet() {
-        this(SortedRangeSet.<C, R>getDefaultComparator());
+        this(StartAndSizeComparator.<C, R>getInstance());
     }
 
     public SortedRangeSet(RangeComparator<C, R> rangeComparator) {
@@ -103,11 +101,4 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         return set.toString();
     }
 
-    @SuppressWarnings({"unchecked"})
-    private static <C extends Rangeable<C>, R extends AbstractRange<C, R>> RangeComparator<C, R> getDefaultComparator() {
-        if (DEFAULT_COMPARATOR == null) {
-            DEFAULT_COMPARATOR = new StartAndSizeComparator<C, R>();
-        }
-        return (StartAndSizeComparator<C, R>) DEFAULT_COMPARATOR;
-    }
 }
