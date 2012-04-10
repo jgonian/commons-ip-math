@@ -13,7 +13,7 @@ import net.ripe.commons.ip.resource.Rangeable;
 
 public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
 
-    private Set<R> set;
+    private final Set<R> set;
 
     /**
      * Creates an instance of {@link SortedRangeSet} with a default
