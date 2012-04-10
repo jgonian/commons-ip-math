@@ -21,6 +21,11 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> {
         return new AsnRangeBuilder(from);
     }
 
+    @Override
+    public String toString() {
+        return isEmpty() ? start().toString() : String.format("%s-%s", start(), end());
+    }
+
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
         protected AsnRangeBuilder(Asn from) {
             super(from, AsnRange.class);

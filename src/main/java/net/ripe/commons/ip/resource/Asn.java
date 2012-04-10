@@ -38,4 +38,9 @@ public class Asn extends SingleValue<Long> implements InternetResource<Asn> {
     public Asn previous() {
         return new Asn(value() - 1);
     }
+
+    @Override
+    public String toString() {
+        return String.format("AS%d", value());
+    }
 }

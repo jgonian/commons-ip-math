@@ -35,8 +35,8 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     @Override
     public void testToString() {
-        AsnRange range = new AsnRange(as1, as3);
-        assertEquals("[1..3]", range.toString());
+        assertEquals("AS1", AsnRange.from(as1).to(as1).toString());
+        assertEquals("AS1-AS3", AsnRange.from(as1).to(as3).toString());
     }
 
     @Override

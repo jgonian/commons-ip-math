@@ -376,7 +376,7 @@ public class SortedRangeSetTest {
     public void testToString() {
         subject.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
         subject.add(new AsnRange(Asn.of(10l), Asn.of(20l)));
-        assertEquals("[[0..5], [10..20]]", subject.toString());
+        assertEquals("[AS0-AS5, AS10-AS20]", subject.toString());
     }
 
 }
