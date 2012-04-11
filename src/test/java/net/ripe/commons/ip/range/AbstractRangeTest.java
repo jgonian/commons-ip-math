@@ -440,16 +440,16 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         verifyNotAdjacentRanges(range, getTestRange(from("5"), to("8")));
         verifyNotAdjacentRanges(range, getTestRange(from("5"), to("9")));
         verifyAdjacentRanges(range, getTestRange(from("5"), to("10")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("5"), to("15")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("10"), to("15")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("15"), to("19")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("15"), to("20")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("15"), to("25")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("20"), to("25")));
-        verifyConsecutiveRanges(range, getTestRange(from("21"), to("25")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("22"), to("25")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("5"), to("25")));
-        verifyNotConsecutiveRanges(range, getTestRange(from("10"), to("20")));
+        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("15")));
+        verifyNotAdjacentRanges(range, getTestRange(from("10"), to("15")));
+        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("19")));
+        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("20")));
+        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("25")));
+        verifyAdjacentRanges(range, getTestRange(from("20"), to("25")));
+        verifyNotAdjacentRanges(range, getTestRange(from("21"), to("25")));
+        verifyNotAdjacentRanges(range, getTestRange(from("22"), to("25")));
+        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("25")));
+        verifyNotAdjacentRanges(range, getTestRange(from("10"), to("20")));
         assertFalse(range.isAdjacent((R) null));
     }
 
