@@ -41,15 +41,15 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     public boolean overlaps(R other) {
-        return other.contains(start) || other.contains(end) || this.contains(other);
+        return other != null && (other.contains(start) || other.contains(end) || this.contains(other));
     }
 
     public boolean isAdjacent(R other) {
-        return this.end.equals(other.start) || other.end.equals(this.start);
+        return other != null && (this.end.equals(other.start) || other.end.equals(this.start));
     }
 
     public boolean isConsecutive(R other) {
-        return this.end.next().equals(other.start) || other.end.next().equals(this.start);
+        return other != null && (this.end.next().equals(other.start) || other.end.next().equals(this.start));
     }
 
     public boolean isEmpty() {

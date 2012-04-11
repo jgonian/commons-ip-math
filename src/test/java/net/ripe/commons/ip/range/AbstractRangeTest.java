@@ -62,6 +62,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         assertOverlapping(range, getTestRange(from("10"), to("20")));
         assertOverlapping(range, getTestRange(from("10"), to("25")));
         assertOverlapping(range, getTestRange(from("5"), to("25")));
+        assertFalse(range.overlaps((R) null));
     }
 
     private void assertOverlapping(R range, R other) {
@@ -449,6 +450,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         verifyNotConsecutiveRanges(range, getTestRange(from("22"), to("25")));
         verifyNotConsecutiveRanges(range, getTestRange(from("5"), to("25")));
         verifyNotConsecutiveRanges(range, getTestRange(from("10"), to("20")));
+        assertFalse(range.isAdjacent((R) null));
     }
 
     private void verifyAdjacentRanges(R range, R other) {
@@ -496,6 +498,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         verifyNotConsecutiveRanges(range, getTestRange(from("22"), to("25")));
         verifyNotConsecutiveRanges(range, getTestRange(from("5"), to("25")));
         verifyNotConsecutiveRanges(range, getTestRange(from("10"), to("20")));
+        assertFalse(range.isConsecutive((R) null));
     }
 
     private void verifyConsecutiveRanges(R range, R other) {
