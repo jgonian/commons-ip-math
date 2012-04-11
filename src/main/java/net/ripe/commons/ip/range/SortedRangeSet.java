@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 import net.ripe.commons.ip.range.compare.RangeComparator;
@@ -13,7 +14,7 @@ import net.ripe.commons.ip.resource.Rangeable;
 
 public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<R> {
 
-    private final Set<R> set;
+    private final NavigableSet<R> set;
 
     /**
      * Creates an instance of {@link SortedRangeSet} with a default
@@ -41,17 +42,29 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         }
     }
 
-    public void add(R rangeToAdd) {
-        // TODO: change the implementation to take advantage of the sorted set
-        Iterator<R> it = set.iterator();
-        while (it.hasNext()) {
-            R rangeInSet = it.next();
-            if (rangeInSet.overlaps(rangeToAdd) || rangeInSet.isConsecutive(rangeToAdd)) {
-                rangeToAdd = rangeInSet.mergeConsecutive(rangeToAdd);
-                it.remove();
-            }
+    public void add(R range) {
+        if (contains(range)) {
+            return;
         }
-        set.add(rangeToAdd);
+        freeAndMergeConsecutive(range);
+    }
+
+    private void freeAndMergeConsecutive(R range) {
+        R rightSide = set.higher(range);
+        R leftSide = set.lower(range);
+        if (!range.overlaps(rightSide) && !range.overlaps(leftSide)) {
+            set.add(range);
+        }
+        if (range.overlaps(rightSide) || range.isConsecutive(rightSide)) {
+            R merged = range.mergeConsecutive(rightSide);
+            remove(rightSide);
+            freeAndMergeConsecutive(merged);
+        }
+        if (range.overlaps(leftSide) || range.isConsecutive(leftSide)) {
+            R merged = range.mergeConsecutive(leftSide);
+            remove(leftSide);
+            freeAndMergeConsecutive(merged);
+        }
     }
 
     public boolean remove(R rangeToRemove) {
@@ -71,12 +84,9 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
     }
 
     public boolean contains(R range) {
-        for (R rangeInSet : set) {
-            if (rangeInSet.contains(range)) {
-                return true;
-            }
-        }
-        return false;
+        R leftmost = set.floor(range);
+        R rightmost = set.ceiling(range);
+        return (leftmost != null && leftmost.contains(range)) || (rightmost != null && rightmost.contains(range));
     }
 
     public void clear() {
