@@ -34,6 +34,21 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
         return new AsnRange(start, end);
     }
 
+    @Test
+    public void shouldParseRange() {
+        assertEquals(AsnRange.from(3333l).to(4444l), AsnRange.parse(("AS3333-AS4444")));
+    }
+
+    @Test
+    public void shouldParseEmptyRange() {
+        assertEquals(AsnRange.from(3333l).to(3333l), AsnRange.parse(("AS3333-AS3333")));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseIllegalRange() {
+        AsnRange.parse("AS3333");
+    }
+
     @Override
     public void testToString() {
         assertEquals("AS1", AsnRange.from(as1).to(as1).toString());
@@ -64,7 +79,14 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
     }
 
     @Test
-    public void testBuilder() {
+    public void testBuilderWithStrings() {
+        AsnRange range = AsnRange.from("AS1").to("AS3");
+        assertEquals(as1, range.start());
+        assertEquals(as3, range.end());
+    }
+
+    @Test
+    public void testBuilderWithAsn() {
         AsnRange range = AsnRange.from(as1).to(as3);
         assertEquals(as1, range.start());
         assertEquals(as3, range.end());
