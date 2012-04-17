@@ -2,6 +2,7 @@ package net.ripe.commons.ip.math;
 
 import java.math.BigInteger;
 
+@Deprecated
 public class Ipv4Range extends IpRange<Ipv4Range> {
 
     private static final long serialVersionUID = 1L;

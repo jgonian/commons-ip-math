@@ -1,13 +1,13 @@
 package net.ripe.commons.ip.math;
 
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+@Deprecated
 public abstract class IpRange<T extends IpRange<T>> extends Range<T> {
 
     private static final long serialVersionUID = 1L;

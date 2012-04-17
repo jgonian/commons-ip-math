@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 public abstract class Range<T extends Range<T>> implements Serializable {
 
     private static final long serialVersionUID = 1L;

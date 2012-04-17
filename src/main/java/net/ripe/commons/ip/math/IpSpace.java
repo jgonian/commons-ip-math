@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.*;
 
+@Deprecated
 public class IpSpace<T extends IpRange<T>> implements Serializable, Iterable<T> {
 
     private static final long serialVersionUID = 1L;
