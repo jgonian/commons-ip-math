@@ -18,6 +18,14 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new Ipv4RangeBuilder(from);
     }
 
+    public static Ipv4RangeBuilder from(Long from) {
+        return new Ipv4RangeBuilder(Ipv4.of(from));
+    }
+
+    public static Ipv4RangeBuilder from(String from) {
+        return new Ipv4RangeBuilder(Ipv4.parse(from));
+    }
+
     @Override
     public Long size() {
         return (end().value() - start().value()) + 1;
@@ -26,6 +34,14 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
         protected Ipv4RangeBuilder(Ipv4 from) {
             super(from, Ipv4Range.class);
+        }
+
+        public Ipv4Range to(Long end) {
+            return super.to(Ipv4.of(end));
+        }
+
+        public Ipv4Range to(String end) {
+            return super.to(Ipv4.parse(end));
         }
     }
 }

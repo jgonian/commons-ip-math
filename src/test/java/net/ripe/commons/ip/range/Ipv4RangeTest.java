@@ -10,9 +10,9 @@ import org.junit.Test;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
-    Ipv4 ip1 = Ipv4.of("1.0.0.1");
-    Ipv4 ip2 = Ipv4.of("1.0.0.2");
-    Ipv4 ip3 = Ipv4.of("1.0.0.3");
+    Ipv4 ip1 = Ipv4.of("0.0.0.1");
+    Ipv4 ip2 = Ipv4.of("0.0.0.2");
+    Ipv4 ip3 = Ipv4.of("0.0.0.3");
 
     @Override
     protected Ipv4 from(String s) {
@@ -37,7 +37,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     @Override
     public void testToString() {
         Ipv4Range range = new Ipv4Range(ip1, ip3);
-        assertEquals("[1.0.0.1..1.0.0.3]", range.toString());
+        assertEquals("[0.0.0.1..0.0.0.3]", range.toString());
     }
 
     @Test
@@ -56,7 +56,21 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     }
 
     @Test
-    public void testBuilder() {
+    public void testBuilderWithLongs() {
+        Ipv4Range range = Ipv4Range.from(1l).to(3l);
+        assertEquals(ip1, range.start());
+        assertEquals(ip3, range.end());
+    }
+
+    @Test
+    public void testBuilderWithStrings() {
+        Ipv4Range range = Ipv4Range.from("0.0.0.1").to("0.0.0.3");
+        assertEquals(ip1, range.start());
+        assertEquals(ip3, range.end());
+    }
+
+    @Test
+    public void testBuilderWithIpv4s() {
         Ipv4Range range = Ipv4Range.from(ip1).to(ip3);
         assertEquals(ip1, range.start());
         assertEquals(ip3, range.end());
