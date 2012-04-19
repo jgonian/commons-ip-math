@@ -84,6 +84,11 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return (end().value() - start().value()) + 1;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+    }
+
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
         protected Ipv4RangeBuilder(Ipv4 from) {
             super(from, Ipv4Range.class);
