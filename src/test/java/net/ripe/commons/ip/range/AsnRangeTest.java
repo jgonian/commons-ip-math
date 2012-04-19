@@ -46,6 +46,11 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseIllegalRange() {
+        AsnRange.parse("AS3333-AS2222");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseSingleResource() {
         AsnRange.parse("AS3333");
     }
 
