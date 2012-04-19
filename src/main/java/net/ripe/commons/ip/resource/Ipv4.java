@@ -79,23 +79,13 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
         return value;
     }
 
-    /*@Override
+    /*
+    @Override
     public int getCommonPrefixLength(Ipv4Address other) {
         long temp = value ^ other.value;
         return Integer.numberOfLeadingZeros((int) temp);
     }
-
-    @Override
-    public Ipv4Address lowerBoundForPrefix(int prefixLength) {
-        long mask = ~((1L << (IPv4_NUMBER_OF_BITS - prefixLength)) -  1);
-        return new Ipv4Address(value & mask);
-    }
-
-    @Override
-    public Ipv4Address upperBoundForPrefix(int prefixLength) {
-        long mask = (1L << (IPv4_NUMBER_OF_BITS - prefixLength)) -  1;
-        return new Ipv4Address(value | mask);
-    }*/
+    */
 
     @Override
     public int compareTo(Ipv4 other) {
