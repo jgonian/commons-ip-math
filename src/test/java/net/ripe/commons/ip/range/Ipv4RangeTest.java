@@ -34,6 +34,66 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         return new Ipv4Range(start, end);
     }
 
+    @Test
+    public void shouldParseDashNotation() {
+        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parse("0.0.0.0-255.255.255.255"));
+    }
+
+    @Test
+    public void shouldParseDashNotationWhenEmptyRange() {
+        assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parse("192.168.0.1-192.168.0.1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDashNotationWhenIllegalPrefix() {
+        Ipv4Range.parse("0.0.0.10-0.0.0.1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDashNotationWhenSingleResource() {
+        Ipv4Range.parse("0.0.0.1");
+    }
+
+    @Test
+    public void shouldParseCidrNotation() {
+        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parseCidr("0.0.0.0/0"));
+    }
+
+    @Test
+    public void shouldParseCidrWhenEmptyRange() {
+        assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parseCidr("192.168.0.1/32"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseCidrWhenIllegalPrefix() {
+        Ipv4Range.parseCidr("0.0.0.10/33");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseCidrWhenSingleResource() {
+        Ipv4Range.parseCidr("0.0.0.1");
+    }
+
+    @Test
+    public void shouldParseWithPrefix() {
+        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parseWithPrefix("0.0.0.0", "0"));
+    }
+
+    @Test
+    public void shouldParseWithPrefixWhenEmptyRange() {
+        assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parseWithPrefix("192.168.0.1", "32"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseWithPrefixWhenIllegalPrefix() {
+        Ipv4Range.parseWithPrefix("0.0.0.10", "33");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseWithPrefixWhenPrefixIsNull() {
+        Ipv4Range.parseWithPrefix("0.0.0.1", null);
+    }
+
     @Override
     public void testToString() {
         Ipv4Range range = new Ipv4Range(ip1, ip3);
