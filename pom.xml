@@ -13,6 +13,10 @@
         <version>1.16</version>
     </parent>
 
+    <scm>
+        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/trunk</connection>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>net.ripe.commons</groupId>
