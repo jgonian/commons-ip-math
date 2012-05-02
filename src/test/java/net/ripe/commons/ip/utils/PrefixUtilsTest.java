@@ -11,6 +11,21 @@ import org.junit.Test;
 public class PrefixUtilsTest {
     
     @Test
+    public void shouldGetPrefixSizeWhenLength0() {
+        assertEquals(Ipv6.IPv6_MAXIMUM_VALUE.add(BigInteger.ONE), PrefixUtils.getPrefixSize(0));
+    }
+    
+    @Test
+    public void shouldGetPrefixSizeWhenLength128() {
+        assertEquals(BigInteger.ONE, PrefixUtils.getPrefixSize(128));
+    }
+    
+    @Test
+    public void shouldGetPrefixSizeWhenLength127() {
+        assertEquals(BigInteger.valueOf(2), PrefixUtils.getPrefixSize(127));
+    }
+    
+    @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix0_0() {
         Ipv6Range range = Ipv6Range.from(Ipv6.of(BigInteger.valueOf(0))).to(Ipv6.of(BigInteger.valueOf(0)));
         assertEquals(128, PrefixUtils.getPrefixLength(range));
@@ -20,6 +35,12 @@ public class PrefixUtilsTest {
     public void shouldGetPrefixLengthWhenCorrectPrefix0_3() {
         Ipv6Range range = Ipv6Range.from(Ipv6.of(BigInteger.valueOf(0))).to(Ipv6.of(BigInteger.valueOf(3)));
         assertEquals(126, PrefixUtils.getPrefixLength(range));
+    }
+    
+    @Test
+    public void shouldGetPrefixLengthWhenCorrectPrefix1_1() {
+        Ipv6Range range = Ipv6Range.from(Ipv6.of(BigInteger.valueOf(1))).to(Ipv6.of(BigInteger.valueOf(1)));
+        assertEquals(128, PrefixUtils.getPrefixLength(range));
     }
     
     @Test(expected=IllegalArgumentException.class)

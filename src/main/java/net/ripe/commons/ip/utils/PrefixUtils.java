@@ -13,7 +13,7 @@ public class PrefixUtils {
     
     public static int getPrefixLength(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        if (BigInteger.ONE.shiftLeft(IPv6_NUMBER_OF_BITS - maxContainedPrefix).compareTo(range.size()) == 0) {
+        if (getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0) {
             return maxContainedPrefix;
         } else {
             throw new IllegalArgumentException(range + " is not a valid prefix, cannot get prefix length!");
@@ -28,8 +28,7 @@ public class PrefixUtils {
             BigInteger availableSize = range.end().value().subtract(dynamicStart).add(ONE);
             int prefixToCut = getBiggestPossiblePrefix(dynamicStart, availableSize);
             
-            BigInteger dynamicEnd = dynamicStart.add(ONE.shiftLeft(IPv6_NUMBER_OF_BITS - prefixToCut)).subtract(ONE);
-            
+            BigInteger dynamicEnd = dynamicStart.add(getPrefixSize(prefixToCut)).subtract(ONE);
             Ipv6Range cutPrefix = Ipv6Range.from(Ipv6.of(dynamicStart)).to(Ipv6.of(dynamicEnd));
             result.add(cutPrefix);
             
@@ -37,6 +36,10 @@ public class PrefixUtils {
         }
         
         return result;
+    }
+    
+    public static BigInteger getPrefixSize(int prefixLength) {
+        return BigInteger.ONE.shiftLeft(IPv6_NUMBER_OF_BITS - prefixLength);
     }
 
     protected static int getBiggestPossiblePrefix(BigInteger start, BigInteger size) {
