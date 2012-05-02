@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv6;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
@@ -38,11 +37,10 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
-    @Ignore("TODO(ygoniana): implement toString in IPv6")
     @Override
     public void testToString() {
         Ipv6Range range = new Ipv6Range(ip1, ip3);
-        assertEquals("[::1/128..::3/128]", range.toString());
+        assertEquals("::1-::3", range.toString());
     }
 
     @Test
