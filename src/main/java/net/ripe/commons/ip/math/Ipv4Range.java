@@ -23,9 +23,9 @@ public class Ipv4Range extends IpRange<Ipv4Range> {
 
     @Override
     public boolean equals(Object obj) {
-       return (obj instanceof Ipv4Range) ? super.equals(obj) : false;
+        return (obj instanceof Ipv4Range) ? super.equals(obj) : false;
     }
-    
+
     protected int bits() {
         return 32;
     }

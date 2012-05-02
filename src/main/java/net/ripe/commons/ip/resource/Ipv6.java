@@ -50,7 +50,7 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
     public Ipv6Range asRange() {
         return Ipv6Range.from(this).to(this);
     }
-    
+
     @Override
     public String toString() {
         long[] list = new long[8];
@@ -58,10 +58,10 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
         int maxZeroLength = 0;
         int maxZeroIndex = 0;
         for (int i = 7; i >= 0; i--) {
-            list[i] = value().shiftRight(i*16).and(NETWORK_MASK).longValue();
+            list[i] = value().shiftRight(i * 16).and(NETWORK_MASK).longValue();
 
             if (list[i] == 0) {
-                currentZeroLength ++;
+                currentZeroLength++;
             } else {
                 if (currentZeroLength > maxZeroLength) {
                     maxZeroIndex = i + currentZeroLength;
@@ -87,8 +87,8 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
             }
             sb.append(':');
         }
-        if ( (maxZeroIndex - maxZeroLength + 1) != 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if ((maxZeroIndex - maxZeroLength + 1) != 0) {
+            sb.deleteCharAt(sb.length() - 1);
         }
 
         return sb.toString();

@@ -13,8 +13,11 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
 
 
     protected abstract C from(String s);
+
     protected abstract C to(String s);
+
     protected abstract C item(String s);
+
     protected abstract R getTestRange(C start, C end);
 
     @Test
@@ -958,7 +961,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     // List<R> exclude(R other)
     //---------------------------------------------------------------
 
-     @Test
+    @Test
     public void shouldNotExcludeIfOtherIsBefore() {
         // range       |------|      [10, 20]
         // other  |---|              [2, 9]

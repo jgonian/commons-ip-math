@@ -2,7 +2,14 @@ package net.ripe.commons.ip.math;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Deprecated
 public class IpSpace<T extends IpRange<T>> implements Serializable, Iterable<T> {

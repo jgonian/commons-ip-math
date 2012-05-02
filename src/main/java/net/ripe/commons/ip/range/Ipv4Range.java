@@ -35,7 +35,7 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
      * Parses a <tt>String</tt> into an {@link Ipv4Range}.
      *
      * @param range a dash separated string of two IPv4 addresses e.g. "192.168.0.0-192.168.255.255"
-     * or a CIDR-notation string, e.g. "192.168.0.0/16"
+     *              or a CIDR-notation string, e.g. "192.168.0.0/16"
      * @return a new {@link Ipv4Range}
      * @throws IllegalArgumentException if the string cannot be parsed
      * @see #parseCidr(String)

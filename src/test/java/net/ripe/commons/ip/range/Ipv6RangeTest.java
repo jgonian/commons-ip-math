@@ -1,6 +1,6 @@
 package net.ripe.commons.ip.range;
 
-import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.*;
 import static junit.framework.Assert.*;
 import static net.ripe.commons.ip.resource.Ipv6.*;
 import java.math.BigInteger;
@@ -74,12 +74,12 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullStart() {
-        Ipv6Range.from((Ipv6)null).to(ip3);
+        Ipv6Range.from((Ipv6) null).to(ip3);
     }
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullEnd() {
-        Ipv6Range.from(ip1).to((Ipv6)null);
+        Ipv6Range.from(ip1).to((Ipv6) null);
     }
 
     @Test(expected = NullPointerException.class)

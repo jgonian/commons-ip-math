@@ -15,7 +15,7 @@ public abstract class IpRange<T extends IpRange<T>> extends Range<T> {
 
     protected IpRange(BigInteger start, BigInteger end) {
         super(start, end);
-        
+
         Validate.isTrue(end.compareTo(limit()) <= 0, "End of range should be <= " + limit());
     }
 
@@ -145,7 +145,7 @@ public abstract class IpRange<T extends IpRange<T>> extends Range<T> {
 
     @Override
     protected abstract T getThis();
-    
+
     protected abstract int bits();
 
     protected BigInteger limit() {

@@ -104,12 +104,12 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullStart() {
-        AsnRange.from((Asn)null).to(as3);
+        AsnRange.from((Asn) null).to(as3);
     }
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullEnd() {
-        AsnRange.from(as1).to((Asn)null);
+        AsnRange.from(as1).to((Asn) null);
     }
 
     @Test(expected = NullPointerException.class)

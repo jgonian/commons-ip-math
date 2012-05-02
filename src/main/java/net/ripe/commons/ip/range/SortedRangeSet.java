@@ -27,7 +27,7 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
     }
 
     public SortedRangeSet(RangeComparator<C, R> rangeComparator) {
-        set = new TreeSet<R> (rangeComparator);
+        set = new TreeSet<R>(rangeComparator);
     }
 
     public void addAll(SortedRangeSet<C, R> rangesToAdd) {

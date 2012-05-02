@@ -143,12 +143,12 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullStart() {
-        Ipv4Range.from((Ipv4)null).to(ip3);
+        Ipv4Range.from((Ipv4) null).to(ip3);
     }
 
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullEnd() {
-        Ipv4Range.from(ip1).to((Ipv4)null);
+        Ipv4Range.from(ip1).to((Ipv4) null);
     }
 
     @Test(expected = NullPointerException.class)

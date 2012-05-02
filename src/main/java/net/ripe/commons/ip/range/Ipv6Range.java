@@ -1,6 +1,6 @@
 package net.ripe.commons.ip.range;
 
-import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.*;
 import java.math.BigInteger;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv6;

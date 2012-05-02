@@ -6,7 +6,7 @@ import net.ripe.commons.ip.resource.Rangeable;
 public class StartAndSizeComparator<C extends Rangeable<C>, R extends AbstractRange<C, R>>
         implements RangeComparator<C, R> {
 
-    private static StartAndSizeComparator<?,?> INSTANCE;
+    private static StartAndSizeComparator<?, ?> INSTANCE;
 
     @SuppressWarnings({"unchecked"})
     public static <C extends Rangeable<C>, R extends AbstractRange<C, R>> RangeComparator<C, R> getInstance() {
