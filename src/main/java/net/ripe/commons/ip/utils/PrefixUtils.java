@@ -6,11 +6,15 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import net.ripe.commons.ip.range.Ipv6Range;
-import net.ripe.commons.ip.resource.Ipv6;
 
 public class PrefixUtils {
     //TODO change to work for both Ipv6/Ipv4, add tests for Ipv4
 
+    public static boolean isValidPrefix(Ipv6Range range) {
+        int maxContainedPrefix = getMaxContainedPrefix(range.size());
+        return getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0;
+    }
+    
     public static int getPrefixLength(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
         if (getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0) {
@@ -29,7 +33,7 @@ public class PrefixUtils {
             int prefixToCut = getBiggestPossiblePrefix(dynamicStart, availableSize);
 
             BigInteger dynamicEnd = dynamicStart.add(getPrefixSize(prefixToCut)).subtract(ONE);
-            Ipv6Range cutPrefix = Ipv6Range.from(Ipv6.of(dynamicStart)).to(Ipv6.of(dynamicEnd));
+            Ipv6Range cutPrefix = Ipv6Range.from(dynamicStart).to(dynamicEnd);
             result.add(cutPrefix);
 
             dynamicStart = dynamicEnd.add(ONE);
@@ -38,17 +42,17 @@ public class PrefixUtils {
         return result;
     }
 
-    public static BigInteger getPrefixSize(int prefixLength) {
+    private static BigInteger getPrefixSize(int prefixLength) {
         return BigInteger.ONE.shiftLeft(IPv6_NUMBER_OF_BITS - prefixLength);
     }
 
-    protected static int getBiggestPossiblePrefix(BigInteger start, BigInteger size) {
+    private static int getBiggestPossiblePrefix(BigInteger start, BigInteger size) {
         int maxValidPrefix = getMaxValidPrefix(start);
         int maxContainedPrefix = getMaxContainedPrefix(size);
         return (maxValidPrefix < maxContainedPrefix) ? maxContainedPrefix : maxValidPrefix;
     }
 
-    protected static int getMaxValidPrefix(BigInteger number) {
+    private static int getMaxValidPrefix(BigInteger number) {
         int powerOfTwo = 0;
         int maxPowerOfTwo = powerOfTwo;
 
@@ -59,7 +63,7 @@ public class PrefixUtils {
         return IPv6_NUMBER_OF_BITS - maxPowerOfTwo;
     }
 
-    protected static int getMaxContainedPrefix(BigInteger number) {
+    private static int getMaxContainedPrefix(BigInteger number) {
         int powerOfTwo = 0;
         int maxPowerOfTwo = powerOfTwo;
 
