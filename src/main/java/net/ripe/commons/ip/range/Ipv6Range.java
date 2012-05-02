@@ -22,6 +22,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new Ipv6RangeBuilder(from);
     }
 
+    public static Ipv6RangeBuilder from(BigInteger from) {
+        return new Ipv6RangeBuilder(Ipv6.of(from));
+    }
+
     @Override
     public BigInteger size() {
         return (end().value().subtract(start().value())).add(ONE);
@@ -35,6 +39,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
     public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {
         protected Ipv6RangeBuilder(Ipv6 from) {
             super(from, Ipv6Range.class);
+        }
+        
+        public Ipv6Range to(BigInteger end) {
+            return super.to(Ipv6.of(end));
         }
     }
 }
