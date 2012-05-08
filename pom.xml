@@ -3,7 +3,7 @@
     <groupId>net.ripe.commons</groupId>
     <artifactId>commons-ip-math</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <name>commons-ip-math</name>
 
     <parent>
@@ -13,7 +13,7 @@
     </parent>
 
     <scm>
-        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/trunk</connection>
+        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/tags/RELEASE-1.1-20120508</connection>
     </scm>
 
     <dependencies>
