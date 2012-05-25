@@ -77,6 +77,16 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     }
 
     @Override
+    public boolean hasNext() {
+        return this.compareTo(LAST_32_BIT_ASN) < 0;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return this.compareTo(FIRST_ASN) > 0;
+    }
+
+    @Override
     public String toString() {
         return String.format("AS%d", value());
     }

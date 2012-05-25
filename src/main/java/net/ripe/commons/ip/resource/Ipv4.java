@@ -135,6 +135,16 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
     }
 
     @Override
+    public boolean hasNext() {
+        return this.compareTo(LAST_IPV4_ADDRESS) < 0;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return this.compareTo(FIRST_IPV4_ADDRESS) > 0;
+    }
+
+    @Override
     public Ipv4Range asRange() {
         return Ipv4Range.from(this).to(this);
     }

@@ -73,4 +73,18 @@ public class AsnTest {
         assertTrue(Asn.parse("AS3333").compareTo(Asn.parse("AS3334")) < 0);
         assertTrue(Asn.parse("AS3333").compareTo(Asn.parse("AS3332")) > 0);
     }
+
+    @Test
+    public void testHasNext() {
+        assertTrue(Asn.FIRST_ASN.hasNext());
+        assertTrue(Asn.LAST_16_BIT_ASN.hasNext());
+        assertFalse(Asn.LAST_32_BIT_ASN.hasNext());
+    }
+
+    @Test
+    public void testHasPrevious() {
+        assertFalse(Asn.FIRST_ASN.hasPrevious());
+        assertTrue(Asn.LAST_16_BIT_ASN.hasPrevious());
+        assertTrue(Asn.LAST_32_BIT_ASN.hasPrevious());
+    }
 }

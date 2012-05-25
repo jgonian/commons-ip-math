@@ -55,6 +55,16 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
     }
 
     @Override
+    public boolean hasNext() {
+        return this.compareTo(LAST_IPV6_ADDRESS) < 0;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return this.compareTo(FIRST_IPV6_ADDRESS) > 0;
+    }
+
+    @Override
     public Ipv6Range asRange() {
         return Ipv6Range.from(this).to(this);
     }

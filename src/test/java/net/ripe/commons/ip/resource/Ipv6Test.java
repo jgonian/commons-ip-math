@@ -360,4 +360,18 @@ public class Ipv6Test {
     public void shouldFailToParseRangeInCidrNotation() {
         Ipv6.parse("1:2:3:4/64");
     }
+
+    @Test
+    public void testHasNext() {
+        assertTrue(Ipv6.FIRST_IPV6_ADDRESS.hasNext());
+        assertTrue(Ipv6.of("1:2:3:4:5:6:7:8").hasNext());
+        assertFalse(Ipv6.LAST_IPV6_ADDRESS.hasNext());
+    }
+
+    @Test
+    public void testHasPrevious() {
+        assertFalse(Ipv6.FIRST_IPV6_ADDRESS.hasPrevious());
+        assertTrue(Ipv6.of("1:2:3:4:5:6:7:8").hasPrevious());
+        assertTrue(Ipv6.LAST_IPV6_ADDRESS.hasPrevious());
+    }
 }
