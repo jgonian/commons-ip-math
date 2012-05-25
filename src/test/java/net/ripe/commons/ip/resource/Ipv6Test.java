@@ -1,11 +1,22 @@
 package net.ripe.commons.ip.resource;
 
 import static org.junit.Assert.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class Ipv6Test {
+
+    @Test
+    public void testFactoryMethodWithBigInteger() {
+        assertEquals(new Ipv6(BigInteger.ZERO), Ipv6.of(BigInteger.ZERO));
+    }
+
+    @Test
+    public void testFactoryMethodWithString() {
+        assertEquals(new Ipv6(BigInteger.ZERO), Ipv6.of("::"));
+    }
 
     // Representing IPv6 Addresses
 

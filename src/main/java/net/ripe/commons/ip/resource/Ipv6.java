@@ -36,7 +36,7 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
     }
 
     public static Ipv6 of(String value) {
-        throw new UnsupportedOperationException("TODO(ygoniana) implement");
+        return parse(value);
     }
 
     @Override
