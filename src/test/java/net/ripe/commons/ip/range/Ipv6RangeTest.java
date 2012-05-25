@@ -43,6 +43,11 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
         return new Ipv6Range(start, end);
     }
 
+    @Override
+    protected Ipv6Range getFullRange() {
+        return new Ipv6Range(Ipv6.FIRST_IPV6_ADDRESS, Ipv6.LAST_IPV6_ADDRESS);
+    }
+
     @Test
     @Override
     public void testToString() {

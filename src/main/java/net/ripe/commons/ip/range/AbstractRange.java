@@ -49,7 +49,8 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     public boolean isConsecutive(R other) {
-        return other != null && (this.end.next().equals(other.start) || other.end.next().equals(this.start));
+        return other != null && (
+                (end.hasNext() && end.next().equals(other.start)) || (other.end.hasNext() && other.end.next().equals(this.start)));
     }
 
     public boolean isEmpty() {

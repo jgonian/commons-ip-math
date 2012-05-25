@@ -34,6 +34,11 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         return new Ipv4Range(start, end);
     }
 
+    @Override
+    protected Ipv4Range getFullRange() {
+        return new Ipv4Range(Ipv4.FIRST_IPV4_ADDRESS, Ipv4.LAST_IPV4_ADDRESS);
+    }
+
     @Test
     public void shouldParseDashNotation() {
         assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parse("0.0.0.0-255.255.255.255"));

@@ -34,6 +34,11 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
         return new AsnRange(start, end);
     }
 
+    @Override
+    protected AsnRange getFullRange() {
+        return new AsnRange(Asn.FIRST_ASN, Asn.LAST_32_BIT_ASN);
+    }
+
     @Test
     public void shouldParseRange() {
         assertEquals(AsnRange.from(3333l).to(4444l), AsnRange.parse(("AS3333-AS4444")));

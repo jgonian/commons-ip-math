@@ -20,6 +20,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
 
     protected abstract R getTestRange(C start, C end);
 
+    protected abstract R getFullRange();
+
     @Test
     public abstract void testToString();
 
@@ -502,6 +504,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
         verifyNotConsecutiveRanges(range, getTestRange(from("5"), to("25")));
         verifyNotConsecutiveRanges(range, getTestRange(from("10"), to("20")));
         assertFalse(range.isConsecutive((R) null));
+        verifyNotConsecutiveRanges(range, getFullRange());
     }
 
     private void verifyConsecutiveRanges(R range, R other) {
