@@ -7,16 +7,71 @@ import org.junit.Test;
 
 public class Ipv6Test {
 
+    // Representing IPv6 Addresses
+
     @Test
-    public void shouldToStringFirst() {
-        Ipv6 addr = Ipv6.FIRST_IPV6_ADDRESS;
-        assertEquals("::", addr.toString());
+    public void shouldPrintFirstIpv6Address() {
+        assertEquals("::", Ipv6.FIRST_IPV6_ADDRESS.toString());
     }
 
     @Test
-    public void shouldToStringLast() {
-        Ipv6 addr = Ipv6.LAST_IPV6_ADDRESS;
-        assertEquals("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", addr.toString());
+    public void shouldPrintLastIpv6Address() {
+        assertEquals("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", Ipv6.LAST_IPV6_ADDRESS.toString());
+    }
+
+    @Test
+    public void shouldSuppressLeadingZeros() {
+        // rfc5952 - §4.1 Handling Leading Zeros in a 16-Bit Field
+        assertEquals("2001:db8::1", Ipv6.parse("2001:0db8::0001").toString());
+    }
+
+    @Test
+    public void shouldRepresentOneSingle16Bit0000FieldAs0() {
+        // rfc5952 - §4.1 Handling Leading Zeros in a 16-Bit Field
+        assertEquals("2001:db8:0:a::1", Ipv6.parse("2001:0db8:0000:a::0001").toString());
+    }
+
+    @Test
+    public void shouldShortenAsMuchAsPossible() {
+        // rfc5952 - §4.2.1 Shorten as Much as Possible
+        assertEquals("2001:db8::2:1", Ipv6.parse("2001:db8:0:0:0:0:2:1").toString());
+        assertEquals("2001:db8::1", Ipv6.parse("2001:db8::0:1").toString());
+    }
+
+    @Test
+    public void shouldShortenFromLeft() {
+        assertEquals("::a:0:dead:0:b:0", Ipv6.parse("0:0:a:0:dead:0:b:0").toString());
+    }
+
+    @Test
+    public void shouldShortenFromRight() {
+        assertEquals("a:0:a:0:dead::", Ipv6.parse("a:0:a:0:dead:0:0:0").toString());
+    }
+
+    @Test
+    public void shouldNotShortenJustOne16BitZeroField() {
+        // rfc5952 - §4.2.2 Handling One 16-Bit 0 Field
+        assertEquals("2001:db8:0:1:1:1:1:1", Ipv6.parse("2001:db8::1:1:1:1:1").toString());
+    }
+
+    @Test
+    public void shouldShortenTheLongestRunOfConsecutiveZeroFields() {
+        // rfc5952 - §4.2.3 Choice in Placement of "::"
+        assertEquals("2001:0:0:1::1", Ipv6.parse("2001:0:0:1:0:0:0:1").toString());
+        assertEquals("2001::1:0:0:1", Ipv6.parse("2001:0:0:0:1:0:0:1").toString());
+    }
+
+    @Test
+    public void shouldShortenTheFirstSequenceOfZeroBitsWhenTheLengthOfConsecutiveZeroFieldsAreEqual() {
+        // rfc5952 - §4.2.3 Choice in Placement of "::"
+        assertEquals("2001::1:1:0:0:1", Ipv6.parse("2001:0:0:1:1:0:0:1").toString());
+    }
+
+    @Test
+    public void shouldPrintCharactersInLowercase() {
+        // rfc5952 - §4.3 Lowercase
+        assertEquals("2001:0:1234::c1c0:abcd:876", Ipv6.parse("2001:0:1234::C1C0:ABCD:876").toString());
+        assertEquals("3ffe:b00::1:0:0:a", Ipv6.parse("3fFe:B00::1:0:0:a").toString());
     }
 
     @Test

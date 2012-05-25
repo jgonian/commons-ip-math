@@ -59,6 +59,14 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
         return Ipv6Range.from(this).to(this);
     }
 
+    /**
+     * Returns a text representation of this Ipv6 address. Note this representation adheres to the
+     * recommendations of RFC 5952.
+     *
+     * @return a text representation of this Ipv6 address
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc5952">rfc5952 - A Recommendation for IPv6 Address Text Representation</a>
+     */
     @Override
     public String toString() {
         long[] list = new long[8];
