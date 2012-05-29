@@ -62,20 +62,20 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
      */
     public static Ipv4Range parseCidr(String cidrString) {
         int idx = cidrString.indexOf(SLASH);
-        Validate.isTrue(idx != -1, String.format("Argument does not comply with the CIDR notation"));
+        Validate.isTrue(idx != -1, String.format("Argument is not a range or does not comply with the CIDR notation"));
         String address = cidrString.substring(0, idx);
         String prefix = cidrString.substring(idx + 1, cidrString.length());
         return parseWithPrefix(address, prefix);
     }
 
-    public static Ipv4Range parseWithPrefix(String address, String prefix) {
-        return parseWithPrefix(address, Integer.parseInt(prefix));
+    public static Ipv4Range parseWithPrefix(String address, String prefixLength) {
+        return parseWithPrefix(address, Integer.parseInt(prefixLength));
     }
 
-    public static Ipv4Range parseWithPrefix(String address, int prefix) {
+    public static Ipv4Range parseWithPrefix(String address, int prefixLength) {
         Ipv4 ipv4 = Ipv4.parse(address);
-        Ipv4 start = Ipv4Utils.lowerBoundForPrefix(ipv4, prefix);
-        Ipv4 end = Ipv4Utils.upperBoundForPrefix(ipv4, prefix);
+        Ipv4 start = Ipv4Utils.lowerBoundForPrefix(ipv4, prefixLength);
+        Ipv4 end = Ipv4Utils.upperBoundForPrefix(ipv4, prefixLength);
         return new Ipv4Range(start, end);
     }
 

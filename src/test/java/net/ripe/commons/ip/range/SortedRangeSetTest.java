@@ -27,7 +27,7 @@ public class SortedRangeSetTest {
     }
 
     //---------------------------------------------------------------
-    // void add(R rangeToAdd)
+    // void add(R range)
     //---------------------------------------------------------------
 
     @Test
@@ -93,7 +93,7 @@ public class SortedRangeSetTest {
     }
 
     //---------------------------------------------------------------
-    // void addAll(SortedRangeSet<C, R> rangesToAdd)
+    // void addAll(SortedRangeSet<C, R> ranges)
     //---------------------------------------------------------------
 
     @Test
@@ -148,7 +148,7 @@ public class SortedRangeSetTest {
     }
 
     //---------------------------------------------------------------
-    // void addAll(Collection<R> rangesToAdd)
+    // void addAll(Collection<R> ranges)
     //---------------------------------------------------------------
 
     @Test
@@ -203,7 +203,7 @@ public class SortedRangeSetTest {
     }
 
     //---------------------------------------------------------------
-    // boolean remove(R rangeToRemove)
+    // boolean remove(R range)
     //---------------------------------------------------------------
 
     @Test

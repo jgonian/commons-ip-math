@@ -50,7 +50,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldFailToParseDashNotationWhenIllegalPrefix() {
+    public void shouldFailToParseDashNotationWhenIllegalRange() {
         Ipv4Range.parse("0.0.0.10-0.0.0.1");
     }
 

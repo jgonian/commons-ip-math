@@ -30,14 +30,14 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         set = new TreeSet<R>(rangeComparator);
     }
 
-    public void addAll(SortedRangeSet<C, R> rangesToAdd) {
-        for (R range : rangesToAdd) {
+    public void addAll(SortedRangeSet<C, R> ranges) {
+        for (R range : ranges) {
             add(range);
         }
     }
 
-    public void addAll(Collection<R> rangesToAdd) {
-        for (R range : rangesToAdd) {
+    public void addAll(Collection<R> ranges) {
+        for (R range : ranges) {
             add(range);
         }
     }
@@ -67,14 +67,14 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         }
     }
 
-    public boolean remove(R rangeToRemove) {
+    public boolean remove(R range) {
         boolean removed = false;
         List<R> remainders = new ArrayList<R>();
         Iterator<R> it = iterator();
         while (it.hasNext()) {
-            R rangeInIpSpace = it.next();
-            if (rangeInIpSpace.overlaps(rangeToRemove)) {
-                remainders.addAll(rangeInIpSpace.exclude(rangeToRemove));
+            R rangeInSet = it.next();
+            if (rangeInSet.overlaps(range)) {
+                remainders.addAll(rangeInSet.exclude(range));
                 it.remove();
                 removed = true;
             }
