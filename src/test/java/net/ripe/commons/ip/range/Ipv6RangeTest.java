@@ -12,9 +12,9 @@ import org.junit.Test;
 
 public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
-    Ipv6 ip1 = Ipv6.of(new BigInteger("1"));   // TODO(ygoniana): use parse when is implemented
-    Ipv6 ip2 = Ipv6.of(new BigInteger("2"));
-    Ipv6 ip3 = Ipv6.of(new BigInteger("3"));
+    Ipv6 ip1 = Ipv6.of("::1");
+    Ipv6 ip2 = Ipv6.of("::2");
+    Ipv6 ip3 = Ipv6.of("::3");
 
     @Override
     protected Ipv6 from(String s) {
@@ -46,6 +46,66 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     @Override
     protected Ipv6Range getFullRange() {
         return new Ipv6Range(Ipv6.FIRST_IPV6_ADDRESS, Ipv6.LAST_IPV6_ADDRESS);
+    }
+
+    @Test
+    public void shouldParseDashNotation() {
+        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.parse("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"));
+    }
+
+    @Test
+    public void shouldParseDashNotationWhenEmptyRange() {
+        assertEquals(Ipv6.of("::1").asRange(), Ipv6Range.parse("::1-::1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDashNotationWhenIllegalRange() {
+        Ipv6Range.parse("::10-::1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDashNotationWhenSingleResource() {
+        Ipv6Range.parse("::1");
+    }
+
+    @Test
+    public void shouldParseCidrNotation() {
+        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.parseCidr("::/0"));
+    }
+
+    @Test
+    public void shouldParseCidrWhenEmptyRange() {
+        assertEquals(Ipv6.parse("ffce:abcd::").asRange(), Ipv6Range.parseCidr("ffce:abcd::/128"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseCidrWhenIllegalPrefix() {
+        Ipv6Range.parseCidr("ffce:abcd::/129");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseCidrWhenSingleResource() {
+        Ipv6Range.parseCidr("ffce:abcd::");
+    }
+
+    @Test
+    public void shouldParseWithPrefix() {
+        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.parseWithPrefix("::", "0"));
+    }
+
+    @Test
+    public void shouldParseWithPrefixWhenEmptyRange() {
+        assertEquals(Ipv6.parse("ffce:abcd::").asRange(), Ipv6Range.parseWithPrefix("ffce:abcd::", "128"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseWithPrefixWhenIllegalPrefix() {
+        Ipv6Range.parseWithPrefix("ffce:abcd::", "129");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseWithPrefixWhenPrefixIsNull() {
+        Ipv6Range.parseWithPrefix("0.0.0.1", null);
     }
 
     @Test
