@@ -67,6 +67,18 @@ public class SortedRangeSet<C extends Rangeable<C>, R extends AbstractRange<C, R
         }
     }
 
+    public void removeAll(SortedRangeSet<C, R> ranges) {
+        for (R range : ranges) {
+            remove(range);
+        }
+    }
+
+    public void removeAll(Collection<R> ranges) {
+        for (R range : ranges) {
+            remove(range);
+        }
+    }
+
     public boolean remove(R range) {
         boolean removed = false;
         List<R> remainders = new ArrayList<R>();

@@ -203,6 +203,128 @@ public class SortedRangeSetTest {
     }
 
     //---------------------------------------------------------------
+    // void removeAll(SortedRangeSet<C, R> ranges)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testRemoveAllOverlappingRanges() {
+        initSubject();
+        // subject     |---|  |---|  |---|  [0,5] [10,15] [20,25]
+        // add all        |----| |----|     [4,11] [13,22]
+        // result      |-|      |      |-|  [0,3][12][23,25]
+        SortedRangeSet<Asn, AsnRange> setToRemove = new SortedRangeSet<Asn, AsnRange>();
+        setToRemove.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
+        setToRemove.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
+        subject.removeAll(setToRemove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(3l)));
+        result.add(new AsnRange(Asn.of(12l), Asn.of(12l)));
+        result.add(new AsnRange(Asn.of(23l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveAllAdjacentRanges() {
+        initSubject();
+        // subject     |--|  |---|  |--|  [0,5] [10,15] [20,25]
+        // add            |--|   |--|     [5,10] [15,20]
+        // result      |-|    |-|    |-|  [0,4] [11,14] [21,25]
+        SortedRangeSet<Asn, AsnRange> setToremove = new SortedRangeSet<Asn, AsnRange>();
+        setToremove.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
+        setToremove.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
+        subject.removeAll(setToremove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(4l)));
+        result.add(new AsnRange(Asn.of(11l), Asn.of(14l)));
+        result.add(new AsnRange(Asn.of(21l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveAllConsecutiveRanges() {
+        initSubject();
+        // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        // add             |--|    |--|      [6,9] [16,19]
+        // result      |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        SortedRangeSet<Asn, AsnRange> setToRemove = new SortedRangeSet<Asn, AsnRange>();
+        setToRemove.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
+        setToRemove.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
+        subject.removeAll(setToRemove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+        result.add(new AsnRange(Asn.of(10l), Asn.of(15l)));
+        result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    //---------------------------------------------------------------
+    // void removeAll(Collection<R> ranges)
+    //---------------------------------------------------------------
+
+    @Test
+    public void testRemoveAllOverlappingRangesFromCollection() {
+        initSubject();
+        // subject     |---|  |---|  |---|  [0,5] [10,15] [20,25]
+        // add all        |----| |----|     [4,11] [13,22]
+        // result      |-|      |      |-|  [0,3][12][23,25]
+        Set<AsnRange> setToRemove = new HashSet<AsnRange>();
+        setToRemove.add(new AsnRange(Asn.of(13l), Asn.of(22l)));
+        setToRemove.add(new AsnRange(Asn.of(4l), Asn.of(11l)));
+        subject.removeAll(setToRemove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(3l)));
+        result.add(new AsnRange(Asn.of(12l), Asn.of(12l)));
+        result.add(new AsnRange(Asn.of(23l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveAllAdjacentRangesFromCollection() {
+        initSubject();
+        // subject     |--|  |---|  |--|  [0,5] [10,15] [20,25]
+        // add            |--|   |--|     [5,10] [15,20]
+        // result      |-|    |-|    |-|  [0,4] [11,14] [21,25]
+        Set<AsnRange> setToremove = new HashSet<AsnRange>();
+        setToremove.add(new AsnRange(Asn.of(5l), Asn.of(10l)));
+        setToremove.add(new AsnRange(Asn.of(15l), Asn.of(20l)));
+        subject.removeAll(setToremove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(4l)));
+        result.add(new AsnRange(Asn.of(11l), Asn.of(14l)));
+        result.add(new AsnRange(Asn.of(21l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    @Test
+    public void testRemoveAllConsecutiveRangesFromCollection() {
+        initSubject();
+        // subject     |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        // add             |--|    |--|      [6,9] [16,19]
+        // result      |--|    |--|    |--|  [0,5] [10,15] [20,25]
+        Set<AsnRange> setToRemove = new HashSet<AsnRange>();
+        setToRemove.add(new AsnRange(Asn.of(6l), Asn.of(9l)));
+        setToRemove.add(new AsnRange(Asn.of(16l), Asn.of(19l)));
+        subject.removeAll(setToRemove);
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+        result.add(new AsnRange(Asn.of(10l), Asn.of(15l)));
+        result.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+
+        assertEquals(result, subject.unmodifiableSet());
+    }
+
+    //---------------------------------------------------------------
     // boolean remove(R range)
     //---------------------------------------------------------------
 
