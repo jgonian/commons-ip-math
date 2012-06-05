@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import net.ripe.commons.ip.range.Ipv6Range;
+import org.apache.commons.lang3.Validate;
 
 public class PrefixUtils {
     //TODO change to work for both Ipv6/Ipv4, add tests for Ipv4
@@ -17,11 +18,8 @@ public class PrefixUtils {
     
     public static int getPrefixLength(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        if (getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0) {
-            return maxContainedPrefix;
-        } else {
-            throw new IllegalArgumentException(range + " is not a valid prefix, cannot get prefix length!");
-        }
+        Validate.isTrue(getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0, String.format("%s is not a valid prefix, cannot get prefix length!", range.toStringInRangeNotation()));
+        return maxContainedPrefix;
     }
 
     public static List<Ipv6Range> splitIntoPrefixes(Ipv6Range range) {
