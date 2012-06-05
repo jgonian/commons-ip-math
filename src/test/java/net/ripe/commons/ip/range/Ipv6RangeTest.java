@@ -25,13 +25,6 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     protected Ipv6 to(String s) {
         return Ipv6.of(BigInteger.valueOf(Long.parseLong(s)));
     }
-    
-    @Test
-    public void testBuilderWithBigIntegers() {
-        Ipv6Range range = Ipv6Range.from(BigInteger.valueOf(1l)).to(BigInteger.valueOf(3l));
-        assertEquals(ip1, range.start());
-        assertEquals(ip3, range.end());
-    }
 
     @Override
     protected Ipv6 item(String s) {
@@ -131,7 +124,21 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
-    public void testBuilder() {
+    public void testBuilderWithBigIntegers() {
+        Ipv6Range range = Ipv6Range.from(BigInteger.valueOf(1l)).to(BigInteger.valueOf(3l));
+        assertEquals(ip1, range.start());
+        assertEquals(ip3, range.end());
+    }
+
+    @Test
+    public void testBuilderWithStrings() {
+        Ipv6Range range = Ipv6Range.from("::1").to("::3");
+        assertEquals(ip1, range.start());
+        assertEquals(ip3, range.end());
+    }
+
+    @Test
+    public void testBuilderWithIpv4s() {
         Ipv6Range range = Ipv6Range.from(ip1).to(ip3);
         assertEquals(ip1, range.start());
         assertEquals(ip3, range.end());

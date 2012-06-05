@@ -29,6 +29,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new Ipv6RangeBuilder(Ipv6.of(from));
     }
 
+    public static Ipv6RangeBuilder from(String from) {
+        return new Ipv6RangeBuilder(Ipv6.parse(from));
+    }
+
     /**
      * Parses a <tt>String</tt> into an {@link Ipv6Range}.
      *
@@ -95,6 +99,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         
         public Ipv6Range to(BigInteger end) {
             return super.to(Ipv6.of(end));
+        }
+
+        public Ipv6Range to(String end) {
+            return super.to(Ipv6.parse(end));
         }
     }
 }
