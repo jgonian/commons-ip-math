@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import net.ripe.commons.ip.resource.EqualsSupport;
 import net.ripe.commons.ip.resource.Rangeable;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>>
-        extends EqualsSupport implements Iterable<C> {
+public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<C> {
 
     private final C start;
     private final C end;
@@ -159,6 +159,19 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         public void remove() {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractRange other = (AbstractRange) o;
+        return new EqualsBuilder().append(start, other.start).append(end, other.end).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(start).append(end).toHashCode();
     }
 
     protected static abstract class AbstractRangeBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
