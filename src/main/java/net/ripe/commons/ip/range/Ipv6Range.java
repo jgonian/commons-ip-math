@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv6;
 import net.ripe.commons.ip.resource.Ipv6Utils;
+import net.ripe.commons.ip.utils.PrefixUtils;
 import org.apache.commons.lang3.Validate;
 
 public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements InternetResourceRange<Ipv6, Ipv6Range, BigInteger> {
@@ -89,7 +90,19 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
     @Override
     public String toString() {
+        if (PrefixUtils.isValidPrefix(this)) {
+            return toStringInCidrNotation();
+        } else {
+            return toStringInRangeNotation();
+        }
+    }
+
+    public String toStringInRangeNotation() {
         return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+    }
+
+    public String toStringInCidrNotation() {
+        return new StringBuilder().append(start()).append(SLASH).append(PrefixUtils.getPrefixLength(this)).toString();
     }
 
     public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {

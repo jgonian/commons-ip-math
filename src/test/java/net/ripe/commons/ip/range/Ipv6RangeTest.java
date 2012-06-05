@@ -38,7 +38,7 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
     @Override
     protected Ipv6Range getFullRange() {
-        return new Ipv6Range(Ipv6.FIRST_IPV6_ADDRESS, Ipv6.LAST_IPV6_ADDRESS);
+        return new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS);
     }
 
     @Test
@@ -104,8 +104,8 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     @Test
     @Override
     public void testToString() {
-        Ipv6Range range = new Ipv6Range(ip1, ip3);
-        assertEquals("::1-::3", range.toString());
+        assertEquals("::1-::3", new Ipv6Range(ip1, ip3).toString());
+        assertEquals("::/0", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toString());
     }
 
     @Test
