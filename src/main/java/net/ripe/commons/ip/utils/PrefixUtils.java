@@ -4,7 +4,10 @@ import static java.math.BigInteger.*;
 import static net.ripe.commons.ip.resource.Ipv6.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import com.google.common.base.Optional;
 import net.ripe.commons.ip.range.Ipv6Range;
 import org.apache.commons.lang3.Validate;
 
@@ -38,6 +41,39 @@ public class PrefixUtils {
         }
 
         return result;
+    }
+
+    public static Optional<Ipv6Range> findSmallestPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength) {
+        RangeUtils.rangeCheck(prefixLength, 0, IPv6_NUMBER_OF_BITS);
+        Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
+            @Override
+            public int compare(Ipv6Range left, Ipv6Range right) {
+                return left.size().compareTo(right.size());
+            }
+        };
+        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+    }
+
+    public static Optional<Ipv6Range> findBiggestPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength) {
+        RangeUtils.rangeCheck(prefixLength, 0, IPv6_NUMBER_OF_BITS);
+        Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
+            @Override
+            public int compare(Ipv6Range left, Ipv6Range right) {
+                return right.size().compareTo(left.size());
+            }
+        };
+        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+    }
+
+    private static Optional<Ipv6Range> findPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength, Comparator<Ipv6Range> comparator) {
+        List<Ipv6Range> prefixes = splitIntoPrefixes(range);
+        Collections.sort(prefixes, comparator);
+        for (Ipv6Range prefix : prefixes) {
+            if (prefixLength >= getPrefixLength(prefix)) {
+                return Optional.of(prefix);
+            }
+        }
+        return Optional.absent();
     }
 
     private static BigInteger getPrefixSize(int prefixLength) {
