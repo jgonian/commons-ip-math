@@ -21,6 +21,8 @@ public class StartAndSizeComparatorTest {
         // range      |----------|   [10, 100]
         // other      .|--------|.   [11, 99]
         // other      .|---------|   [11, 100]
+        // other      .|----------|  [11, 101]
+        // other     |----------|.   [9, 99]
         // other     |-----------|   [9, 100]
         // other     |------------|  [9, 101]
         // other      |---------|.   [10, 99]
@@ -29,6 +31,8 @@ public class StartAndSizeComparatorTest {
         AsnRange range = AsnRange.from(_10).to(_100);
         assertLessThan(range, AsnRange.from(_11).to(_99));
         assertLessThan(range, AsnRange.from(_11).to(_100));
+        assertLessThan(range, AsnRange.from(_11).to(_101));
+        assertGreaterThan(range, AsnRange.from(_9).to(_99));
         assertGreaterThan(range, AsnRange.from(_9).to(_100));
         assertGreaterThan(range, AsnRange.from(_9).to(_101));
         assertGreaterThan(range, AsnRange.from(_10).to(_99));
