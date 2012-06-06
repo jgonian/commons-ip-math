@@ -43,7 +43,7 @@ public class PrefixUtils {
         return result;
     }
 
-    public static Optional<Ipv6Range> findSmallestPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength) {
+    public static Optional<Ipv6Range> findMinimumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, IPv6_NUMBER_OF_BITS);
         Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
             @Override
@@ -54,7 +54,7 @@ public class PrefixUtils {
         return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
     }
 
-    public static Optional<Ipv6Range> findBiggestPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength) {
+    public static Optional<Ipv6Range> findMaximumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, IPv6_NUMBER_OF_BITS);
         Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
             @Override
