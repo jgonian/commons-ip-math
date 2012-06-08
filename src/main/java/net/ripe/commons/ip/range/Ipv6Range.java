@@ -1,12 +1,13 @@
 package net.ripe.commons.ip.range;
 
-import static java.math.BigInteger.*;
 import java.math.BigInteger;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv6;
 import net.ripe.commons.ip.resource.Ipv6Utils;
 import net.ripe.commons.ip.utils.PrefixUtils;
 import org.apache.commons.lang3.Validate;
+
+import static java.math.BigInteger.*;
 
 public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements InternetResourceRange<Ipv6, Ipv6Range, BigInteger> {
 
@@ -32,6 +33,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
     public static Ipv6RangeBuilder from(String from) {
         return new Ipv6RangeBuilder(Ipv6.parse(from));
+    }
+
+    public static Ipv6CidrBuilder withPrefix(Ipv6 prefix) {
+        return new Ipv6CidrBuilder(prefix);
     }
 
     /**
@@ -105,7 +110,7 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new StringBuilder().append(start()).append(SLASH).append(PrefixUtils.getPrefixLength(this)).toString();
     }
 
-    public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {
+    public static class Ipv6RangeBuilder extends RangeWithStartAndEndBuilder<Ipv6, Ipv6Range> {
         protected Ipv6RangeBuilder(Ipv6 from) {
             super(from, Ipv6Range.class);
         }
@@ -116,6 +121,26 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
         public Ipv6Range to(String end) {
             return super.to(Ipv6.parse(end));
+        }
+    }
+
+    public static class Ipv6CidrBuilder extends RangeWithStartAndLengthBuilder<Ipv6, Ipv6Range> {
+
+        private final Ipv6 prefix;
+
+        protected Ipv6CidrBuilder(Ipv6 prefix) {
+            super(prefix, Ipv6Range.class);
+            this.prefix = prefix;
+        }
+
+        public Ipv6Range andLength(int prefixLength) {
+            return length(prefixLength);
+        }
+
+        @Override
+        protected Ipv6Range length(long length) {
+            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix));
+            return super.to(Ipv6Utils.upperBoundForPrefix(prefix, (int) length));
         }
     }
 }

@@ -1,12 +1,13 @@
 package net.ripe.commons.ip.range;
 
-import static junit.framework.Assert.*;
-import static net.ripe.commons.ip.resource.Ipv4.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv4;
 import org.junit.Test;
+
+import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Ipv4.*;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -154,6 +155,33 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullEnd() {
         Ipv4Range.from(ip1).to((Ipv4) null);
+    }
+
+    @Test
+    public void testCidrBuilderWithValidPrefixAndLength() {
+        Ipv4Range range = Ipv4Range.withPrefix(Ipv4.of("0.0.0.2")).andLength(31);
+        assertEquals(Ipv4.of("0.0.0.2"), range.start());
+        assertEquals(Ipv4.of("0.0.0.3"), range.end());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrBuilderWithInvalidPrefixAndLength() {
+        Ipv4Range.withPrefix(Ipv4.of("0.0.0.3")).andLength(31);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testCidrBuilderWithNullStart() {
+        Ipv4Range.withPrefix(null).andLength(31);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrWithTooSmallPrefixLength() {
+        Ipv4Range.withPrefix(Ipv4.of("0.0.0.2")).andLength(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrWithTooBigPrefixLength() {
+        Ipv4Range.withPrefix(Ipv4.of("0.0.0.2")).andLength(33);
     }
 
     @Test(expected = NullPointerException.class)

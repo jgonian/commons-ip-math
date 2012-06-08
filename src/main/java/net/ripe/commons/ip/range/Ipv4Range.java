@@ -31,6 +31,10 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new Ipv4RangeBuilder(Ipv4.parse(from));
     }
 
+    public static Ipv4CidrBuilder withPrefix(Ipv4 prefix) {
+        return new Ipv4CidrBuilder(prefix);
+    }
+
     /**
      * Parses a <tt>String</tt> into an {@link Ipv4Range}.
      *
@@ -89,7 +93,7 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new StringBuilder().append(start()).append(DASH).append(end()).toString();
     }
 
-    public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
+    public static class Ipv4RangeBuilder extends RangeWithStartAndEndBuilder<Ipv4, Ipv4Range> {
         protected Ipv4RangeBuilder(Ipv4 from) {
             super(from, Ipv4Range.class);
         }
@@ -100,6 +104,26 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
 
         public Ipv4Range to(String end) {
             return super.to(Ipv4.parse(end));
+        }
+    }
+
+    public static class Ipv4CidrBuilder extends RangeWithStartAndLengthBuilder<Ipv4, Ipv4Range> {
+
+        private final Ipv4 prefix;
+
+        protected Ipv4CidrBuilder(Ipv4 prefix) {
+            super(prefix, Ipv4Range.class);
+            this.prefix = prefix;
+        }
+
+        public Ipv4Range andLength(int prefixLength) {
+            return length(prefixLength);
+        }
+
+        @Override
+        protected Ipv4Range length(long length) {
+            Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix));
+            return super.to(Ipv4Utils.upperBoundForPrefix(prefix, (int) length));
         }
     }
 }

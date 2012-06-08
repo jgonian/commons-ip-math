@@ -1,14 +1,15 @@
 package net.ripe.commons.ip.range;
 
-import static java.math.BigInteger.*;
-import static junit.framework.Assert.*;
-import static net.ripe.commons.ip.resource.Ipv6.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv6;
 import org.junit.Test;
+
+import static java.math.BigInteger.*;
+import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Ipv6.*;
 
 public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
@@ -138,7 +139,7 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
-    public void testBuilderWithIpv4s() {
+    public void testBuilderWithIpv6s() {
         Ipv6Range range = Ipv6Range.from(ip1).to(ip3);
         assertEquals(ip1, range.start());
         assertEquals(ip3, range.end());
@@ -157,6 +158,33 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     @Test(expected = NullPointerException.class)
     public void testBuilderWithNullEnd() {
         Ipv6Range.from(ip1).to((Ipv6) null);
+    }
+
+    @Test
+    public void testCidrBuilderWithValidPrefixAndLength() {
+        Ipv6Range range = Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(127);
+        assertEquals(Ipv6.of("::2"), range.start());
+        assertEquals(Ipv6.of("::3"), range.end());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrBuilderWithInvalidPrefixAndLength() {
+        Ipv6Range.withPrefix(Ipv6.of("::3")).andLength(127);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testCidrBuilderWithNullStart() {
+        Ipv6Range.withPrefix(null).andLength(127);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrWithTooSmallPrefixLength() {
+        Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCidrWithTooBigPrefixLength() {
+        Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(129);
     }
 
     @Test(expected = NullPointerException.class)

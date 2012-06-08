@@ -1,7 +1,8 @@
 package net.ripe.commons.ip.resource;
 
-import static net.ripe.commons.ip.utils.RangeUtils.*;
 import java.math.BigInteger;
+
+import static net.ripe.commons.ip.utils.RangeUtils.*;
 
 public final class Ipv6Utils {
 
@@ -16,7 +17,7 @@ public final class Ipv6Utils {
         return new Ipv6(address.value().or(bitMask(prefixLength)));
     }
 
-    protected static BigInteger bitMask(int prefixLength) {
-        return BigInteger.ONE.shiftLeft(Ipv6.IPv6_NUMBER_OF_BITS - prefixLength).add(new BigInteger("-1"));
+    private static BigInteger bitMask(int prefixLength) {
+        return BigInteger.ONE.shiftLeft(Ipv6.IPv6_NUMBER_OF_BITS - prefixLength).add(BigInteger.valueOf(-1));
     }
 }
