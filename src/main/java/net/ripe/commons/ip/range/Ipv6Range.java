@@ -1,13 +1,12 @@
 package net.ripe.commons.ip.range;
 
+import static java.math.BigInteger.*;
 import java.math.BigInteger;
 import net.ripe.commons.ip.resource.InternetResourceRange;
 import net.ripe.commons.ip.resource.Ipv6;
 import net.ripe.commons.ip.resource.Ipv6Utils;
 import net.ripe.commons.ip.utils.PrefixUtils;
 import org.apache.commons.lang3.Validate;
-
-import static java.math.BigInteger.*;
 
 public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements InternetResourceRange<Ipv6, Ipv6Range, BigInteger> {
 
@@ -88,6 +87,14 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new Ipv6Range(start, end);
     }
 
+    public static Ipv6Range parseDecimalNotation(String range) {
+        int idx = range.indexOf(DASH);
+        Validate.isTrue(idx != -1, String.format("Argument [%s] is does not comply with the decimal range notation", range));
+        BigInteger start = new BigInteger(range.substring(0, idx));
+        BigInteger end = new BigInteger(range.substring(idx + 1, range.length()));
+        return Ipv6Range.from(start).to(end);
+    }
+
     @Override
     public BigInteger size() {
         return (end().value().subtract(start().value())).add(ONE);
@@ -108,6 +115,10 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
     public String toStringInCidrNotation() {
         return new StringBuilder().append(start()).append(SLASH).append(PrefixUtils.getPrefixLength(this)).toString();
+    }
+
+    public String toStringInDecimalNotation() {
+        return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
     }
 
     public static class Ipv6RangeBuilder extends RangeWithStartAndEndBuilder<Ipv6, Ipv6Range> {

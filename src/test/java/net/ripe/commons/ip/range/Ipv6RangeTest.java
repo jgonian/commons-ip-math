@@ -1,15 +1,14 @@
 package net.ripe.commons.ip.range;
 
+import static java.math.BigInteger.*;
+import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Ipv6.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv6;
 import org.junit.Test;
-
-import static java.math.BigInteger.*;
-import static junit.framework.Assert.*;
-import static net.ripe.commons.ip.resource.Ipv6.*;
 
 public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
@@ -103,10 +102,35 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
+    public void shouldParseDecimalNotation() {
+        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.parseDecimalNotation(FIRST_IPV6_ADDRESS.value() + "-" + LAST_IPV6_ADDRESS.value()));
+    }
+
+    @Test
+    public void shouldParseDecimalWhenEmptyRange() {
+        assertEquals(Ipv6.parse("::1").asRange(), Ipv6Range.parseDecimalNotation("1-1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDecimalNotationWhenSingleResource() {
+        Ipv6Range.parseDecimalNotation("1");
+    }
+
+    @Test
     @Override
     public void testToString() {
         assertEquals("::1-::3", new Ipv6Range(ip1, ip3).toString());
         assertEquals("::/0", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toString());
+    }
+
+    @Test
+    public void testToStringInRangeNotation() {
+        assertEquals("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInRangeNotation());
+    }
+
+    @Test
+    public void testToStringInDecimalNotation() {
+        assertEquals("0-340282366920938463463374607431768211455", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInDecimalNotation());
     }
 
     @Test

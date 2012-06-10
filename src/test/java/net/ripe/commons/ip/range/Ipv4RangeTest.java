@@ -1,13 +1,12 @@
 package net.ripe.commons.ip.range;
 
+import static junit.framework.Assert.*;
+import static net.ripe.commons.ip.resource.Ipv4.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.ripe.commons.ip.resource.Ipv4;
 import org.junit.Test;
-
-import static junit.framework.Assert.*;
-import static net.ripe.commons.ip.resource.Ipv4.*;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -100,10 +99,29 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         Ipv4Range.parseWithPrefix("0.0.0.1", null);
     }
 
+    @Test
+    public void shouldParseDecimalNotation() {
+        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parseDecimalNotation(FIRST_IPV4_ADDRESS.value() + "-" + LAST_IPV4_ADDRESS.value()));
+    }
+
+    @Test
+    public void shouldParseDecimalWhenEmptyRange() {
+        assertEquals(Ipv4.parse("0.0.0.1").asRange(), Ipv4Range.parseDecimalNotation("1-1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseDecimalNotationWhenSingleResource() {
+        Ipv4Range.parseDecimalNotation("1");
+    }
+
     @Override
     public void testToString() {
-        Ipv4Range range = Ipv4Range.parse("192.168.0.0/16");
-        assertEquals("192.168.0.0-192.168.255.255", range.toString());
+        assertEquals("192.168.0.0-192.168.255.255", Ipv4Range.parse("192.168.0.0/16").toString());
+    }
+
+    @Test
+    public void testToStringInDecimalNotation() {
+        assertEquals("0-4294967295", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInDecimalNotation());
     }
 
     @Test

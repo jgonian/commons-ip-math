@@ -83,6 +83,14 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new Ipv4Range(start, end);
     }
 
+    public static Ipv4Range parseDecimalNotation(String range) {
+        int idx = range.indexOf(DASH);
+        Validate.isTrue(idx != -1, String.format("Argument [%s] is does not comply with the decimal range notation", range));
+        long start = Long.valueOf(range.substring(0, idx));
+        long end = Long.valueOf(range.substring(idx + 1, range.length()));
+        return Ipv4Range.from(start).to(end);
+    }
+
     @Override
     public Long size() {
         return (end().value() - start().value()) + 1;
@@ -91,6 +99,10 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
     @Override
     public String toString() {
         return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+    }
+
+    public String toStringInDecimalNotation() {
+        return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
     }
 
     public static class Ipv4RangeBuilder extends RangeWithStartAndEndBuilder<Ipv4, Ipv4Range> {
