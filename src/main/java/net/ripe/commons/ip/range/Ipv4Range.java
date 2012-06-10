@@ -85,7 +85,7 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
 
     public static Ipv4Range parseDecimalNotation(String range) {
         int idx = range.indexOf(DASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] is does not comply with the decimal range notation", range));
+        Validate.isTrue(idx != -1, String.format("Argument [%s] does not comply with the decimal range notation", range));
         long start = Long.valueOf(range.substring(0, idx));
         long end = Long.valueOf(range.substring(idx + 1, range.length()));
         return Ipv4Range.from(start).to(end);

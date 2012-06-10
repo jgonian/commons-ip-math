@@ -89,7 +89,7 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
     public static Ipv6Range parseDecimalNotation(String range) {
         int idx = range.indexOf(DASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] is does not comply with the decimal range notation", range));
+        Validate.isTrue(idx != -1, String.format("Argument [%s] does not comply with the decimal range notation", range));
         BigInteger start = new BigInteger(range.substring(0, idx));
         BigInteger end = new BigInteger(range.substring(idx + 1, range.length()));
         return Ipv6Range.from(start).to(end);
