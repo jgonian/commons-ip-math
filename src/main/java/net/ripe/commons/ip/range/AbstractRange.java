@@ -1,5 +1,6 @@
 package net.ripe.commons.ip.range;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<C> {
+public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRange<C, R>> implements Iterable<C>, Serializable {
 
     private final C start;
     private final C end;
