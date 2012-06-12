@@ -910,11 +910,11 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     //---------------------------------------------------------------
-    // boolean same(R arg)
+    // boolean isSameRange(R arg)
     //---------------------------------------------------------------
 
     @Test
-    public void testSame() {
+    public void testIsSameRange() {
         // range      |------|      [10, 20]
         // other |---|.      .      [2, 9]
         // other  |---|      .      [5, 10]
@@ -951,13 +951,13 @@ public abstract class AbstractRangeTest<C extends Rangeable<C>, R extends Abstra
     }
 
     private void assertSame(R range, R other) {
-        assertTrue(range.same(other));
-        assertTrue(other.same(range));
+        assertTrue(range.isSameRange(other));
+        assertTrue(other.isSameRange(range));
     }
 
     private void assertNotSame(R range, R other) {
-        assertFalse(range.same(other));
-        assertFalse(other.same(range));
+        assertFalse(range.isSameRange(other));
+        assertFalse(other.isSameRange(range));
     }
 
     //---------------------------------------------------------------
