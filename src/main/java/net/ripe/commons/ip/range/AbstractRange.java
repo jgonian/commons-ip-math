@@ -50,8 +50,11 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     public boolean isConsecutive(R other) {
-        return other != null && (
-                (end.hasNext() && end.next().equals(other.start)) || (other.end.hasNext() && other.end.next().equals(this.start)));
+        if (other == null) {
+            return false;
+        } else {
+            return (end.hasNext() && end.next().equals(other.start)) || (other.end.hasNext() && other.end.next().equals(this.start));
+        }
     }
 
     public boolean isEmpty() {
@@ -69,15 +72,15 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
     }
 
     private R merge(R other) {
-        C start = min(this.start(), other.start());
-        C end = max(this.end(), other.end());
-        return newInstance(start, end);
+        C min = min(this.start, other.start);
+        C max = max(this.end, other.end);
+        return newInstance(min, max);
     }
 
     public R intersection(R other) {
-        C start = max(this.start(), other.start());
-        C end = min(this.end(), other.end());
-        return newInstance(start, end);
+        C max = max(this.start, other.start);
+        C min = min(this.end, other.end);
+        return newInstance(max, min);
     }
 
     private C max(C a, C b) {
@@ -164,8 +167,12 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         AbstractRange other = (AbstractRange) o;
         return new EqualsBuilder().append(start, other.start).append(end, other.end).isEquals();
     }

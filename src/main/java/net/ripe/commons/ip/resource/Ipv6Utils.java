@@ -1,10 +1,12 @@
 package net.ripe.commons.ip.resource;
 
+import static net.ripe.commons.ip.utils.RangeUtils.*;
 import java.math.BigInteger;
 
-import static net.ripe.commons.ip.utils.RangeUtils.*;
-
 public final class Ipv6Utils {
+
+    private Ipv6Utils() {
+    }
 
     public static Ipv6 lowerBoundForPrefix(Ipv6 address, int prefixLength) {
         rangeCheck(prefixLength, 0, Ipv6.IPv6_NUMBER_OF_BITS);

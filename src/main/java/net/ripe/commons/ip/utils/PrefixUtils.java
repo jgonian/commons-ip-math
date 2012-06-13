@@ -11,8 +11,11 @@ import com.google.common.base.Optional;
 import net.ripe.commons.ip.range.Ipv6Range;
 import org.apache.commons.lang3.Validate;
 
-public class PrefixUtils {
+public final class PrefixUtils {
     //TODO change to work for both Ipv6/Ipv4, add tests for Ipv4
+
+    private PrefixUtils() {
+    }
 
     public static boolean isValidPrefix(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());

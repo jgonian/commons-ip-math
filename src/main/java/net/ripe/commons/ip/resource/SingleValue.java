@@ -30,8 +30,12 @@ public abstract class SingleValue<T> implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SingleValue other = (SingleValue) o;
         return new EqualsBuilder().append(value, other.value).isEquals();
     }
