@@ -182,7 +182,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         return new HashCodeBuilder().append(start).append(end).toHashCode();
     }
 
-    protected static abstract class AbstractRangeBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
+    protected abstract static class AbstractRangeBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
         private final C start;
         private final Class<R> typeOfRange;
 
@@ -199,9 +199,9 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
                 return typeOfRange.getDeclaredConstructor(start.getClass(), end.getClass()).newInstance(start, end);
             } catch (InvocationTargetException e) {
                 handleValidationExceptions(e);
-                throw new RuntimeException(String.format("Failed to create range [%s..%s]", start, end), e);
+                throw new RangeCreationException(String.format("Failed to create range [%s..%s]", start, end), e);
             } catch (Exception e) {
-                throw new RuntimeException(String.format("Failed to create range [%s..%s]", start, end), e);
+                throw new RangeCreationException(String.format("Failed to create range [%s..%s]", start, end), e);
             }
         }
 
@@ -214,7 +214,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         }
     }
 
-    protected static abstract class RangeWithStartAndEndBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
+    protected abstract static class RangeWithStartAndEndBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
 
         protected RangeWithStartAndEndBuilder(C from, Class<R> typeOfRange) {
             super(from, typeOfRange);
@@ -225,7 +225,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         }
     }
 
-    protected static abstract class RangeWithStartAndLengthBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
+    protected abstract static class RangeWithStartAndLengthBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
 
         protected RangeWithStartAndLengthBuilder(C start, Class<R> typeOfRange) {
             super(start, typeOfRange);

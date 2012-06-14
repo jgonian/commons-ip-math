@@ -13,12 +13,12 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
     private static final long serialVersionUID = -1L;
 
     public static final BigInteger NETWORK_MASK = BigInteger.valueOf(0xffff);
-    public static final int IPv6_NUMBER_OF_BITS = 128;
-    public static final BigInteger IPv6_MINIMUM_VALUE = ZERO;
-    public static final BigInteger IPv6_MAXIMUM_VALUE = new BigInteger(String.valueOf((ONE.shiftLeft(IPv6_NUMBER_OF_BITS)).subtract(ONE)));
+    public static final int NUMBER_OF_BITS = 128;
+    public static final BigInteger MINIMUM_VALUE = ZERO;
+    public static final BigInteger MAXIMUM_VALUE = new BigInteger(String.valueOf((ONE.shiftLeft(NUMBER_OF_BITS)).subtract(ONE)));
 
-    public static final Ipv6 FIRST_IPV6_ADDRESS = Ipv6.of(IPv6_MINIMUM_VALUE);
-    public static final Ipv6 LAST_IPV6_ADDRESS = Ipv6.of(IPv6_MAXIMUM_VALUE);
+    public static final Ipv6 FIRST_IPV6_ADDRESS = Ipv6.of(MINIMUM_VALUE);
+    public static final Ipv6 LAST_IPV6_ADDRESS = Ipv6.of(MAXIMUM_VALUE);
 
     private static final Pattern IPV6_PATTERN_RFC4291 = Pattern.compile("(([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))");
     private static final Pattern IPV6_PATTERN_EXPANDED = Pattern.compile("([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4}):([0-9a-fA-F]{0,4})");
@@ -27,8 +27,8 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
 
     protected Ipv6(BigInteger value) {
         super(value);
-        Validate.isTrue(value.compareTo(IPv6_MINIMUM_VALUE) >= 0, "Value of Ipv6 has to be greater than or equal to " + IPv6_MINIMUM_VALUE);
-        Validate.isTrue(value.compareTo(IPv6_MAXIMUM_VALUE) <= 0, "Value of Ipv6 has to be less than or equal to " + IPv6_MAXIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of Ipv6 has to be greater than or equal to " + MINIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of Ipv6 has to be less than or equal to " + MAXIMUM_VALUE);
     }
 
     public static Ipv6 of(BigInteger value) {

@@ -36,7 +36,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     @Override
     protected Ipv4Range getFullRange() {
-        return new Ipv4Range(Ipv4.FIRST_IPV4_ADDRESS, Ipv4.LAST_IPV4_ADDRESS);
+        return new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS);
     }
 
     @Test
@@ -127,7 +127,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     @Test
     public void testSize() {
         assertEquals(new Long(1), ip1.asRange().size());
-        assertEquals(new Long(IPv4_MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
+        assertEquals(new Long(MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
     }
 
     @Override

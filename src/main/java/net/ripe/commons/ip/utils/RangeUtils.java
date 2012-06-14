@@ -9,6 +9,6 @@ public final class RangeUtils {
         if (value.compareTo(begin) >= 0 && value.compareTo(end) <= 0) {
             return value;
         }
-        throw new IllegalArgumentException("Value out of range: [" + value + "]");
+        throw new IllegalArgumentException(String.format("Value [%s] out of range: [%s..%s]", value, begin, end));
     }
 }

@@ -136,7 +136,7 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     @Test
     public void testSize() {
         assertEquals(ONE, ip1.asRange().size());
-        assertEquals(IPv6_MAXIMUM_VALUE.add(ONE), Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS).size());
+        assertEquals(Ipv6.MAXIMUM_VALUE.add(ONE), Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS).size());
     }
 
     @Override

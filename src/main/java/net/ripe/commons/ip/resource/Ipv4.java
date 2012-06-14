@@ -1,24 +1,29 @@
 package net.ripe.commons.ip.resource;
 
 import net.ripe.commons.ip.range.Ipv4Range;
+import net.ripe.commons.ip.utils.RangeUtils;
 import org.apache.commons.lang3.Validate;
 
 public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;
 
-    public static final int IPv4_BYTE_MASK = 0xff;
-    public static final int IPv4_NUMBER_OF_BITS = 32;
-    public static final long IPv4_MINIMUM_VALUE = 0;
-    public static final long IPv4_MAXIMUM_VALUE = (1L << IPv4_NUMBER_OF_BITS) - 1;
+    public static final int BYTE_MASK = 0xff;
+    public static final int NUMBER_OF_BITS = 32;
+    public static final long MINIMUM_VALUE = 0;
+    public static final long MAXIMUM_VALUE = (1L << NUMBER_OF_BITS) - 1;
 
-    public static final Ipv4 FIRST_IPV4_ADDRESS = Ipv4.of(IPv4_MINIMUM_VALUE);
-    public static final Ipv4 LAST_IPV4_ADDRESS = Ipv4.of(IPv4_MAXIMUM_VALUE);
+    public static final Ipv4 FIRST_IPV4_ADDRESS = Ipv4.of(MINIMUM_VALUE);
+    public static final Ipv4 LAST_IPV4_ADDRESS = Ipv4.of(MAXIMUM_VALUE);
+
+    private static final int TOTAL_OCTETS = 4;
+    private static final int MAX_OCTET_VALUE = 255;
+    private static final int MIN_OCTET_VALUE = 0;
 
     protected Ipv4(Long value) {
         super(value);
-        Validate.isTrue(value.compareTo(IPv4_MINIMUM_VALUE) >= 0, "Value of Ipv4 has to be greater than or equal to " + IPv4_MINIMUM_VALUE);
-        Validate.isTrue(value.compareTo(IPv4_MAXIMUM_VALUE) <= 0, "Value of Ipv4 has to be less than or equal to " + IPv4_MAXIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of Ipv4 has to be greater than or equal to " + MINIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of Ipv4 has to be less than or equal to " + MAXIMUM_VALUE);
     }
 
     public static Ipv4 of(Long value) {
@@ -51,7 +56,7 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
             if (Character.isDigit(ch)) {
                 octet = octet * 10 + (ch - '0');
             } else if (ch == '.') {
-                Validate.isTrue(octetCount < 4, "invalid IPv4 address: " + ipv4String);
+                Validate.isTrue(octetCount < TOTAL_OCTETS, "invalid IPv4 address: " + ipv4String);
                 octetCount++;
                 value = addOctet(value, octet);
                 octet = 0;
@@ -63,8 +68,8 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
         value = addOctet(value, octet);
 
         if (defaultMissingOctets) {
-            value <<= 8 * (4 - octetCount);
-        } else if (octetCount != 4) {
+            value <<= 8 * (TOTAL_OCTETS - octetCount);
+        } else if (octetCount != TOTAL_OCTETS) {
             throw new IllegalArgumentException("invalid IPv4 address: " + ipv4String);
         }
 
@@ -72,9 +77,7 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
     }
 
     private static long addOctet(long value, int octet) {
-        if (octet < 0 || octet > 255) {
-            throw new IllegalArgumentException("value of octet not in range 0..255: " + octet);
-        }
+        RangeUtils.rangeCheck(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
         value = ((value) << 8) | octet;
         return value;
     }
@@ -100,9 +103,9 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
     public String toString(boolean defaultMissingOctets) {
         long value = value();
         int a = (int) (value >> 24);
-        int b = (int) (value >> 16) & IPv4_BYTE_MASK;
-        int c = (int) (value >> 8) & IPv4_BYTE_MASK;
-        int d = (int) value & IPv4_BYTE_MASK;
+        int b = (int) (value >> 16) & BYTE_MASK;
+        int c = (int) (value >> 8) & BYTE_MASK;
+        int d = (int) value & BYTE_MASK;
 
         if (!defaultMissingOctets) {
             return a + "." + b + "." + c + "." + d;
