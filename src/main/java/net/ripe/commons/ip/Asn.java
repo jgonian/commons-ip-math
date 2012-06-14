@@ -92,6 +92,6 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     @Override
     public AsnRange asRange() {
-        return AsnRange.from(this).to(this);
+        return new AsnRange(this, this);
     }
 }

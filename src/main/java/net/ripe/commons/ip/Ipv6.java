@@ -65,7 +65,7 @@ public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResou
 
     @Override
     public Ipv6Range asRange() {
-        return Ipv6Range.from(this).to(this);
+        return new Ipv6Range(this, this);
     }
 
     /**

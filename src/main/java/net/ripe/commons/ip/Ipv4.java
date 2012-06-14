@@ -147,6 +147,6 @@ public class Ipv4 extends SingleValue<Long> implements SingleInternetResource<Ip
 
     @Override
     public Ipv4Range asRange() {
-        return Ipv4Range.from(this).to(this);
+        return new Ipv4Range(this, this);
     }
 }
