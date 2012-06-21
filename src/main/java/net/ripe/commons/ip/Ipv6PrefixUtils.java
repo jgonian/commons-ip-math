@@ -9,7 +9,7 @@ import java.util.List;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.Validate;
 
-public final class Ipv6PrefixUtils {
+public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract for Ipv4 and Ipv6 in an elegant way.
 
     private Ipv6PrefixUtils() {
     }
