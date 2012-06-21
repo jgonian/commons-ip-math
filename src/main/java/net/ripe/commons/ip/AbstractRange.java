@@ -192,7 +192,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
             this.typeOfRange = typeOfRange;
         }
 
-        protected R to(C end) {
+        public R to(C end) {
             Validate.notNull(end);
             try {
                 return typeOfRange.getDeclaredConstructor(start.getClass(), end.getClass()).newInstance(start, end);
