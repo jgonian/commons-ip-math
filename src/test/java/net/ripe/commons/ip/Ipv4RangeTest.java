@@ -115,7 +115,18 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     @Override
     public void testToString() {
-        assertEquals("192.168.0.0-192.168.255.255", Ipv4Range.parse("192.168.0.0/16").toString());
+        assertEquals("192.168.0.0-192.168.255.254", Ipv4Range.parse("192.168.0.0-192.168.255.254").toString());
+        assertEquals("192.168.0.0/16", Ipv4Range.parse("192.168.0.0-192.168.255.255").toString());
+    }
+
+    @Test
+    public void testToStringInRangeNotation() {
+        assertEquals("0.0.0.0-255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeNotation());
+    }
+
+    @Test
+    public void testToStringInCidrNotation() {
+        assertEquals("0.0.0.0/0", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInCidrNotation());
     }
 
     @Test

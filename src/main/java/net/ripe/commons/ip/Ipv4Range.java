@@ -91,7 +91,19 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
 
     @Override
     public String toString() {
+        if (Ipv4PrefixUtils.isValidPrefix(this)) {
+            return toStringInCidrNotation();
+        } else {
+            return toStringInRangeNotation();
+        }
+    }
+
+    public String toStringInRangeNotation() {
         return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+    }
+
+    public String toStringInCidrNotation() {
+        return new StringBuilder().append(start()).append(SLASH).append(Ipv4PrefixUtils.getPrefixLength(this)).toString();
     }
 
     public String toStringInDecimalNotation() {
