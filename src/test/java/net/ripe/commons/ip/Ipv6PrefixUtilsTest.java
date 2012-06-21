@@ -1,13 +1,13 @@
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.PrefixUtils.*;
+import static net.ripe.commons.ip.Ipv6PrefixUtils.*;
 import static org.junit.Assert.*;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;
 
-public class PrefixUtilsTest {
+public class Ipv6PrefixUtilsTest {
 
     @Test
     public void shouldFindBiggestAndSmallestPrefixWhenRangeIsSingleValidPrefix() {
@@ -63,37 +63,37 @@ public class PrefixUtilsTest {
     @Test
     public void shouldDoValidPrefixWhenValid() {
         Ipv6Range range = Ipv6Range.parse("::0-::0");
-        assertTrue(PrefixUtils.isValidPrefix(range));
+        assertTrue(Ipv6PrefixUtils.isValidPrefix(range));
     }
 
     @Test
     public void shouldDoValidPrefixWhenInvalid() {
         Ipv6Range range = Ipv6Range.parse("::0-::2");
-        assertFalse(PrefixUtils.isValidPrefix(range));
+        assertFalse(Ipv6PrefixUtils.isValidPrefix(range));
     }
 
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix0_0() {
         Ipv6Range range = Ipv6Range.parse("::0-::0");
-        assertEquals(128, PrefixUtils.getPrefixLength(range));
+        assertEquals(128, Ipv6PrefixUtils.getPrefixLength(range));
     }
 
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix0_3() {
         Ipv6Range range = Ipv6Range.parse("::0-::3");
-        assertEquals(126, PrefixUtils.getPrefixLength(range));
+        assertEquals(126, Ipv6PrefixUtils.getPrefixLength(range));
     }
 
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix1_1() {
         Ipv6Range range = Ipv6Range.parse("::1-::1");
-        assertEquals(128, PrefixUtils.getPrefixLength(range));
+        assertEquals(128, Ipv6PrefixUtils.getPrefixLength(range));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenInvalidPrefix0_2() {
         Ipv6Range range = Ipv6Range.parse("::0-::2");
-        PrefixUtils.getPrefixLength(range);
+        Ipv6PrefixUtils.getPrefixLength(range);
     }
 
     // test zero-starting valid prefix
@@ -101,28 +101,28 @@ public class PrefixUtilsTest {
     @Test
     public void shouldSplitIntoPrefixesWhenSelfGoodPrefix0_0() {
         Ipv6Range range = Ipv6Range.parse("::0-::0");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..1
     @Test
     public void shouldSplitIntoPrefixesWhenSelfGoodPrefix0_1() {
         Ipv6Range range = Ipv6Range.parse("::0-::1");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..3
     @Test
     public void shouldSplitIntoPrefixesWhenSelfGoodPrefix0_3() {
         Ipv6Range range = Ipv6Range.parse("::0-::3");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..7
     @Test
     public void shouldSplitIntoPrefixesWhenSelfGoodPrefix0_7() {
         Ipv6Range range = Ipv6Range.parse("::0-::7");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // test zero-staring not-valid prefixes
@@ -132,7 +132,7 @@ public class PrefixUtilsTest {
         Ipv6Range range = Ipv6Range.parse("::0-::2");
         Ipv6Range split1 = Ipv6Range.parse("::0-::1");
         Ipv6Range split2 = Ipv6Range.parse("::2-::2");
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..4
@@ -141,7 +141,7 @@ public class PrefixUtilsTest {
         Ipv6Range range = Ipv6Range.parse("::0-::4");
         Ipv6Range split1 = Ipv6Range.parse("::0-::3");
         Ipv6Range split2 = Ipv6Range.parse("::4-::4");
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..5
@@ -151,7 +151,7 @@ public class PrefixUtilsTest {
         Ipv6Range split1 = Ipv6Range.parse("::0-::3");
         Ipv6Range split2 = Ipv6Range.parse("::4-::5");
 
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 0..6
@@ -162,7 +162,7 @@ public class PrefixUtilsTest {
         Ipv6Range split2 = Ipv6Range.parse("::4-::5");
         Ipv6Range split3 = Ipv6Range.parse("::6-::6");
 
-        assertEquals(Arrays.asList(split1, split2, split3), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2, split3), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // test 1-starting invalid prefix
@@ -170,7 +170,7 @@ public class PrefixUtilsTest {
     @Test
     public void shouldSplitIntoPrefixesWhenInvalidPrefix1_1() {
         Ipv6Range range = Ipv6Range.parse("::1-::1");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 1..2
@@ -179,7 +179,7 @@ public class PrefixUtilsTest {
         Ipv6Range range = Ipv6Range.parse("::1-::2");
         Ipv6Range split1 = Ipv6Range.parse("::1-::1");
         Ipv6Range split2 = Ipv6Range.parse("::2-::2");
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // 1..3
@@ -188,7 +188,7 @@ public class PrefixUtilsTest {
         Ipv6Range range = Ipv6Range.parse("::1-::3");
         Ipv6Range split1 = Ipv6Range.parse("::1-::1");
         Ipv6Range split2 = Ipv6Range.parse("::2-::3");
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // test 2-starting valid prefix
@@ -196,7 +196,7 @@ public class PrefixUtilsTest {
     @Test
     public void shouldSplitIntoPrefixesWhenInvalidPrefix2_3() {
         Ipv6Range range = Ipv6Range.parse("::2-::3");
-        assertEquals(Collections.singletonList(range), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Collections.singletonList(range), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // test 2-starting invalid prefix
@@ -206,13 +206,13 @@ public class PrefixUtilsTest {
         Ipv6Range range = Ipv6Range.parse("::2-::4");
         Ipv6Range split1 = Ipv6Range.parse("::2-::3");
         Ipv6Range split2 = Ipv6Range.parse("::4-::4");
-        assertEquals(Arrays.asList(split1, split2), PrefixUtils.splitIntoPrefixes(range));
+        assertEquals(Arrays.asList(split1, split2), Ipv6PrefixUtils.splitIntoPrefixes(range));
     }
 
     // test whole IPv6 space
     @Test
     public void shouldSplitIntoPrefixesAllIpv6SpaceExceptFirstAddress() {
         Ipv6Range range = Ipv6Range.from("::1").to(Ipv6.LAST_IPV6_ADDRESS);
-        assertEquals(128, PrefixUtils.splitIntoPrefixes(range).size());
+        assertEquals(128, Ipv6PrefixUtils.splitIntoPrefixes(range).size());
     }
 }

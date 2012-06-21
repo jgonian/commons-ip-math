@@ -1,7 +1,6 @@
 package net.ripe.commons.ip;
 
 import static java.math.BigInteger.*;
-import static net.ripe.commons.ip.Ipv6.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,17 +9,16 @@ import java.util.List;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.Validate;
 
-public final class PrefixUtils {
-    //TODO change to work for both Ipv6/Ipv4, add tests for Ipv4
+public final class Ipv6PrefixUtils {
 
-    private PrefixUtils() {
+    private Ipv6PrefixUtils() {
     }
 
     public static boolean isValidPrefix(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
         return getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0;
     }
-    
+
     public static int getPrefixLength(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
         Validate.isTrue(getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0, String.format("%s is not a valid prefix, cannot get prefix length!", range.toStringInRangeNotation()));
@@ -46,7 +44,7 @@ public final class PrefixUtils {
     }
 
     public static Optional<Ipv6Range> findMinimumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
-        RangeUtils.rangeCheck(prefixLength, 0, NUMBER_OF_BITS);
+        RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
         Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
             @Override
             public int compare(Ipv6Range left, Ipv6Range right) {
@@ -57,7 +55,7 @@ public final class PrefixUtils {
     }
 
     public static Optional<Ipv6Range> findMaximumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
-        RangeUtils.rangeCheck(prefixLength, 0, NUMBER_OF_BITS);
+        RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
         Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
             @Override
             public int compare(Ipv6Range left, Ipv6Range right) {
@@ -79,7 +77,7 @@ public final class PrefixUtils {
     }
 
     private static BigInteger getPrefixSize(int prefixLength) {
-        return BigInteger.ONE.shiftLeft(NUMBER_OF_BITS - prefixLength);
+        return BigInteger.ONE.shiftLeft(Ipv6.NUMBER_OF_BITS - prefixLength);
     }
 
     private static int getBiggestPossiblePrefix(BigInteger start, BigInteger size) {
@@ -92,22 +90,22 @@ public final class PrefixUtils {
         int powerOfTwo = 0;
         int maxPowerOfTwo = powerOfTwo;
 
-        while (powerOfTwo <= NUMBER_OF_BITS && number.divideAndRemainder(ONE.shiftLeft(powerOfTwo))[1].compareTo(ZERO) == 0) {
+        while (powerOfTwo <= Ipv6.NUMBER_OF_BITS && number.divideAndRemainder(ONE.shiftLeft(powerOfTwo))[1].compareTo(ZERO) == 0) {
             maxPowerOfTwo = powerOfTwo;
             powerOfTwo++;
         }
-        return NUMBER_OF_BITS - maxPowerOfTwo;
+        return Ipv6.NUMBER_OF_BITS - maxPowerOfTwo;
     }
 
     private static int getMaxContainedPrefix(BigInteger number) {
         int powerOfTwo = 0;
         int maxPowerOfTwo = powerOfTwo;
 
-        while (powerOfTwo <= NUMBER_OF_BITS && number.compareTo(ONE.shiftLeft(powerOfTwo)) >= 0) {
+        while (powerOfTwo <= Ipv6.NUMBER_OF_BITS && number.compareTo(ONE.shiftLeft(powerOfTwo)) >= 0) {
             maxPowerOfTwo = powerOfTwo;
             powerOfTwo++;
         }
-        return NUMBER_OF_BITS - maxPowerOfTwo;
+        return Ipv6.NUMBER_OF_BITS - maxPowerOfTwo;
     }
 
 }

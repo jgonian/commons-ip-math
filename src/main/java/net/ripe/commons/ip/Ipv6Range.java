@@ -94,7 +94,7 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
     @Override
     public String toString() {
-        if (PrefixUtils.isValidPrefix(this)) {
+        if (Ipv6PrefixUtils.isValidPrefix(this)) {
             return toStringInCidrNotation();
         } else {
             return toStringInRangeNotation();
@@ -106,7 +106,7 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
     }
 
     public String toStringInCidrNotation() {
-        return new StringBuilder().append(start()).append(SLASH).append(PrefixUtils.getPrefixLength(this)).toString();
+        return new StringBuilder().append(start()).append(SLASH).append(Ipv6PrefixUtils.getPrefixLength(this)).toString();
     }
 
     public String toStringInDecimalNotation() {
