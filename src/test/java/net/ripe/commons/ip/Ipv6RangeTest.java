@@ -128,6 +128,11 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
+    public void testToStringInCidrNotation() {
+        assertEquals("::/0", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInCidrNotation());
+    }
+
+    @Test
     public void testToStringInDecimalNotation() {
         assertEquals("0-340282366920938463463374607431768211455", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInDecimalNotation());
     }
