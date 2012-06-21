@@ -28,10 +28,6 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new Ipv4RangeBuilder(Ipv4.parse(from));
     }
 
-    public static Ipv4CidrBuilder withPrefix(Ipv4 prefix) {
-        return new Ipv4CidrBuilder(prefix);
-    }
-
     /**
      * Parses a <tt>String</tt> into an {@link Ipv4Range}.
      *
@@ -102,9 +98,13 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
     }
 
-    public static class Ipv4RangeBuilder extends RangeWithStartAndEndBuilder<Ipv4, Ipv4Range> {
+    public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
+
+        private final Ipv4 from;
+
         protected Ipv4RangeBuilder(Ipv4 from) {
             super(from, Ipv4Range.class);
+            this.from = from;
         }
 
         public Ipv4Range to(Long end) {
@@ -114,26 +114,11 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
         public Ipv4Range to(String end) {
             return super.to(Ipv4.parse(end));
         }
-    }
 
-    public static class Ipv4CidrBuilder extends RangeWithStartAndLengthBuilder<Ipv4, Ipv4Range> {
-
-        private final Ipv4 prefix;
-
-        protected Ipv4CidrBuilder(Ipv4 prefix) {
-            super(prefix, Ipv4Range.class);
-            this.prefix = prefix;
-        }
-
-        public Ipv4Range andLength(int prefixLength) {
-            return length(prefixLength);
-        }
-
-        @Override
-        protected Ipv4Range length(long length) {
-            Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix),
-                    String.format("%s/%d is not a valid Ipv4 address prefix.", prefix, length));
-            return super.to(Ipv4Utils.upperBoundForPrefix(prefix, (int) length));
+        public Ipv4Range andPrefixLength(int prefixLength) {
+            Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
+                    String.format("%s/%d is not a valid Ipv4 address prefix.", from, prefixLength));
+            return super.to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
         }
     }
 }

@@ -213,23 +213,4 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends AbstractRa
         }
     }
 
-    protected abstract static class RangeWithStartAndEndBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
-
-        protected RangeWithStartAndEndBuilder(C from, Class<R> typeOfRange) {
-            super(from, typeOfRange);
-        }
-
-        public R to(C end) {
-            return super.to(end);
-        }
-    }
-
-    protected abstract static class RangeWithStartAndLengthBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> extends AbstractRangeBuilder<C, R> {
-
-        protected RangeWithStartAndLengthBuilder(C start, Class<R> typeOfRange) {
-            super(start, typeOfRange);
-        }
-
-        protected abstract R length(long length);
-    }
 }

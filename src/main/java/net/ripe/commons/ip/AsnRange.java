@@ -43,7 +43,7 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
         return (end().value() - start().value()) + 1;
     }
 
-    public static class AsnRangeBuilder extends RangeWithStartAndEndBuilder<Asn, AsnRange> {
+    public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
         protected AsnRangeBuilder(Asn from) {
             super(from, AsnRange.class);
         }

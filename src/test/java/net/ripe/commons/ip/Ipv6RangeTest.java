@@ -184,30 +184,25 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
-    public void testCidrBuilderWithValidPrefixAndLength() {
-        Ipv6Range range = Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(127);
+    public void testBuilderWithValidAddressAndPrefixLength() {
+        Ipv6Range range = Ipv6Range.from("::2").andPrefixLength(127);
         assertEquals(Ipv6.of("::2"), range.start());
         assertEquals(Ipv6.of("::3"), range.end());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCidrBuilderWithInvalidPrefixAndLength() {
-        Ipv6Range.withPrefix(Ipv6.of("::3")).andLength(127);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testCidrBuilderWithNullStart() {
-        Ipv6Range.withPrefix(null).andLength(127);
+    public void testBuilderWithInvalidAddressAndPrefixLength() {
+        Ipv6Range.from("::3").andPrefixLength(127);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCidrWithTooSmallPrefixLength() {
-        Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(-1);
+    public void testBuilderWithTooSmallPrefixLength() {
+        Ipv6Range.from("::2").andPrefixLength(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCidrWithTooBigPrefixLength() {
-        Ipv6Range.withPrefix(Ipv6.of("::2")).andLength(129);
+    public void testBuilderWithTooBigPrefixLength() {
+        Ipv6Range.from("::2").andPrefixLength(129);
     }
 
     @Test(expected = NullPointerException.class)

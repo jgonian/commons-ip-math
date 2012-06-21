@@ -30,10 +30,6 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new Ipv6RangeBuilder(Ipv6.parse(from));
     }
 
-    public static Ipv6CidrBuilder withPrefix(Ipv6 prefix) {
-        return new Ipv6CidrBuilder(prefix);
-    }
-
     /**
      * Parses a <tt>String</tt> into an {@link Ipv6Range}.
      *
@@ -117,9 +113,13 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
     }
 
-    public static class Ipv6RangeBuilder extends RangeWithStartAndEndBuilder<Ipv6, Ipv6Range> {
+    public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {
+
+        private final Ipv6 from;
+
         protected Ipv6RangeBuilder(Ipv6 from) {
             super(from, Ipv6Range.class);
+            this.from = from;
         }
         
         public Ipv6Range to(BigInteger end) {
@@ -129,26 +129,11 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
         public Ipv6Range to(String end) {
             return super.to(Ipv6.parse(end));
         }
-    }
 
-    public static class Ipv6CidrBuilder extends RangeWithStartAndLengthBuilder<Ipv6, Ipv6Range> {
-
-        private final Ipv6 prefix;
-
-        protected Ipv6CidrBuilder(Ipv6 prefix) {
-            super(prefix, Ipv6Range.class);
-            this.prefix = prefix;
-        }
-
-        public Ipv6Range andLength(int prefixLength) {
-            return length(prefixLength);
-        }
-
-        @Override
-        protected Ipv6Range length(long length) {
-            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix),
-                    String.format("%s/%d is not a valid Ipv6 address prefix.", prefix, length));
-            return super.to(Ipv6Utils.upperBoundForPrefix(prefix, (int) length));
+        public Ipv6Range andPrefixLength(int prefixLength) {
+            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
+                    String.format("%s/%d is not a valid Ipv6 address prefix.", from, prefixLength));
+            return super.to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
         }
     }
 }
