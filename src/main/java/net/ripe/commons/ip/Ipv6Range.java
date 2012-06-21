@@ -146,7 +146,8 @@ public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements Interne
 
         @Override
         protected Ipv6Range length(long length) {
-            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix));
+            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix),
+                    String.format("%s/%d is not a valid Ipv6 address prefix.", prefix, length));
             return super.to(Ipv6Utils.upperBoundForPrefix(prefix, (int) length));
         }
     }

@@ -131,7 +131,8 @@ public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements Interne
 
         @Override
         protected Ipv4Range length(long length) {
-            Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix));
+            Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(prefix, (int) length).equals(prefix),
+                    String.format("%s/%d is not a valid Ipv4 address prefix.", prefix, length));
             return super.to(Ipv4Utils.upperBoundForPrefix(prefix, (int) length));
         }
     }
