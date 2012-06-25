@@ -3,7 +3,6 @@ package net.ripe.commons.ip;
 import static org.junit.Assert.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import net.ripe.commons.ip.Ipv6;
 import org.junit.Ignore;
 import org.junit.Test;
 

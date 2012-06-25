@@ -7,9 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
-import net.ripe.commons.ip.Asn;
-import net.ripe.commons.ip.AsnRange;
-import net.ripe.commons.ip.SortedRangeSet;
 import org.junit.Before;
 import org.junit.Test;
 

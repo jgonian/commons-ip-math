@@ -1,6 +1,5 @@
 package net.ripe.commons.ip;
 
-import net.ripe.commons.ip.RangeUtils;
 import org.junit.Test;
 
 public class RangeUtilsTest {

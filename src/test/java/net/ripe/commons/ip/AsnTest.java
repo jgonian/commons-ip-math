@@ -1,7 +1,6 @@
 package net.ripe.commons.ip;
 
 import static org.junit.Assert.*;
-import net.ripe.commons.ip.Asn;
 import org.junit.Test;
 
 public class AsnTest {

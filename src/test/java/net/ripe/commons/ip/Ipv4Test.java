@@ -1,7 +1,6 @@
 package net.ripe.commons.ip;
 
 import static org.junit.Assert.*;
-import net.ripe.commons.ip.Ipv4;
 import org.junit.Test;
 
 public class Ipv4Test {

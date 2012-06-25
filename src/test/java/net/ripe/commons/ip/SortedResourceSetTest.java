@@ -3,9 +3,6 @@ package net.ripe.commons.ip;
 import static junit.framework.Assert.*;
 import java.util.HashSet;
 import java.util.Set;
-import net.ripe.commons.ip.Asn;
-import net.ripe.commons.ip.AsnRange;
-import net.ripe.commons.ip.SortedResourceSet;
 import org.junit.Before;
 import org.junit.Test;
 

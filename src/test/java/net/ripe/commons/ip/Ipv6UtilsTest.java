@@ -1,8 +1,6 @@
 package net.ripe.commons.ip;
 
-import static junit.framework.Assert.assertEquals;
-import net.ripe.commons.ip.Ipv6;
-import net.ripe.commons.ip.Ipv6Utils;
+import static junit.framework.Assert.*;
 import org.junit.Test;
 
 public class Ipv6UtilsTest {
