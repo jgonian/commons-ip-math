@@ -4,7 +4,7 @@ import static java.math.BigInteger.*;
 import java.math.BigInteger;
 import org.apache.commons.lang3.Validate;
 
-public class Ipv6Range extends AbstractRange<Ipv6, Ipv6Range> implements InternetResourceRange<Ipv6, Ipv6Range, BigInteger> {
+public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
     private static final String DASH = "-";
     private static final String SLASH = "/";

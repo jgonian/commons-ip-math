@@ -2,7 +2,7 @@ package net.ripe.commons.ip;
 
 import org.apache.commons.lang3.Validate;
 
-public class Ipv4Range extends AbstractRange<Ipv4, Ipv4Range> implements InternetResourceRange<Ipv4, Ipv4Range, Long> {
+public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     private static final String SLASH = "/";
     private static final String DASH = "-";
