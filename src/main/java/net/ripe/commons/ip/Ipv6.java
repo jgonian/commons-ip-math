@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
-public class Ipv6 extends SingleValue<BigInteger> implements SingleInternetResource<Ipv6, Ipv6Range> {
+public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = -1L;
 
