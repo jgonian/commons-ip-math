@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-public interface Rangeable<T> extends Comparable<T> {
+public interface Rangeable<T extends Rangeable<T, R>, R extends Range<T,R>> extends Comparable<T> {
 
     T next();
 
@@ -9,4 +9,6 @@ public interface Rangeable<T> extends Comparable<T> {
     boolean hasNext();
 
     boolean hasPrevious();
+
+    R asRange();
 }

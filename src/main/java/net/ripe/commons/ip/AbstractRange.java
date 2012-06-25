@@ -9,7 +9,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public abstract class AbstractRange<C extends Rangeable<C>, R extends Range<C, R>> implements Range<C, R> {
+public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C, R>> implements Range<C, R> {
 
     private final C start;
     private final C end;
@@ -193,7 +193,7 @@ public abstract class AbstractRange<C extends Rangeable<C>, R extends Range<C, R
         return new HashCodeBuilder().append(start).append(end).toHashCode();
     }
 
-    protected abstract static class AbstractRangeBuilder<C extends Rangeable<C>, R extends AbstractRange<C, R>> {
+    protected abstract static class AbstractRangeBuilder<C extends Rangeable<C, R>, R extends AbstractRange<C, R>> {
         private final C start;
         private final Class<R> typeOfRange;
 

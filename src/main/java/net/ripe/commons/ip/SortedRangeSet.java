@@ -9,7 +9,7 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class SortedRangeSet<C extends Rangeable<C>, R extends Range<C, R>> implements Iterable<R> {
+public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> implements Iterable<R> {
 
     private final NavigableSet<R> set;
 

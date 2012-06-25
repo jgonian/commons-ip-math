@@ -3,7 +3,7 @@ package net.ripe.commons.ip;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Range<C extends Rangeable<C>, R extends Range<C, R>>
+public interface Range<C extends Rangeable<C, R>, R extends Range<C, R>>
         extends Iterable<C>, Serializable {
 
     C start();

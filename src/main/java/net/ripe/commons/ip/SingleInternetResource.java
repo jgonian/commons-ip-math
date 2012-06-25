@@ -1,7 +1,6 @@
 package net.ripe.commons.ip;
 
 public interface SingleInternetResource<T extends SingleInternetResource<T, R>, R extends Range<T, R>>
-        extends InternetResource<T>, Rangeable<T> {
+        extends InternetResource<T>, Rangeable<T, R> {
 
-    R asRange();
 }
