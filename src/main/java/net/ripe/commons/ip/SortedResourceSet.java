@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-public class SortedResourceSet<C extends SingleInternetResource<C, R>, R extends AbstractRange<C, R>> extends SortedRangeSet<C, R> {
+public class SortedResourceSet<C extends SingleInternetResource<C, R>, R extends Range<C, R>> extends SortedRangeSet<C, R> {
 
     public void add(C resource) {
         add(resource.asRange());

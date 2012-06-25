@@ -1,12 +1,12 @@
 package net.ripe.commons.ip;
 
-public class StartAndSizeComparator<C extends Rangeable<C>, R extends AbstractRange<C, R>>
+public class StartAndSizeComparator<C extends Rangeable<C>, R extends Range<C, R>>
         implements RangeComparator<C, R> {
 
     private static StartAndSizeComparator<?, ?> instance;
 
     @SuppressWarnings({"unchecked"})
-    public static <C extends Rangeable<C>, R extends AbstractRange<C, R>> RangeComparator<C, R> getInstance() {
+    public static <C extends Rangeable<C>, R extends Range<C, R>> RangeComparator<C, R> getInstance() {
         if (instance == null) {
             instance = new StartAndSizeComparator<C, R>();
         }
@@ -17,7 +17,7 @@ public class StartAndSizeComparator<C extends Rangeable<C>, R extends AbstractRa
     }
 
     @Override
-    public int compare(AbstractRange<C, R> left, AbstractRange<C, R> right) {
+    public int compare(Range<C, R> left, Range<C, R> right) {
         int result = left.start().compareTo(right.start());
         if (result == 0) {
             result = left.end().compareTo(right.end());
