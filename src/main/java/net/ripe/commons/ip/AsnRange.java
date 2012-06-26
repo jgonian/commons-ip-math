@@ -2,7 +2,7 @@ package net.ripe.commons.ip;
 
 import org.apache.commons.lang3.Validate;
 
-public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange, Long> {
+public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
 
     protected AsnRange(Asn start, Asn end) {
         super(start, end);
