@@ -40,7 +40,12 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
 
     @Override
     public Long size() {
-        return (end().value() - start().value()) + 1;
+        return length().value();
+    }
+
+    @Override
+    public Length<Long> length() {
+        return new Length<Long>((end().value() - start().value()) + 1);
     }
 
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
