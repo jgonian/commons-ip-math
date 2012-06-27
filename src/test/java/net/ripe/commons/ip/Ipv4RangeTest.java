@@ -1,11 +1,13 @@
 package net.ripe.commons.ip;
 
-import static junit.framework.Assert.*;
-import static net.ripe.commons.ip.Ipv4.*;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static net.ripe.commons.ip.Ipv4.*;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -222,4 +224,6 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void testConstructorWithNullEnd() {
         new Ipv4Range(ip1, null);
     }
+
+//    public void shouldContain
 }
