@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import com.google.common.base.Optional;
 import org.apache.commons.lang3.Validate;
+import com.google.common.base.Optional;
 
 public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract for Ipv4 and Ipv6 in an elegant way.
 
@@ -63,6 +63,10 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
             }
         };
         return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+    }
+    
+    public static int findMaxPrefixLengthForAddress(Ipv6 address) {
+        return getMaxValidPrefix(address.value());
     }
 
     private static Optional<Ipv6Range> findPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength, Comparator<Ipv6Range> comparator) {
