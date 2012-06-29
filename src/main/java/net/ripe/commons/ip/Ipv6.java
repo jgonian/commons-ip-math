@@ -78,7 +78,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
      */
     @Override
     public String toString() {
-        long[] list = new long[8];
+        Long[] list = new Long[8];
         int currentZeroLength = 0;
         int maxZeroLength = 0;
         int maxZeroIndex = 0;
@@ -108,7 +108,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
                 }
                 i -= (maxZeroLength - 1);
             } else {
-                sb.append(String.format("%x", list[i]));
+                sb.append(Long.toHexString(list[i]));
             }
             sb.append(':');
         }

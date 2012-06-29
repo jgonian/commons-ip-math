@@ -1,7 +1,5 @@
 package net.ripe.commons.ip;
 
-import org.apache.commons.lang3.Validate;
-
 public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;

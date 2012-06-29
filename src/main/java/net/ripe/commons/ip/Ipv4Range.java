@@ -1,7 +1,5 @@
 package net.ripe.commons.ip;
 
-import org.apache.commons.lang3.Validate;
-
 public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     private static final String SLASH = "/";
@@ -59,7 +57,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
      */
     public static Ipv4Range parseCidr(String cidrString) {
         int idx = cidrString.indexOf(SLASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] is not a range or does not comply with the CIDR notation", cidrString));
+        Validate.isTrue(idx != -1, "Argument [" + cidrString + "] is not a range or does not comply with the CIDR notation");
         String address = cidrString.substring(0, idx);
         String prefix = cidrString.substring(idx + 1, cidrString.length());
         return parseWithPrefix(address, prefix);
@@ -78,7 +76,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     public static Ipv4Range parseDecimalNotation(String range) {
         int idx = range.indexOf(DASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] does not comply with the decimal range notation", range));
+        Validate.isTrue(idx != -1, "Argument [" + range + "] does not comply with the decimal range notation");
         long start = Long.valueOf(range.substring(0, idx));
         long end = Long.valueOf(range.substring(idx + 1, range.length()));
         return Ipv4Range.from(start).to(end);
@@ -134,7 +132,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
         public Ipv4Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    String.format("%s/%d is not a valid Ipv4 address prefix.", from, prefixLength));
+                    from + "/" + prefixLength + " is not a valid Ipv4 address prefix.");
             return super.to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
         }
     }

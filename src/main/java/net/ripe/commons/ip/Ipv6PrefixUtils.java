@@ -21,7 +21,7 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
 
     public static int getPrefixLength(Ipv6Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        Validate.isTrue(getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0, String.format("%s is not a valid prefix, cannot get prefix length!", range.toStringInRangeNotation()));
+        Validate.isTrue(getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0, range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
         return maxContainedPrefix;
     }
 

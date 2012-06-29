@@ -2,7 +2,6 @@ package net.ripe.commons.ip;
 
 import static java.math.BigInteger.*;
 import java.math.BigInteger;
-import org.apache.commons.lang3.Validate;
 
 public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
@@ -62,7 +61,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
      */
     public static Ipv6Range parseCidr(String cidrString) {
         int idx = cidrString.indexOf(SLASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] is not a range or does not comply with the CIDR notation", cidrString));
+        Validate.isTrue(idx != -1, "Argument [" + cidrString + "] is not a range or does not comply with the CIDR notation");
         String address = cidrString.substring(0, idx);
         String prefix = cidrString.substring(idx + 1, cidrString.length());
         return parseWithPrefix(address, prefix);
@@ -81,7 +80,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
     public static Ipv6Range parseDecimalNotation(String range) {
         int idx = range.indexOf(DASH);
-        Validate.isTrue(idx != -1, String.format("Argument [%s] does not comply with the decimal range notation", range));
+        Validate.isTrue(idx != -1, "Argument [" + range + "] does not comply with the decimal range notation");
         BigInteger start = new BigInteger(range.substring(0, idx));
         BigInteger end = new BigInteger(range.substring(idx + 1, range.length()));
         return Ipv6Range.from(start).to(end);
@@ -137,7 +136,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
         public Ipv6Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    String.format("%s/%d is not a valid Ipv6 address prefix.", from, prefixLength));
+                    from + "/" + prefixLength + " is not a valid Ipv6 address prefix.");
             return super.to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
         }
     }

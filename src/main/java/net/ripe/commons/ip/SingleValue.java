@@ -1,9 +1,6 @@
 package net.ripe.commons.ip;
 
 import java.io.Serializable;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public abstract class SingleValue<T> implements Serializable {
 
@@ -36,12 +33,15 @@ public abstract class SingleValue<T> implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SingleValue other = (SingleValue) o;
-        return new EqualsBuilder().append(value, other.value).isEquals();
+        SingleValue that = (SingleValue) o;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(value).toHashCode();
+        return value != null ? value.hashCode() : 0;
     }
 }

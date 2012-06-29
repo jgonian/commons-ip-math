@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C, R>> implements Range<C, R> {
 
@@ -17,7 +14,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     protected AbstractRange(C start, C end) {
         this.start = Validate.notNull(start, "start of range must not be null");
         this.end = Validate.notNull(end, "end of range must not be null");
-        Validate.isTrue(this.start.compareTo(this.end) <= 0, String.format("Invalid range [%s..%s]", start, end));
+        Validate.isTrue(this.start.compareTo(this.end) <= 0, "Invalid range [" + start + ".." + end + "]");
     }
 
     protected abstract R newInstance(C start, C end);
@@ -146,7 +143,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
 
     @Override
     public String toString() {
-        return String.format("[%s..%s]", start.toString(), end.toString());
+        return "[" + start.toString() + ".." + end.toString() + "]";
     }
 
     @Override
@@ -184,13 +181,22 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AbstractRange other = (AbstractRange) o;
-        return new EqualsBuilder().append(start, other.start).append(end, other.end).isEquals();
+        AbstractRange that = (AbstractRange) o;
+
+        if (end != null ? !end.equals(that.end) : that.end != null) {
+            return false;
+        }
+        if (start != null ? !start.equals(that.start) : that.start != null) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(start).append(end).toHashCode();
+        int result = start != null ? start.hashCode() : 0;
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        return result;
     }
 
     protected abstract static class AbstractRangeBuilder<C extends Rangeable<C, R>, R extends AbstractRange<C, R>> {
@@ -210,9 +216,9 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
                 return typeOfRange.getDeclaredConstructor(start.getClass(), end.getClass()).newInstance(start, end);
             } catch (InvocationTargetException e) {
                 handleValidationExceptions(e);
-                throw new RangeCreationException(String.format("Failed to create range [%s..%s]", start, end), e);
+                throw new RangeCreationException("Failed to create range [" + start + ".." + end + "]", e);
             } catch (Exception e) {
-                throw new RangeCreationException(String.format("Failed to create range [%s..%s]", start, end), e);
+                throw new RangeCreationException("Failed to create range [" + start + ".." + end + "]", e);
             }
         }
 

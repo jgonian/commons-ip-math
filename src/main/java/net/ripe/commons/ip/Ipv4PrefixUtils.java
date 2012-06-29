@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import com.google.common.base.Optional;
-import org.apache.commons.lang3.Validate;
 
 public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract for Ipv4 and Ipv6 in an elegant way.
 
@@ -19,7 +18,7 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
 
     public static int getPrefixLength(Ipv4Range range) {
         int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        Validate.isTrue(getPrefixSize(maxContainedPrefix) == range.size(), String.format("%s is not a valid prefix, cannot get prefix length!", range.toStringInRangeNotation()));
+        Validate.isTrue(getPrefixSize(maxContainedPrefix) == range.size(), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
         return maxContainedPrefix;
     }
 

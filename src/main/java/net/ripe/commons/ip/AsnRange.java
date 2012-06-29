@@ -1,7 +1,5 @@
 package net.ripe.commons.ip;
 
-import org.apache.commons.lang3.Validate;
-
 public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
 
     protected AsnRange(Asn start, Asn end) {
@@ -27,7 +25,7 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
 
     public static AsnRange parse(String text) {
         int idx = text.indexOf('-');
-        Validate.isTrue(idx != -1, String.format("Invalid range of ASNs: '%s'", text));
+        Validate.isTrue(idx != -1, "Invalid range of ASNs: '" + text + "'");
         Asn start = Asn.parse(text.substring(0, idx));
         Asn end = Asn.parse(text.substring(idx + 1));
         return new AsnRange(start, end);
@@ -35,7 +33,7 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
 
     @Override
     public String toString() {
-        return isEmpty() ? start().toString() : String.format("%s-%s", start(), end());
+        return isEmpty() ? start().toString() : start() + "-" + end();
     }
 
     @Override

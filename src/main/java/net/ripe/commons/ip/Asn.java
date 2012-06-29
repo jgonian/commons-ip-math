@@ -2,7 +2,6 @@ package net.ripe.commons.ip;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.Validate;
 
 public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn, AsnRange> {
 
@@ -39,7 +38,7 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
         text = text.trim();
         Matcher matcher = ASN_PATTERN.matcher(text);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException(String.format("Invalid ASN: '%s'", text));
+            throw new IllegalArgumentException("Invalid ASN: '" + text + "'");
         }
 
         long low;
@@ -87,7 +86,7 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     @Override
     public String toString() {
-        return String.format("AS%d", value());
+        return "AS" + value();
     }
 
     @Override
