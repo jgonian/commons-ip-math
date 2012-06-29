@@ -122,22 +122,26 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
         private final Ipv6 from;
 
         protected Ipv6RangeBuilder(Ipv6 from) {
-            super(from, Ipv6Range.class);
             this.from = from;
         }
         
         public Ipv6Range to(BigInteger end) {
-            return super.to(Ipv6.of(end));
+            return to(Ipv6.of(end));
         }
 
         public Ipv6Range to(String end) {
-            return super.to(Ipv6.parse(end));
+            return to(Ipv6.parse(end));
         }
 
         public Ipv6Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
                     from + "/" + prefixLength + " is not a valid Ipv6 address prefix.");
-            return super.to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
+            return to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
+        }
+
+        @Override
+        public Ipv6Range to(Ipv6 to) {
+            return new Ipv6Range(from, to);
         }
     }
 }

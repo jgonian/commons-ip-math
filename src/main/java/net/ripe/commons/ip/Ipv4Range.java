@@ -118,22 +118,26 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
         private final Ipv4 from;
 
         protected Ipv4RangeBuilder(Ipv4 from) {
-            super(from, Ipv4Range.class);
             this.from = from;
         }
 
         public Ipv4Range to(Long end) {
-            return super.to(Ipv4.of(end));
+            return to(Ipv4.of(end));
         }
 
         public Ipv4Range to(String end) {
-            return super.to(Ipv4.parse(end));
+            return to(Ipv4.parse(end));
         }
 
         public Ipv4Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
                     from + "/" + prefixLength + " is not a valid Ipv4 address prefix.");
-            return super.to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
+            return to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
+        }
+
+        @Override
+        public Ipv4Range to(Ipv4 to) {
+            return new Ipv4Range(from, to);
         }
     }
 }

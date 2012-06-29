@@ -1,6 +1,5 @@
 package net.ripe.commons.ip;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -200,35 +199,8 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     }
 
     protected abstract static class AbstractRangeBuilder<C extends Rangeable<C, R>, R extends AbstractRange<C, R>> {
-        private final C start;
-        private final Class<R> typeOfRange;
 
-        protected AbstractRangeBuilder(C from, Class<R> typeOfRange) {
-            Validate.notNull(from);
-            Validate.notNull(typeOfRange);
-            this.start = from;
-            this.typeOfRange = typeOfRange;
-        }
-
-        public R to(C end) {
-            Validate.notNull(end);
-            try {
-                return typeOfRange.getDeclaredConstructor(start.getClass(), end.getClass()).newInstance(start, end);
-            } catch (InvocationTargetException e) {
-                handleValidationExceptions(e);
-                throw new RangeCreationException("Failed to create range [" + start + ".." + end + "]", e);
-            } catch (Exception e) {
-                throw new RangeCreationException("Failed to create range [" + start + ".." + end + "]", e);
-            }
-        }
-
-        private void handleValidationExceptions(InvocationTargetException e) {
-            if (e.getCause() instanceof IllegalArgumentException) {
-                throw (IllegalArgumentException) e.getCause();
-            } else if (e.getCause() instanceof NullPointerException) {
-                throw (NullPointerException) e.getCause();
-            }
-        }
+        public abstract R to(C to);
     }
 
 }

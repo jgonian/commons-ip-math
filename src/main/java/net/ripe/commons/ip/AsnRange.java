@@ -47,16 +47,24 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
     }
 
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
+
+        private final Asn from;
+
         protected AsnRangeBuilder(Asn from) {
-            super(from, AsnRange.class);
+            this.from = from;
         }
 
         public AsnRange to(Long end) {
-            return super.to(Asn.of(end));
+            return to(Asn.of(end));
         }
 
         public AsnRange to(String end) {
-            return super.to(Asn.parse(end));
+            return to(Asn.parse(end));
+        }
+
+        @Override
+        public AsnRange to(Asn to) {
+            return new AsnRange(from, to);
         }
     }
 }
