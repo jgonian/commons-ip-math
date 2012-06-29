@@ -3,8 +3,6 @@ package net.ripe.commons.ip;
 import static java.math.BigInteger.*;
 import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 
 public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
@@ -18,6 +16,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     public static final Ipv6 FIRST_IPV6_ADDRESS = Ipv6.of(MINIMUM_VALUE);
     public static final Ipv6 LAST_IPV6_ADDRESS = Ipv6.of(MAXIMUM_VALUE);
 
+    private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: ";
     private static final String COLON = ":";
     private static final String ZERO = "0";
     private static final int _16 = 16;
@@ -135,7 +134,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         int indexOfDoubleColons = ipv6String.indexOf("::");
         boolean isShortened = indexOfDoubleColons != -1;
         if (isShortened) {
-            Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), "Invalid IPv6 address: " + ipv6Address);
+            Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
             ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
         }
 
@@ -145,10 +144,10 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         }
 
         String[] split = ipv6String.split(COLON, 8);
-        Validate.isTrue(split.length == 8, "Invalid IPv6 address: " + ipv6Address);
+        Validate.isTrue(split.length == 8, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
-            Validate.isTrue(part.length() <= 4);
+            Validate.isTrue(part.length() <= 4, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
             rangeCheck(Integer.parseInt(part, _16), 0x0, 0xFFFF);
             ipv6value = ipv6value.shiftLeft(_16).add(new BigInteger(part, _16));
         }
@@ -157,7 +156,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
     private static String expandMissingColons(String ipv6String, int indexOfDoubleColons) {
         int colonCount = ipv6String.contains(".") ? COLON_COUNT_FOR_EMBEDDED_IPV4 : COLON_COUNT_IPV6;
-        int count = colonCount - StringUtils.countMatches(ipv6String, COLON) + 2;
+        int count = colonCount - countColons(ipv6String) + 2;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
         String rightPart = ipv6String.substring(indexOfDoubleColons + 2);
         if (leftPart.isEmpty()) {
@@ -176,6 +175,16 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         return sb.toString();
     }
 
+    private static int countColons(String ipv6String) {
+        int count = 0;
+        for (char c : ipv6String.toCharArray()) {
+            if (c == ':') {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private static String getIpv6AddressWithIpv4SectionInIpv6Notation(String ipv6String) {
         try {
             int indexOfLastColon = ipv6String.lastIndexOf(COLON);
@@ -183,7 +192,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
             String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
             Ipv4 ipv4 = Ipv4.parse(ipv4Section);
             Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
-            String ipv4SectionInIpv6Notation = StringUtils.join(ipv6FromIpv4.toString().split(COLON), COLON, 2, 4);
+            String ipv4SectionInIpv6Notation = ipv6FromIpv4.toString().substring(2);
             return ipv6Section + COLON + ipv4SectionInIpv6Notation;
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("Embedded Ipv4 in IPv6 address is invalid: " + ipv6String, e);
