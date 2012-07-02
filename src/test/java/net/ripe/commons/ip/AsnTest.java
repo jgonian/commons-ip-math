@@ -5,14 +5,8 @@ import org.junit.Test;
 
 public class AsnTest {
 
-    /**
-     * Tests that the textual representation of an ASN conforms to
-     * http://tools.ietf.org/html/draft-michaelson-4byte-as-representation-05.
-     */
     @Test
     public void shouldHaveConformingTextualRepresentation() {
-        assertEquals(null, Asn.parse(null));
-
         assertEquals(new Asn(3333l), Asn.parse("AS3333"));
         assertEquals(new Asn((12 << 16) | 3333l), Asn.parse("AS12.3333"));
 
@@ -25,6 +19,20 @@ public class AsnTest {
         assertEquals(new Asn(3333l), Asn.parse("3333"));
         assertEquals(new Asn((12 << 16) | 3333l), Asn.parse("12.3333"));
         assertEquals(new Asn(65536l), Asn.parse("  65536  "));
+    }
+
+    @Test
+    public void shouldParseTheSameAsnInAllAvailableFormats() {
+        Asn expected = new Asn(65546l);
+        assertEquals(expected, Asn.parse("AS65546"));
+        assertEquals(expected, Asn.parse("65546"));
+        assertEquals(expected, Asn.parse("1.10"));
+        assertEquals(expected, Asn.parse("AS1.10"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailOnNullArgument() {
+        Asn.parse(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -63,8 +71,9 @@ public class AsnTest {
     }
 
     @Test
-    public void shouldParseHighestPossibleAsn() {
-        Asn.parse("AS4294967295");
+    public void shouldParseMaximumAndMinimumPossibleAsn() {
+        assertEquals("AS0", Asn.parse("AS0").toString());
+        assertEquals("AS4294967295", Asn.parse("AS4294967295").toString());
     }
 
     @Test

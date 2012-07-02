@@ -1,7 +1,6 @@
 package net.ripe.commons.ip;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static net.ripe.commons.ip.RangeUtils.rangeCheck;
 
 public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn, AsnRange> {
 
@@ -15,11 +14,11 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     public static final Asn LAST_16_BIT_ASN = Asn.of(ASN_16_BIT_MAX_VALUE);
     public static final Asn LAST_32_BIT_ASN = Asn.of(ASN_32_BIT_MAX_VALUE);
 
-    private static final Pattern ASN_PATTERN = Pattern.compile("(?:AS)?(\\d+)(\\.(\\d+))?", Pattern.CASE_INSENSITIVE);
+    private static final int _16 = 16;
 
     public Asn(Long value) {
         super(value);
-        validateRange(value, ASN_32_BIT_MAX_VALUE);
+        rangeCheck(value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
     }
 
     public static Asn of(Long value) {
@@ -30,33 +29,35 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
         return parse(value);
     }
 
+    /**
+     * Parses a <tt>String</tt> into an {@link Asn}. The representation formats that are supported are
+     * asplain, asdot+ and asdot as defined in RFC5396.
+     *
+     * @param text a string of an AS number e.g. "AS123", "AS0.123", "123" e.t.c.
+     * @return a new {@link Asn}
+     * @throws IllegalArgumentException if the string cannot be parsed
+     * @see <a href="http://tools.ietf.org/html/rfc5396">RFC5396 -
+     * Textual Representation of Autonomous System (AS) Numbers</a>
+     */
     public static Asn parse(String text) {
-        if (text == null) {
-            return null;
+        try {
+            String asnString = Validate.notNull(text, "AS Number must not be null").trim().toUpperCase();
+            if (asnString.startsWith("AS")) {
+                asnString = asnString.substring(2);
+            }
+            long low;
+            long high = 0L;
+            int indexOfDot = asnString.indexOf(".");
+            if (indexOfDot != -1) {
+                low = rangeCheck(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+                high = rangeCheck(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+            } else {
+                low = Long.valueOf(asnString);
+            }
+            return new Asn((high << _16) | low);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Invalid AS number: '" + text + "'. Details: " + ex.getMessage());
         }
-
-        text = text.trim();
-        Matcher matcher = ASN_PATTERN.matcher(text);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid ASN: '" + text + "'");
-        }
-
-        long low;
-        long high = 0L;
-        if (matcher.group(3) != null) {
-            low = validateRange(Long.valueOf(matcher.group(3)), ASN_16_BIT_MAX_VALUE);
-            high = validateRange(Long.valueOf(matcher.group(1)), ASN_16_BIT_MAX_VALUE);
-        } else {
-            low = Long.valueOf(matcher.group(1));
-        }
-
-        return new Asn((high << 16) | low);
-    }
-
-    private static Long validateRange(Long value, Long max) {
-        Validate.isTrue(value.compareTo(ASN_MIN_VALUE) >= 0, "Value of ASN has to be greater than or equal to " + ASN_MIN_VALUE);
-        Validate.isTrue(value.compareTo(max) <= 0, "Value of ASN has to be less than or equal to " + max);
-        return value;
     }
 
     @Override
