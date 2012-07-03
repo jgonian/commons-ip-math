@@ -60,6 +60,14 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
         }
     }
 
+    public boolean is16Bit() {
+        return this.compareTo(LAST_16_BIT_ASN) <= 0;
+    }
+
+    public boolean is32Bit() {
+        return !is16Bit();
+    }
+
     @Override
     public int compareTo(Asn other) {
         return value().compareTo(other.value());

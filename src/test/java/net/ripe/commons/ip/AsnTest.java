@@ -96,4 +96,20 @@ public class AsnTest {
         assertTrue(Asn.LAST_16_BIT_ASN.hasPrevious());
         assertTrue(Asn.LAST_32_BIT_ASN.hasPrevious());
     }
+
+    @Test
+    public void testIs16Bit() {
+        assertTrue(Asn.FIRST_ASN.is16Bit());
+        assertTrue(Asn.LAST_16_BIT_ASN.is16Bit());
+        assertFalse(Asn.LAST_16_BIT_ASN.next().is16Bit());
+        assertFalse(Asn.LAST_32_BIT_ASN.is16Bit());
+    }
+
+    @Test
+    public void testIs32Bit() {
+        assertFalse(Asn.FIRST_ASN.is32Bit());
+        assertFalse(Asn.LAST_16_BIT_ASN.is32Bit());
+        assertTrue(Asn.LAST_16_BIT_ASN.next().is32Bit());
+        assertTrue(Asn.LAST_32_BIT_ASN.is32Bit());
+    }
 }
