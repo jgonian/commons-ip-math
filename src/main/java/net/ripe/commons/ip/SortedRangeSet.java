@@ -1,13 +1,6 @@
 package net.ripe.commons.ip;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> implements Iterable<R> {
 
@@ -113,6 +106,15 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
     public R getSingleRange() {
         Validate.isTrue(set.size() == 1, "Expected exactly one range");
         return set.first();
+    }
+
+    /**
+     * @return a cloned set of this range
+     */
+    public Set<R> copyToSet() {
+        TreeSet<R> copy = new TreeSet<R>(set.comparator());
+        copy.addAll(set);
+        return copy;
     }
 
     @Override

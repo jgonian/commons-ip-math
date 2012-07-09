@@ -1,14 +1,11 @@
 package net.ripe.commons.ip;
 
-import static junit.framework.Assert.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.*;
+
+import static junit.framework.Assert.*;
 
 public class SortedRangeSetTest {
 
@@ -511,6 +508,34 @@ public class SortedRangeSetTest {
         assertEquals(range2, it.next());
         it.remove();
         assertTrue(subject.isEmpty());
+    }
+
+    @Test
+    public void testCopy() {
+        AsnRange range1 = new AsnRange(Asn.of(0l), Asn.of(5l));
+        subject.add(range1);
+
+        Set<AsnRange> copy = subject.copyToSet();
+        assertEquals(1, copy.size());
+
+        AsnRange range2 = new AsnRange(Asn.of(10l), Asn.of(20l));
+        subject.add(range2);
+
+        assertEquals(1, copy.size());
+    }
+
+    @Test
+    public void testUnmodifiableSetIsNotACopy() {
+        AsnRange range1 = new AsnRange(Asn.of(0l), Asn.of(5l));
+        subject.add(range1);
+
+        Set<AsnRange> unmodiableSet = subject.unmodifiableSet();
+        assertEquals(1, unmodiableSet.size());
+
+        AsnRange range2 = new AsnRange(Asn.of(10l), Asn.of(20l));
+        subject.add(range2);
+
+        assertEquals(2, unmodiableSet.size());
     }
 
     @Test
