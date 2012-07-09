@@ -477,6 +477,26 @@ public class SortedRangeSetTest {
         assertFalse(subject.isEmpty());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToGetSingleRangeWhenSubjectIsEmpty() {
+        assertTrue(subject.isEmpty());
+        subject.getSingleRange();
+    }
+
+    @Test
+    public void shouldGetSingleRange() {
+        AsnRange range = new AsnRange(Asn.of(0l), Asn.of(5l));
+        subject.add(range);
+        assertEquals(range, subject.getSingleRange());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToGetSingleRangeWhenSubjectContainsMultipleRanges() {
+        subject.add(new AsnRange(Asn.of(10l), Asn.of(20l)));
+        subject.add(new AsnRange(Asn.of(30l), Asn.of(40l)));
+        subject.getSingleRange();
+    }
+
     @Test
     public void testIterator() {
         AsnRange range1 = new AsnRange(Asn.of(0l), Asn.of(5l));

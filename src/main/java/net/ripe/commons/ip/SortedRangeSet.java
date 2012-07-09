@@ -110,6 +110,11 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         return Collections.unmodifiableSet(set);
     }
 
+    public R getSingleRange() {
+        Validate.isTrue(set.size() == 1, "Expected exactly one range");
+        return set.first();
+    }
+
     @Override
     public Iterator<R> iterator() {
         return set.iterator();
