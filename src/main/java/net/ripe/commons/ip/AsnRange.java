@@ -31,6 +31,14 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
         return new AsnRange(start, end);
     }
 
+    public boolean containsOnly16BitAsns() {
+        return end().is16Bit();
+    }
+
+    public boolean containsOnly32BitAsns() {
+        return start().is32Bit();
+    }
+
     @Override
     public String toString() {
         return isEmpty() ? start().toString() : start() + "-" + end();
