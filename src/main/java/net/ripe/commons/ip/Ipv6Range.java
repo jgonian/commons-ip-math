@@ -32,7 +32,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
     /**
      * Parses a <tt>String</tt> into an {@link Ipv6Range}.
      *
-     * @param range a dash separated string of two Ipv6 addresses e.g. "2001:db8::1-2001:db8::2"
+     * @param range a dash separated string of two IPv6 addresses e.g. "2001:db8::1-2001:db8::2"
      *              or a CIDR-notation string, e.g. "2001:0db8:0:cd30::/60"
      * @return a new {@link Ipv6Range}
      * @throws IllegalArgumentException if the string cannot be parsed
@@ -50,7 +50,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
     }
 
     /**
-     * Parses a <tt>String</tt> of an Ipv6 address and its subnet mask formatted as in a
+     * Parses a <tt>String</tt> of an IPv6 address and its subnet mask formatted as in a
      * Classless Inter-Domain Routing (CIDR) notation.
      *
      * @param cidrString a CIDR-notation string, e.g. "2001:0db8:0:cd30::/60"
@@ -135,7 +135,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
         public Ipv6Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    from + "/" + prefixLength + " is not a valid Ipv6 address prefix.");
+                    from + "/" + prefixLength + " is not a valid IPv6 address prefix.");
             return to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
         }
 

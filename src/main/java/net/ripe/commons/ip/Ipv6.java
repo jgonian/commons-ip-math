@@ -25,8 +25,8 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
     protected Ipv6(BigInteger value) {
         super(value);
-        Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of Ipv6 has to be greater than or equal to " + MINIMUM_VALUE);
-        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of Ipv6 has to be less than or equal to " + MAXIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv6 has to be greater than or equal to " + MINIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv6 has to be less than or equal to " + MAXIMUM_VALUE);
     }
 
     public static Ipv6 of(BigInteger value) {
@@ -68,10 +68,10 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     }
 
     /**
-     * Returns a text representation of this Ipv6 address. Note this representation adheres to the
+     * Returns a text representation of this IPv6 address. Note this representation adheres to the
      * recommendations of RFC 5952.
      *
-     * @return a text representation of this Ipv6 address
+     * @return a text representation of this IPv6 address
      *
      * @see <a href="http://tools.ietf.org/html/rfc5952">rfc5952 - A Recommendation for IPv6 Address Text Representation</a>
      */
@@ -195,7 +195,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
             String ipv4SectionInIpv6Notation = ipv6FromIpv4.toString().substring(2);
             return ipv6Section + COLON + ipv4SectionInIpv6Notation;
         } catch(IllegalArgumentException e) {
-            throw new IllegalArgumentException("Embedded Ipv4 in IPv6 address is invalid: " + ipv6String, e);
+            throw new IllegalArgumentException("Embedded IPv4 in IPv6 address is invalid: " + ipv6String, e);
         }
     }
 

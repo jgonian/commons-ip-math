@@ -230,7 +230,7 @@ public class Ipv6Test {
         }
     }
 
-    // Ipv6 Addresses with Embedded Ipv4 Addresses
+    // IPv6 Addresses with Embedded IPv4 Addresses
 
     @Test
     public void shouldParseIpv4CompatibleIpv6Addresses() {
@@ -363,7 +363,7 @@ public class Ipv6Test {
         }
     }
 
-    // Ipv6 Ranges
+    // IPv6 Ranges
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseRangeInDashNotation() {

@@ -131,7 +131,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
         public Ipv4Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    from + "/" + prefixLength + " is not a valid Ipv4 address prefix.");
+                    from + "/" + prefixLength + " is not a valid IPv4 address prefix.");
             return to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
         }
 
