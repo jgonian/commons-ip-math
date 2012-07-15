@@ -17,7 +17,12 @@
         <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/trunk</connection>
     </scm>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <modules>
         <module>commons-ip-math</module>
+        <module>commons-ip-math-gwt</module>
     </modules>
 </project>

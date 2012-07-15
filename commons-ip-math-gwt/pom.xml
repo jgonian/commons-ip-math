@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.ripe.commons</groupId>
+        <artifactId>commons-ip-math-parent</artifactId>
+        <version>1.4-SNAPSHOT</version>
+    </parent>
+
+    <groupId>net.ripe.commons</groupId>
+    <artifactId>commons-ip-math-gwt</artifactId>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+
+    <properties>
+        <gwt.version>2.4.0</gwt.version>
+        <guava-gwt.version>12.0</guava-gwt.version>
+        <gwt-maven-plugin.version>${gwt.version}</gwt-maven-plugin.version>
+    </properties>
+
+    <description>
+        GWT library for commons-ip-math. It contain the gwt.xml module descriptor while the classes
+        and the sources are shared from commons-ip-math.
+    </description>
+
+     <build>
+        <!-- sources/resources need to be bundled with the jar, so they are visible to GWT's compiler -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                    <include>**/*.gwt.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.ripe.commons</groupId>
+            <artifactId>commons-ip-math</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.ripe.commons</groupId>
+            <artifactId>commons-ip-math</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-gwt</artifactId>
+            <version>${guava-gwt.version}</version>
+        </dependency>
+    </dependencies>
+</project>
