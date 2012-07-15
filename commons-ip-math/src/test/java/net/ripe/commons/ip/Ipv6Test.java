@@ -30,6 +30,12 @@ public class Ipv6Test {
         assertEquals("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", Ipv6.LAST_IPV6_ADDRESS.toString());
     }
 
+    @Ignore("TODO(yg): Fix")
+    @Test
+    public void shouldPrintIpv6AddressWithTrailingZeros() {
+        assertEquals("91ed:ffff:8948:c0a3:1:dc9e:bed9:0", Ipv6.parse("91ed:ffff:8948:c0a3:1:dc9e:bed9:0").toString());
+    }
+
     @Test
     public void shouldSuppressLeadingZeros() {
         // rfc5952 - §4.1 Handling Leading Zeros in a 16-Bit Field
