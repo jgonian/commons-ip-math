@@ -9,6 +9,6 @@ public final class RangeUtils {
         if (value.compareTo(begin) >= 0 && value.compareTo(end) <= 0) {
             return value;
         }
-        throw new IllegalArgumentException("Value [" + value + "] out of range: [" + begin + ".." + end + "]");
+        throw new IllegalArgumentException("Value [" + value + "] out of range: [" + begin + "commons-ip-math/src/test" + end + "]");
     }
 }
