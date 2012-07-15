@@ -44,31 +44,19 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
 
     public static Optional<Ipv6Range> findMinimumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
-        Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
-            @Override
-            public int compare(Ipv6Range left, Ipv6Range right) {
-                return left.size().compareTo(right.size());
-            }
-        };
-        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+        return findPrefixForPrefixLength(range, prefixLength, LengthComparator.<Ipv6, Ipv6Range>getInstance());
     }
 
     public static Optional<Ipv6Range> findMaximumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
-        Comparator<Ipv6Range> comparator = new Comparator<Ipv6Range>() {
-            @Override
-            public int compare(Ipv6Range left, Ipv6Range right) {
-                return right.size().compareTo(left.size());
-            }
-        };
-        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+        return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(LengthComparator.<Ipv6, Ipv6Range>getInstance()));
     }
     
     public static int findMaxPrefixLengthForAddress(Ipv6 address) {
         return getMaxValidPrefix(address.value());
     }
 
-    private static Optional<Ipv6Range> findPrefixInRangeWhichFitsPrefixLength(Ipv6Range range, int prefixLength, Comparator<Ipv6Range> comparator) {
+    private static Optional<Ipv6Range> findPrefixForPrefixLength(Ipv6Range range, int prefixLength, Comparator<? super Ipv6Range> comparator) {
         List<Ipv6Range> prefixes = splitIntoPrefixes(range);
         Collections.sort(prefixes, comparator);
         for (Ipv6Range prefix : prefixes) {

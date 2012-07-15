@@ -42,27 +42,15 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
 
     public static Optional<Ipv4Range> findMinimumPrefixForPrefixLength(Ipv4Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
-        Comparator<Ipv4Range> comparator = new Comparator<Ipv4Range>() {
-            @Override
-            public int compare(Ipv4Range left, Ipv4Range right) {
-                return left.size().compareTo(right.size());
-            }
-        };
-        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+        return findPrefixForPrefixLength(range, prefixLength, LengthComparator.<Ipv4, Ipv4Range>getInstance());
     }
 
     public static Optional<Ipv4Range> findMaximumPrefixForPrefixLength(Ipv4Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
-        Comparator<Ipv4Range> comparator = new Comparator<Ipv4Range>() {
-            @Override
-            public int compare(Ipv4Range left, Ipv4Range right) {
-                return right.size().compareTo(left.size());
-            }
-        };
-        return findPrefixInRangeWhichFitsPrefixLength(range, prefixLength, comparator);
+        return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(LengthComparator.<Ipv4, Ipv4Range>getInstance()));
     }
 
-    private static Optional<Ipv4Range> findPrefixInRangeWhichFitsPrefixLength(Ipv4Range range, int prefixLength, Comparator<Ipv4Range> comparator) {
+    private static Optional<Ipv4Range> findPrefixForPrefixLength(Ipv4Range range, int prefixLength, Comparator<? super Ipv4Range> comparator) {
         List<Ipv4Range> prefixes = splitIntoPrefixes(range);
         Collections.sort(prefixes, comparator);
         for (Ipv4Range prefix : prefixes) {
