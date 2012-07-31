@@ -1,13 +1,15 @@
 package net.ripe.commons.ip;
 
-import org.junit.Test;
+import static junit.framework.Assert.assertEquals;
+import static net.ripe.commons.ip.Ipv4.FIRST_IPV4_ADDRESS;
+import static net.ripe.commons.ip.Ipv4.LAST_IPV4_ADDRESS;
+import static net.ripe.commons.ip.Ipv4.MAXIMUM_VALUE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static net.ripe.commons.ip.Ipv4.*;
+import org.junit.Test;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -141,6 +143,13 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void testToStringInDecimalNotation() {
         assertEquals("0-4294967295", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInDecimalNotation());
     }
+
+    @Test
+    public void testToStringInSlashNotation() {
+        assertEquals("77.34.132.0/22,/22", Ipv4Range.parse("77.34.132.0 - 77.34.139.255").toStringInSlashNotation());
+    }
+
+
 
     @Test
     public void testSize() {

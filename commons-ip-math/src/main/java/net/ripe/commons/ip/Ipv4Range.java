@@ -1,7 +1,10 @@
 package net.ripe.commons.ip;
 
-public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
+import java.util.Collections;
+import java.util.List;
 
+public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
+    private static final long serialVersionUID = 1L;
     private static final String SLASH = "/";
     private static final String DASH = "-";
 
@@ -106,6 +109,19 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     public String toStringInDecimalNotation() {
         return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
+    }
+
+    public String toStringInSlashNotation() {
+        List<Ipv4Range> prefixes = Ipv4PrefixUtils.splitIntoPrefixes(this);
+        Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>getInstance());
+        StringBuilder notation = new StringBuilder().append(start());
+
+        for (Ipv4Range ipv4Range : prefixes) {
+            notation.append(SLASH + Ipv4PrefixUtils.getPrefixLength(ipv4Range));
+            notation.append(",");
+        }
+        String noted = notation.toString();
+        return noted.substring(0, noted.length() - 1);
     }
 
     @Override
