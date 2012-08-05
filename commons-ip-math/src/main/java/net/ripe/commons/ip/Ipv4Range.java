@@ -63,18 +63,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
         Validate.isTrue(idx != -1, "Argument [" + cidrString + "] is not a range or does not comply with the CIDR notation");
         String address = cidrString.substring(0, idx);
         String prefix = cidrString.substring(idx + 1, cidrString.length());
-        return parseWithPrefix(address, prefix);
-    }
-
-    public static Ipv4Range parseWithPrefix(String address, String prefixLength) {
-        return parseWithPrefix(address, Integer.parseInt(prefixLength));
-    }
-
-    public static Ipv4Range parseWithPrefix(String address, int prefixLength) {
-        Ipv4 ipv4 = Ipv4.parse(address);
-        Ipv4 start = Ipv4Utils.lowerBoundForPrefix(ipv4, prefixLength);
-        Ipv4 end = Ipv4Utils.upperBoundForPrefix(ipv4, prefixLength);
-        return new Ipv4Range(start, end);
+        return Ipv4Range.from(address).andPrefixLength(prefix);
     }
 
     public static Ipv4Range parseDecimalNotation(String range) {
@@ -145,9 +134,13 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
             return to(Ipv4.parse(end));
         }
 
+        public Ipv4Range andPrefixLength(String prefix) {
+            return andPrefixLength(Integer.parseInt(prefix));
+        }
+
         public Ipv4Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv4Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    from + "/" + prefixLength + " is not a valid IPv4 address prefix.");
+                    from + "/" + prefixLength + " is not a legal IPv4 address prefix.");
             return to(Ipv4Utils.upperBoundForPrefix(from, prefixLength));
         }
 

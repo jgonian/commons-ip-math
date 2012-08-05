@@ -64,18 +64,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
         Validate.isTrue(idx != -1, "Argument [" + cidrString + "] is not a range or does not comply with the CIDR notation");
         String address = cidrString.substring(0, idx);
         String prefix = cidrString.substring(idx + 1, cidrString.length());
-        return parseWithPrefix(address, prefix);
-    }
-
-    public static Ipv6Range parseWithPrefix(String address, String prefixLength) {
-        return parseWithPrefix(address, Integer.parseInt(prefixLength));
-    }
-
-    public static Ipv6Range parseWithPrefix(String address, int prefixLength) {
-        Ipv6 ipv6 = Ipv6.parse(address);
-        Ipv6 start = Ipv6Utils.lowerBoundForPrefix(ipv6, prefixLength);
-        Ipv6 end = Ipv6Utils.upperBoundForPrefix(ipv6, prefixLength);
-        return new Ipv6Range(start, end);
+        return Ipv6Range.from(address).andPrefixLength(prefix);
     }
 
     public static Ipv6Range parseDecimalNotation(String range) {
@@ -133,9 +122,13 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
             return to(Ipv6.parse(end));
         }
 
+        public Ipv6Range andPrefixLength(String prefixLength) {
+            return andPrefixLength(Integer.parseInt(prefixLength));
+        }
+
         public Ipv6Range andPrefixLength(int prefixLength) {
             Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
-                    from + "/" + prefixLength + " is not a valid IPv6 address prefix.");
+                    from + "/" + prefixLength + " is not a legal IPv6 address prefix.");
             return to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
         }
 

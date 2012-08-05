@@ -88,22 +88,22 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
     @Test
     public void shouldParseWithPrefix() {
-        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.parseWithPrefix("::", "0"));
+        assertEquals(Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS), Ipv6Range.from("::").andPrefixLength("0"));
     }
 
     @Test
     public void shouldParseWithPrefixWhenEmptyRange() {
-        assertEquals(Ipv6.parse("ffce:abcd::").asRange(), Ipv6Range.parseWithPrefix("ffce:abcd::", "128"));
+        assertEquals(Ipv6.parse("ffce:abcd::").asRange(), Ipv6Range.from("ffce:abcd::").andPrefixLength("128"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseWithPrefixWhenIllegalPrefix() {
-        Ipv6Range.parseWithPrefix("ffce:abcd::", "129");
+        Ipv6Range.from("ffce:abcd::").andPrefixLength("129");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseWithPrefixWhenPrefixIsNull() {
-        Ipv6Range.parseWithPrefix("0.0.0.1", null);
+        Ipv6Range.from("ffce:abcd::").andPrefixLength(null);
     }
 
     @Test

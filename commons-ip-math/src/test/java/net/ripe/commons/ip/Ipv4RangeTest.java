@@ -90,22 +90,22 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     @Test
     public void shouldParseWithPrefix() {
-        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.parseWithPrefix("0.0.0.0", "0"));
+        assertEquals(Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS), Ipv4Range.from("0.0.0.0").andPrefixLength("0"));
     }
 
     @Test
     public void shouldParseWithPrefixWhenEmptyRange() {
-        assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parseWithPrefix("192.168.0.1", "32"));
+        assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.from("192.168.0.1").andPrefixLength("32"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseWithPrefixWhenIllegalPrefix() {
-        Ipv4Range.parseWithPrefix("0.0.0.10", "33");
+        Ipv4Range.from("0.0.0.10").andPrefixLength("33");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseWithPrefixWhenPrefixIsNull() {
-        Ipv4Range.parseWithPrefix("0.0.0.1", null);
+        Ipv4Range.from("0.0.0.1").andPrefixLength(null);
     }
 
     @Test
