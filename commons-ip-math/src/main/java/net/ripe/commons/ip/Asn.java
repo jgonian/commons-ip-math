@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.RangeUtils.rangeCheck;
+import static net.ripe.commons.ip.RangeUtils.checkRange;
 
 public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn, AsnRange> {
 
@@ -18,7 +18,7 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     public Asn(Long value) {
         super(value);
-        rangeCheck(value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
+        checkRange(value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
     }
 
     public static Asn of(Long value) {
@@ -49,8 +49,8 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
             long high = 0L;
             int indexOfDot = asnString.indexOf(".");
             if (indexOfDot != -1) {
-                low = rangeCheck(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
-                high = rangeCheck(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+                low = checkRange(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+                high = checkRange(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
             } else {
                 low = Long.valueOf(asnString);
             }

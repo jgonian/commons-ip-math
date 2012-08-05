@@ -65,7 +65,7 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     }
 
     private static long addOctet(long value, int octet) {
-        RangeUtils.rangeCheck(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
+        RangeUtils.checkRange(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
         value = ((value) << 8) | octet;
         return value;
     }

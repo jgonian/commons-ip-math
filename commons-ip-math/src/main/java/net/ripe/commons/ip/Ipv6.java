@@ -150,7 +150,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
             Validate.isTrue(part.length() <= 4, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            rangeCheck(Integer.parseInt(part, _16), 0x0, 0xFFFF);
+            checkRange(Integer.parseInt(part, _16), 0x0, 0xFFFF);
             ipv6value = ipv6value.shiftLeft(_16).add(new BigInteger(part, _16));
         }
         return new Ipv6(ipv6value);

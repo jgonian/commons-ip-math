@@ -42,12 +42,12 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
     }
 
     public static Optional<Ipv4Range> findMinimumPrefixForPrefixLength(Ipv4Range range, int prefixLength) {
-        RangeUtils.rangeCheck(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
+        RangeUtils.checkRange(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
         return findPrefixForPrefixLength(range, prefixLength, SizeComparator.<Ipv4, Ipv4Range>getInstance());
     }
 
     public static Optional<Ipv4Range> findMaximumPrefixForPrefixLength(Ipv4Range range, int prefixLength) {
-        RangeUtils.rangeCheck(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
+        RangeUtils.checkRange(prefixLength, 0, Ipv4.NUMBER_OF_BITS);
         return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(SizeComparator.<Ipv4, Ipv4Range>getInstance()));
     }
 
