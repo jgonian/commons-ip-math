@@ -22,7 +22,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     protected abstract R getFullRange();
 
     @Test
-    public abstract void shouldCalculateRangeLength();
+    public abstract void shouldCalculateRangeSize();
 
     @Test
     public abstract void testToString();

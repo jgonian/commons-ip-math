@@ -76,7 +76,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     @Override
     public Long size() {
-        return length().value();
+        return (end().value() - start().value()) + 1;
     }
 
     @Override
@@ -111,11 +111,6 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
         }
         String noted = notation.toString();
         return noted.substring(0, noted.length() - 1);
-    }
-
-    @Override
-    public Length<Long> length() {
-        return new Length<Long>((end().value() - start().value()) + 1);
     }
 
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {

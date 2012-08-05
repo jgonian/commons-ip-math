@@ -41,9 +41,9 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Override
-    public void shouldCalculateRangeLength() {
-        assertEquals(new Length<BigInteger>(new BigInteger("1")), FIRST_IPV6_ADDRESS.asRange().length());
-        assertEquals(new Length<BigInteger>(new BigInteger("340282366920938463463374607431768211456")), Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS).length());
+    public void shouldCalculateRangeSize() {
+        assertEquals(new BigInteger("1"), FIRST_IPV6_ADDRESS.asRange().size());
+        assertEquals(new BigInteger("340282366920938463463374607431768211456"), Ipv6Range.from(FIRST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS).size());
     }
 
     @Test

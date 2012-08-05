@@ -77,7 +77,7 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
     @Override
     public BigInteger size() {
-        return length().value();
+        return (end().value().subtract(start().value())).add(ONE);
     }
 
     @Override
@@ -99,11 +99,6 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
 
     public String toStringInDecimalNotation() {
         return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
-    }
-
-    @Override
-    public Length<BigInteger> length() {
-        return new Length<BigInteger>((end().value().subtract(start().value())).add(ONE));
     }
 
     public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {

@@ -3,7 +3,7 @@ package net.ripe.commons.ip;
 import static junit.framework.Assert.*;
 import org.junit.Test;
 
-public class LengthComparatorTest {
+public class SizeComparatorTest {
 
     private static final Asn _10 = Asn.of(10l);
     private static final Asn _9 = _10.previous();
@@ -12,7 +12,7 @@ public class LengthComparatorTest {
     private static final Asn _99 = _100.previous();
     private static final Asn _101 = _100.next();
 
-    private RangeComparator<Asn, AsnRange> comparator = LengthComparator.getInstance();
+    private RangeComparator<Asn, AsnRange> comparator = SizeComparator.getInstance();
 
     @Test
     public void testCompare() {

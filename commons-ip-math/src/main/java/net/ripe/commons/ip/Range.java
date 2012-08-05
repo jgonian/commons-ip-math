@@ -10,7 +10,7 @@ public interface Range<C extends Rangeable<C, R>, R extends Range<C, R>>
 
     C end();
 
-    Length<? extends Comparable<?>> length();
+    Comparable<?> size();
 
     boolean contains(R other);
 

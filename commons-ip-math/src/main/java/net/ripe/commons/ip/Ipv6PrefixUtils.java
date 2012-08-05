@@ -44,12 +44,12 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
 
     public static Optional<Ipv6Range> findMinimumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
-        return findPrefixForPrefixLength(range, prefixLength, LengthComparator.<Ipv6, Ipv6Range>getInstance());
+        return findPrefixForPrefixLength(range, prefixLength, SizeComparator.<Ipv6, Ipv6Range>getInstance());
     }
 
     public static Optional<Ipv6Range> findMaximumPrefixForPrefixLength(Ipv6Range range, int prefixLength) {
         RangeUtils.rangeCheck(prefixLength, 0, Ipv6.NUMBER_OF_BITS);
-        return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(LengthComparator.<Ipv6, Ipv6Range>getInstance()));
+        return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(SizeComparator.<Ipv6, Ipv6Range>getInstance()));
     }
     
     public static int findMaxPrefixLengthForAddress(Ipv6 address) {
