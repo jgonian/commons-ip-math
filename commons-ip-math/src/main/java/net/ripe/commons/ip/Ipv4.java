@@ -30,17 +30,11 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
         return parse(value);
     }
 
-    public static Ipv4 parse(String ipv4String) {
-        // 127.0.0.1/8
-        return parse(ipv4String, false);
-    }
-
-    public static Ipv4 parse(String ipv4String, boolean defaultMissingOctets) {
-        Validate.notNull(ipv4String, "ipv4String must not be empty");
-        ipv4String = ipv4String.trim();
+    public static Ipv4 parse(String ipv4Address) {
+        String ipv4String = Validate.notNull(ipv4Address, "Input IPv4 string must not be empty").trim();
         Validate.isTrue(!ipv4String.isEmpty()
                 && Character.isDigit(ipv4String.charAt(0))
-                && Character.isDigit(ipv4String.charAt(ipv4String.length() - 1)), "Invalid IPv4 address: " + ipv4String);
+                && Character.isDigit(ipv4String.charAt(ipv4String.length() - 1)), "Invalid IPv4 address: " + ipv4Address);
 
         long value = 0;
         int octet = 0;
@@ -52,21 +46,19 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
             if (Character.isDigit(ch)) {
                 octet = octet * 10 + (ch - '0');
             } else if (ch == '.') {
-                Validate.isTrue(octetCount < TOTAL_OCTETS, "invalid IPv4 address: " + ipv4String);
+                Validate.isTrue(octetCount < TOTAL_OCTETS, "Invalid IPv4 address: " + ipv4String);
                 octetCount++;
                 value = addOctet(value, octet);
                 octet = 0;
             } else {
-                throw new IllegalArgumentException("invalid IPv4 address: " + ipv4String);
+                throw new IllegalArgumentException("Invalid IPv4 address: " + ipv4String);
             }
         }
 
         value = addOctet(value, octet);
 
-        if (defaultMissingOctets) {
-            value <<= 8 * (TOTAL_OCTETS - octetCount);
-        } else if (octetCount != TOTAL_OCTETS) {
-            throw new IllegalArgumentException("invalid IPv4 address: " + ipv4String);
+        if (octetCount != TOTAL_OCTETS) {
+            throw new IllegalArgumentException("Invalid IPv4 address: " + ipv4String);
         }
 
         return new Ipv4(value);
@@ -93,27 +85,13 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     @Override
     public String toString() {
-        return toString(false);
-    }
-
-    public String toString(boolean defaultMissingOctets) {
         long value = value();
         int a = (int) (value >> 24);
         int b = (int) (value >> 16) & BYTE_MASK;
         int c = (int) (value >> 8) & BYTE_MASK;
         int d = (int) value & BYTE_MASK;
 
-        if (!defaultMissingOctets) {
-            return a + "." + b + "." + c + "." + d;
-        } else if (b == 0 && c == 0 && d == 0) {
-            return "" + a;
-        } else if (c == 0 && d == 0) {
-            return a + "." + b;
-        } else if (d == 0) {
-            return a + "." + b + "." + c;
-        } else {
-            return a + "." + b + "." + c + "." + d;
-        }
+        return a + "." + b + "." + c + "." + d;
     }
 
     /*@Override
