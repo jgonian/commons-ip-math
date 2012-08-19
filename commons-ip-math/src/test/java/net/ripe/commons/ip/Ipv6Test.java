@@ -36,6 +36,13 @@ public class Ipv6Test {
     }
 
     @Test
+    public void shouldPrintIpv6AddressWithLeadingZeros() {
+        assertEquals("0:1:4d09:ffff:1:ffff:0:ffff", Ipv6.parse("0:1:4d09:ffff:1:ffff:0:ffff").toString());
+        assertEquals("0:16b1:ffff:ffff:1c18:4e9b:31b6:0", Ipv6.parse("0:16b1:ffff:ffff:1c18:4e9b:31b6:0").toString());
+        assertEquals("::ffff:ffff:1c18:4e9b:31b6:0", Ipv6.parse("0:0:ffff:ffff:1c18:4e9b:31b6:0").toString());
+    }
+
+    @Test
     public void shouldSuppressLeadingZeros() {
         // rfc5952 - §4.1 Handling Leading Zeros in a 16-Bit Field
         assertEquals("2001:db8::1", Ipv6.parse("2001:0db8::0001").toString());

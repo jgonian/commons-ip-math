@@ -100,7 +100,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         }
 
         StringBuilder sb = new StringBuilder();
-        if (maxZeroPartsIndex == 7) {
+        if (maxZeroPartsIndex == 7 && maxZeroParts > 1) {
             sb.append(COLON);
         }
         String delimiter = "";
