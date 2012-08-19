@@ -77,42 +77,45 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
      */
     @Override
     public String toString() {
-        Long[] parts = new Long[8];
-        int countOfZeroParts = 0;
-        int maxZeroParts = 0;
-        int maxZeroPartsIndex = 0;
+        long[] parts = new long[8];
 
-        for (int i = 7; i >= 0; i--) {
-            parts[i] = value().shiftRight(i * _16).and(NETWORK_MASK).longValue();
+        // Find longest sequence of zeroes. Use the first one if there are
+        // multiple sequences of zeroes with the same length.
+        int currentZeroPartsLength = 0;
+        int currentZeroPartsStart = 0;
+        int maxZeroPartsLength = 0;
+        int maxZeroPartsStart = 0;
+        for (int i = 0; i < parts.length; ++i) {
+            parts[i] = value().shiftRight((7 - i) * _16).and(NETWORK_MASK).longValue();
             if (parts[i] == 0) {
-                countOfZeroParts++;
-            } else {
-                if (maxZeroParts < countOfZeroParts) {
-                    maxZeroParts = countOfZeroParts;
-                    maxZeroPartsIndex = countOfZeroParts + i;
+                if (currentZeroPartsLength == 0) {
+                    currentZeroPartsStart = i;
                 }
-                countOfZeroParts = 0;
+                ++currentZeroPartsLength;
+                if (currentZeroPartsLength > maxZeroPartsLength) {
+                    maxZeroPartsLength = currentZeroPartsLength;
+                    maxZeroPartsStart = currentZeroPartsStart;
+                }
+            } else {
+                currentZeroPartsLength = 0;
             }
         }
-        if (maxZeroParts < countOfZeroParts) {
-            maxZeroParts = countOfZeroParts;
-            maxZeroPartsIndex = countOfZeroParts - 1;
-        }
 
-        StringBuilder sb = new StringBuilder();
-        if (maxZeroPartsIndex == 7 && maxZeroParts > 1) {
+        StringBuilder sb = new StringBuilder(39);
+        if (maxZeroPartsStart == 0 && maxZeroPartsLength > 1) {
             sb.append(COLON);
         }
         String delimiter = "";
-        for (int i = 7; i >= 0; i--) {
-            if (i == maxZeroPartsIndex && maxZeroParts > 1) {
-                i -= maxZeroParts;
+        for (int i = 0; i < parts.length; ++i) {
+            if (i == maxZeroPartsStart && maxZeroPartsLength > 1) {
+                i += maxZeroPartsLength;
                 sb.append(COLON);
             }
-            if (i < 0) {
-                return sb.append(delimiter).toString();
+            sb.append(delimiter);
+            if (i <= 7) {
+                sb.append(Long.toHexString(parts[i]));
             } else {
-                sb.append(delimiter).append(Long.toHexString(parts[i]));
+                break;
             }
             delimiter = COLON;
         }
