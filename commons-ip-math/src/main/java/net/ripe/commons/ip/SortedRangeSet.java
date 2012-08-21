@@ -70,16 +70,24 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
     }
 
     public boolean remove(R range) {
+        R leftSide = set.floor(range);
+        R rightSide = set.ceiling(range);
         boolean removed = false;
-        List<R> remainders = new ArrayList<R>();
-        Iterator<R> it = iterator();
-        while (it.hasNext()) {
-            R rangeInSet = it.next();
-            if (rangeInSet.overlaps(range)) {
-                remainders.addAll(rangeInSet.exclude(range));
-                it.remove();
-                removed = true;
-            }
+        while (range.contains(rightSide)) {
+            set.remove(rightSide);
+            removed = true;
+            rightSide = set.higher(rightSide);
+        }
+        List<R> remainders = new LinkedList<R>(); 
+        if (leftSide != null && leftSide.overlaps(range)) {
+            set.remove(leftSide);
+            remainders.addAll(leftSide.exclude(range));
+            removed = true;
+        }
+        if (rightSide != null && rightSide.overlaps(range)) {
+            set.remove(rightSide);
+            remainders.addAll(rightSide.exclude(range));
+            removed = true;
         }
         set.addAll(remainders);
         return removed;
