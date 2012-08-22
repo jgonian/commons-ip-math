@@ -30,7 +30,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
 
     @Override
     public boolean contains(R other) {
-        return start.compareTo(other.start()) <= 0 && end.compareTo(other.end()) >= 0;
+        return other != null && (start.compareTo(other.start()) <= 0 && end.compareTo(other.end()) >= 0);
     }
 
     @Override

@@ -374,6 +374,21 @@ public class SortedRangeSetTest {
         Set<AsnRange> actual = subject.unmodifiableSet();
         assertEquals(result, actual);
     }
+    
+    @Test
+    public void testRemoveRangesThatAreContainedOnLimits() {
+        initSubject();
+        // subject    |--|  |--|  |--|  [0,5] [10,15] [20,25]
+        // remove           |--------|        [10,25]
+        // result     |---|             [0,5]
+        assertTrue(subject.remove(new AsnRange(Asn.of(10l), Asn.of(25l))));
+
+        Set<AsnRange> result = new HashSet<AsnRange>();
+        result.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
+
+        Set<AsnRange> actual = subject.unmodifiableSet();
+        assertEquals(result, actual);
+    }
 
     @Test
     public void testRemoveOverlappingRanges() {
