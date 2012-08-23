@@ -1,8 +1,12 @@
 package net.ripe.commons.ip;
 
-public class StartAndSizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
-        implements RangeComparator<C, R> {
+import java.io.Serializable;
 
+public class StartAndSizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
+        implements RangeComparator<C, R>, Serializable {
+
+    private static final long serialVersionUID = 6525126518038448733L;
+    
     private static StartAndSizeComparator<?, ?> instance;
 
     @SuppressWarnings({"unchecked"})
