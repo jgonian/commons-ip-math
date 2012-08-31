@@ -1,6 +1,7 @@
 package net.ripe.commons.ip;
 
 import static net.ripe.commons.ip.RangeUtils.*;
+
 import java.math.BigInteger;
 
 public final class Ipv6Utils {
@@ -21,5 +22,10 @@ public final class Ipv6Utils {
 
     private static BigInteger bitMask(int prefixLength) {
         return BigInteger.ONE.shiftLeft(Ipv6.NUMBER_OF_BITS - prefixLength).add(BigInteger.valueOf(-1));
+    }
+    
+    public static int getCommonPrefixLength(Ipv6 leftAddress, Ipv6 rightAddress) {
+        BigInteger temp = leftAddress.value().xor(rightAddress.value());
+        return 128 - temp.bitLength();
     }
 }

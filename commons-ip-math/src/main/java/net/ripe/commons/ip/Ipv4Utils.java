@@ -18,4 +18,9 @@ public final class Ipv4Utils {
         long mask = (1L << (Ipv4.NUMBER_OF_BITS - prefixLength)) - 1;
         return new Ipv4(address.value() | mask);
     }
+    
+    public static int getCommonPrefixLength(Ipv4 leftAddress, Ipv4 rightAddress) {
+        long temp = leftAddress.value() ^ rightAddress.value();
+        return Integer.numberOfLeadingZeros((int) temp);
+    }
 }

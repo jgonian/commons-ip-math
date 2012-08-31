@@ -1,3 +1,4 @@
+
 package net.ripe.commons.ip;
 
 import static java.math.BigInteger.*;
@@ -12,18 +13,19 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
 
     private Ipv6PrefixUtils() {
     }
-
+    
     public static boolean isValidPrefix(Ipv6Range range) {
-        int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        return getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0;
+        int prefixLength = Ipv6Utils.getCommonPrefixLength(range.start(), range.end());
+        Ipv6 lowerBoundForPrefix = Ipv6Utils.lowerBoundForPrefix(range.start(), prefixLength);
+        Ipv6 upperBoundForPrefix = Ipv6Utils.upperBoundForPrefix(range.end(), prefixLength);
+        return range.start().equals(lowerBoundForPrefix) && range.end().equals(upperBoundForPrefix);
     }
 
     public static int getPrefixLength(Ipv6Range range) {
-        int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        Validate.isTrue(getPrefixSize(maxContainedPrefix).compareTo(range.size()) == 0, range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
-        return maxContainedPrefix;
+        Validate.isTrue(isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
+        return Ipv6Utils.getCommonPrefixLength(range.start(), range.end());
     }
-
+    
     public static List<Ipv6Range> splitIntoPrefixes(Ipv6Range range) {
         BigInteger dynamicStart = range.start().value();
         List<Ipv6Range> result = new ArrayList<Ipv6Range>();

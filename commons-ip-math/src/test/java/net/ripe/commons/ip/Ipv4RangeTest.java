@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 import static net.ripe.commons.ip.Ipv4.FIRST_IPV4_ADDRESS;
 import static net.ripe.commons.ip.Ipv4.LAST_IPV4_ADDRESS;
 import static net.ripe.commons.ip.Ipv4.MAXIMUM_VALUE;
@@ -57,7 +57,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void shouldParseDashNotationWhenEmptyRange() {
         assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parse("192.168.0.1-192.168.0.1"));
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseDashNotationWhenIllegalRange() {
         Ipv4Range.parse("0.0.0.10-0.0.0.1");
@@ -81,6 +81,11 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseCidrWhenIllegalPrefix() {
         Ipv4Range.parseCidr("0.0.0.10/33");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToParseCidrWhenIllegalPrefixTwo() {
+        Ipv4Range.parse("5.57.249.88/28");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -132,6 +137,11 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     @Test
     public void testToStringInRangeNotation() {
         assertEquals("0.0.0.0-255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeNotation());
+    }
+    
+    @Test
+    public void testToStringSpecialFoundInvalidCase() {
+        assertFalse("94.126.33.0/23".equals(Ipv4Range.from(1585324288L).to(1585324799L).toString()));
     }
 
     @Test

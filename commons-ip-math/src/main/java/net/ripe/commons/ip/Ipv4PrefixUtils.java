@@ -13,14 +13,15 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
     }
 
     public static boolean isValidPrefix(Ipv4Range range) {
-        int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        return getPrefixSize(maxContainedPrefix) == range.size();
+        int prefixLength = Ipv4Utils.getCommonPrefixLength(range.start(), range.end());
+        Ipv4 lowerBoundForPrefix = Ipv4Utils.lowerBoundForPrefix(range.start(), prefixLength);
+        Ipv4 upperBoundForPrefix = Ipv4Utils.upperBoundForPrefix(range.end(), prefixLength);
+        return range.start().equals(lowerBoundForPrefix) && range.end().equals(upperBoundForPrefix);
     }
 
     public static int getPrefixLength(Ipv4Range range) {
-        int maxContainedPrefix = getMaxContainedPrefix(range.size());
-        Validate.isTrue(getPrefixSize(maxContainedPrefix) == range.size(), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
-        return maxContainedPrefix;
+        Validate.isTrue(isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
+        return Ipv4Utils.getCommonPrefixLength(range.start(), range.end());
     }
 
     public static List<Ipv4Range> splitIntoPrefixes(Ipv4Range range) {

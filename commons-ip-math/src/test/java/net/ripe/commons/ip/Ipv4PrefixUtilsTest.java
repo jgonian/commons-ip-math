@@ -72,7 +72,8 @@ public class Ipv4PrefixUtilsTest {
 
     @Test
     public void shouldReturnFalseForInvalidPrefix() {
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0-0.0.0.2")));
+        Ipv4Range parse = Ipv4Range.parse("0.0.0.0-0.0.0.2");
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(parse));
     }
 
     @Test
