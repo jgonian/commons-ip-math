@@ -67,9 +67,13 @@ public class Ipv6PrefixUtilsTest {
 
     @Test
     public void shouldReturnFalseForInvalidPrefix() {
-        assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::0-::2")));
+       assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::0-::2")));
+       assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::1-::3")));
+       assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::1-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff")));
+       assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
+       assertFalse(Ipv6PrefixUtils.isValidPrefix(Ipv6Range.parse("::2-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
     }
-
+    
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix() {
         assertEquals(128, Ipv6PrefixUtils.getPrefixLength(Ipv6Range.parse("::0-::0")));

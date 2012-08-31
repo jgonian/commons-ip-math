@@ -1,15 +1,9 @@
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.Ipv4PrefixUtils.findMaximumPrefixForPrefixLength;
-import static net.ripe.commons.ip.Ipv4PrefixUtils.findMinimumPrefixForPrefixLength;
-import static net.ripe.commons.ip.Ipv4PrefixUtils.splitIntoPrefixes;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static net.ripe.commons.ip.Ipv4PrefixUtils.*;
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 
 public class Ipv4PrefixUtilsTest {
@@ -72,10 +66,15 @@ public class Ipv4PrefixUtilsTest {
 
     @Test
     public void shouldReturnFalseForInvalidPrefix() {
-        Ipv4Range parse = Ipv4Range.parse("0.0.0.0-0.0.0.2");
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(parse));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0-0.0.0.2")));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.from(1585324288l).to(1585324799l)));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-0.0.0.3")));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.255")));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0-255.255.255.254")));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.254")));
+        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.2-255.255.255.254")));
     }
-
+    
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix() {
         assertEquals(32, Ipv4PrefixUtils.getPrefixLength(Ipv4Range.parse("0.0.0.0-0.0.0.0")));
