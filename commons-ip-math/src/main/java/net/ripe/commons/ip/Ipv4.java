@@ -1,5 +1,7 @@
 package net.ripe.commons.ip;
 
+import java.math.BigInteger;
+
 public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;
@@ -24,6 +26,13 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
         super(value);
         Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv4 has to be greater than or equal to " + MINIMUM_VALUE);
         Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv4 has to be less than or equal to " + MAXIMUM_VALUE);
+    }
+
+    public static Ipv4 of(BigInteger from) {
+        if(from == null) {
+            throw new IllegalArgumentException("from cannot be null");
+        }
+        return new Ipv4(from.longValue());
     }
 
     public static Ipv4 of(Long value) {
@@ -128,4 +137,5 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     public Ipv4Range asRange() {
         return new Ipv4Range(this, this);
     }
+
 }

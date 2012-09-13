@@ -23,7 +23,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
     }
 
     public static Ipv4RangeBuilder from(BigInteger from) {
-        return new Ipv4RangeBuilder(Ipv4.of(from.longValue()));
+        return new Ipv4RangeBuilder(Ipv4.of(from));
     }
 
     public static Ipv4RangeBuilder from(Long from) {
@@ -127,7 +127,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
         }
 
         public Ipv4Range to(BigInteger end) {
-            return to(Ipv4.of(end.longValue()));
+            return to(Ipv4.of(end));
         }
 
         public Ipv4Range to(Long end) {
