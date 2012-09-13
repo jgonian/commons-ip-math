@@ -1,5 +1,6 @@
 package net.ripe.commons.ip;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
     public static Ipv4RangeBuilder from(Ipv4 from) {
         return new Ipv4RangeBuilder(from);
+    }
+
+    public static Ipv4RangeBuilder from(BigInteger from) {
+        return new Ipv4RangeBuilder(Ipv4.of(from.longValue()));
     }
 
     public static Ipv4RangeBuilder from(Long from) {
@@ -89,15 +94,15 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
     }
 
     public String toStringInRangeNotation() {
-        return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+        return start() + DASH + end();
     }
 
     public String toStringInCidrNotation() {
-        return new StringBuilder().append(start()).append(SLASH).append(Ipv4PrefixUtils.getPrefixLength(this)).toString();
+        return start() + SLASH + Ipv4PrefixUtils.getPrefixLength(this);
     }
 
     public String toStringInDecimalNotation() {
-        return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
+        return start().value() + DASH + end().value();
     }
 
     public String toStringInSlashNotation() {
@@ -106,7 +111,7 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
         StringBuilder notation = new StringBuilder().append(start());
 
         for (Ipv4Range ipv4Range : prefixes) {
-            notation.append(SLASH + Ipv4PrefixUtils.getPrefixLength(ipv4Range));
+            notation.append(SLASH).append(Ipv4PrefixUtils.getPrefixLength(ipv4Range));
             notation.append(",");
         }
         String noted = notation.toString();
@@ -119,6 +124,10 @@ public class Ipv4Range extends AbstractIpRange<Long, Ipv4, Ipv4Range> {
 
         protected Ipv4RangeBuilder(Ipv4 from) {
             this.from = from;
+        }
+
+        public Ipv4Range to(BigInteger end) {
+            return to(Ipv4.of(end.longValue()));
         }
 
         public Ipv4Range to(Long end) {

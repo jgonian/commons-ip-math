@@ -90,15 +90,15 @@ public class Ipv6Range extends AbstractIpRange<BigInteger, Ipv6, Ipv6Range> {
     }
 
     public String toStringInRangeNotation() {
-        return new StringBuilder().append(start()).append(DASH).append(end()).toString();
+        return start() + DASH + end();
     }
 
     public String toStringInCidrNotation() {
-        return new StringBuilder().append(start()).append(SLASH).append(Ipv6PrefixUtils.getPrefixLength(this)).toString();
+        return start() + SLASH + Ipv6PrefixUtils.getPrefixLength(this);
     }
 
     public String toStringInDecimalNotation() {
-        return new StringBuilder().append(start().value()).append(DASH).append(end().value()).toString();
+        return start().value() + DASH + end().value();
     }
 
     public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {
