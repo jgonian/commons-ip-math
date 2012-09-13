@@ -8,7 +8,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = -1L;
 
-    public static final BigInteger NETWORK_MASK = BigInteger.valueOf(0xffff);
+    public static final BigInteger FOUR_OCTECT_MASK = BigInteger.valueOf(0xffff);
     public static final int NUMBER_OF_BITS = 128;
     public static final BigInteger MINIMUM_VALUE = BigInteger.ZERO;
     public static final BigInteger MAXIMUM_VALUE = new BigInteger(String.valueOf((ONE.shiftLeft(NUMBER_OF_BITS)).subtract(ONE)));
@@ -78,6 +78,14 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     @Override
     public String toString() {
         long[] parts = new long[8];
+        String[] formatted = new String[8];
+
+        BigInteger numberValue = value();
+        for(int i = parts.length - 1; i >= 0; i--) {
+            parts[i] = numberValue.and(FOUR_OCTECT_MASK).longValue();
+            formatted[i] = Long.toHexString(parts[i]);
+            numberValue = numberValue.shiftRight(BITS_PER_PART);
+        }
 
         // Find longest sequence of zeroes. Use the first one if there are
         // multiple sequences of zeroes with the same length.
@@ -86,7 +94,6 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         int maxZeroPartsLength = 0;
         int maxZeroPartsStart = 0;
         for (int i = 0; i < parts.length; ++i) {
-            parts[i] = value().shiftRight((7 - i) * BITS_PER_PART).and(NETWORK_MASK).longValue();
             if (parts[i] == 0) {
                 if (currentZeroPartsLength == 0) {
                     currentZeroPartsStart = i;
@@ -101,26 +108,13 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
             }
         }
 
-        StringBuilder sb = new StringBuilder(39);
-        if (maxZeroPartsStart == 0 && maxZeroPartsLength > 1) {
-            sb.append(COLON);
+        if (maxZeroPartsLength <= 1) {
+            return StringUtils.join(formatted, COLON);
+        } else {
+            String init = StringUtils.join(formatted, COLON, 0, maxZeroPartsStart);
+            String tail = StringUtils.join(formatted, COLON, maxZeroPartsStart + maxZeroPartsLength, formatted.length);
+            return init + "::" + tail;
         }
-        String delimiter = "";
-        for (int i = 0; i < parts.length; ++i) {
-            if (i == maxZeroPartsStart && maxZeroPartsLength > 1) {
-                i += maxZeroPartsLength;
-                sb.append(COLON);
-            }
-            sb.append(delimiter);
-            if (i <= 7) {
-                sb.append(Long.toHexString(parts[i]));
-            } else {
-                break;
-            }
-            delimiter = COLON;
-        }
-
-        return sb.toString();
     }
 
     /**
