@@ -16,6 +16,10 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     private static final int MAX_OCTET_VALUE = 255;
     private static final int MIN_OCTET_VALUE = 0;
 
+    static final int THREE_OCTETS = 24;
+    static final int TWO_OCTETS = 16;
+    static final int ONE_OCTET = 8;
+
     protected Ipv4(Long value) {
         super(value);
         Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv4 has to be greater than or equal to " + MINIMUM_VALUE);
@@ -66,8 +70,7 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     private static long addOctet(long value, int octet) {
         RangeUtils.checkRange(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
-        value = ((value) << 8) | octet;
-        return value;
+        return ((value) << 8) | octet;
     }
 
     /*
@@ -86,9 +89,9 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     @Override
     public String toString() {
         long value = value();
-        int a = (int) (value >> 24);
-        int b = (int) (value >> 16) & BYTE_MASK;
-        int c = (int) (value >> 8) & BYTE_MASK;
+        int a = (int) (value >> THREE_OCTETS);
+        int b = (int) (value >> TWO_OCTETS) & BYTE_MASK;
+        int c = (int) (value >> ONE_OCTET) & BYTE_MASK;
         int d = (int) value & BYTE_MASK;
 
         return a + "." + b + "." + c + "." + d;
