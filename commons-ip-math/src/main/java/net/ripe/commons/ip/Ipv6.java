@@ -19,7 +19,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: ";
     private static final String COLON = ":";
     private static final String ZERO = "0";
-    private static final int _16 = 16;
+    private static final int BITS_PER_PART = 16;
     private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
 
@@ -86,7 +86,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         int maxZeroPartsLength = 0;
         int maxZeroPartsStart = 0;
         for (int i = 0; i < parts.length; ++i) {
-            parts[i] = value().shiftRight((7 - i) * _16).and(NETWORK_MASK).longValue();
+            parts[i] = value().shiftRight((7 - i) * BITS_PER_PART).and(NETWORK_MASK).longValue();
             if (parts[i] == 0) {
                 if (currentZeroPartsLength == 0) {
                     currentZeroPartsStart = i;
@@ -153,8 +153,8 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
             Validate.isTrue(part.length() <= 4, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            checkRange(Integer.parseInt(part, _16), 0x0, 0xFFFF);
-            ipv6value = ipv6value.shiftLeft(_16).add(new BigInteger(part, _16));
+            checkRange(Integer.parseInt(part, BITS_PER_PART), 0x0, 0xFFFF);
+            ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
         }
         return new Ipv6(ipv6value);
     }
