@@ -122,9 +122,9 @@ public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
         }
 
         public Ipv6Range andPrefixLength(int prefixLength) {
-            Validate.isTrue(Ipv6Utils.lowerBoundForPrefix(from, prefixLength).equals(from),
+            Validate.isTrue(from.lowerBoundForPrefix(prefixLength).equals(from),
                     from + "/" + prefixLength + " is not a legal IPv6 address prefix.");
-            return to(Ipv6Utils.upperBoundForPrefix(from, prefixLength));
+            return to(from.upperBoundForPrefix(prefixLength));
         }
 
         @Override

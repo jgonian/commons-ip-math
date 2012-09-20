@@ -1,5 +1,6 @@
 package net.ripe.commons.ip;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -404,5 +405,36 @@ public class Ipv6Test {
     @Test
     public void shouldHave128BitsSize() {
         assertEquals(Ipv6.NUMBER_OF_BITS, Ipv6.FIRST_IPV6_ADDRESS.bitsSize());
+    }
+
+    @Test
+    public void shouldCalculateBoundsGivenAnAddressAndAPrefix() {
+        Ipv6 address = Ipv6.parse("ffce:abcd::");
+        assertEquals(Ipv6.parse("::"), address.lowerBoundForPrefix(0));
+        assertEquals(Ipv6.parse("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"), address.upperBoundForPrefix(0));
+
+        assertEquals(Ipv6.parse("ffce:abc0::"), address.lowerBoundForPrefix(28));
+        assertEquals(Ipv6.parse("ffce:abcf:ffff:ffff:ffff:ffff:ffff:ffff"), address.upperBoundForPrefix(28));
+
+        assertEquals(Ipv6.parse("ffce:abcd::"), address.lowerBoundForPrefix(128));
+        assertEquals(Ipv6.parse("ffce:abcd::"), address.upperBoundForPrefix(128));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToCalculateLowerBoundWhenPrefixIsOutOfRange() {
+        Ipv6.parse("ffce:abcd::").lowerBoundForPrefix(129);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToCalculateUpperBoundWhenPrefixIsOutOfRange() {
+        Ipv6.parse("ffce:abcd::").upperBoundForPrefix(129);
+    }
+
+    @Test
+    public void shouldCalculateCommonPrefixLength() {
+        Ipv6 ipv6 = Ipv6.of("::ffff");
+        assertEquals(0, ipv6.getCommonPrefixLength(Ipv6.of("ffff::")));
+        assertEquals(64, ipv6.getCommonPrefixLength(Ipv6.of("::ffff:0:0:0")));
+        assertEquals(128, ipv6.getCommonPrefixLength(Ipv6.of("::ffff")));
     }
 }

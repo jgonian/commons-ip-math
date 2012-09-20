@@ -1,5 +1,6 @@
 package net.ripe.commons.ip;
 
+import static net.ripe.commons.ip.RangeUtils.checkRange;
 import java.math.BigInteger;
 
 public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
@@ -142,6 +143,26 @@ public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     @Override
     public BigInteger asBigInteger() {
         return BigInteger.valueOf(value);
+    }
+
+    @Override
+    public Ipv4 lowerBoundForPrefix(int prefixLength) {
+        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        long mask = ~((1L << (NUMBER_OF_BITS - prefixLength)) - 1);
+        return new Ipv4(value & mask);
+    }
+
+    @Override
+    public Ipv4 upperBoundForPrefix(int prefixLength) {
+        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        long mask = (1L << (NUMBER_OF_BITS - prefixLength)) - 1;
+        return new Ipv4(value | mask);
+    }
+
+    @Override
+    public int getCommonPrefixLength(Ipv4 other) {
+        long temp = value ^ other.value;
+        return Integer.numberOfLeadingZeros((int) temp);
     }
 
     @Override

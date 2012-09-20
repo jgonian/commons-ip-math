@@ -22,6 +22,7 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final int BITS_PER_PART = 16;
     private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
+    private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
     private final BigInteger value;
 
@@ -280,6 +281,29 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     @Override
     public BigInteger asBigInteger() {
         return value;
+    }
+
+    @Override
+    public Ipv6 lowerBoundForPrefix(int prefixLength) {
+        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        BigInteger mask = bitMask(0).xor(bitMask(prefixLength));
+        return new Ipv6(value.and(mask));
+    }
+
+    @Override
+    public Ipv6 upperBoundForPrefix(int prefixLength) {
+        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        return new Ipv6(value.or(bitMask(prefixLength)));
+    }
+
+    private BigInteger bitMask(int prefixLength) {
+        return ONE.shiftLeft(NUMBER_OF_BITS - prefixLength).add(MINUS_ONE);
+    }
+
+    @Override
+    public int getCommonPrefixLength(Ipv6 other) {
+        BigInteger temp = value.xor(other.value);
+        return NUMBER_OF_BITS - temp.bitLength();
     }
 
     @Override

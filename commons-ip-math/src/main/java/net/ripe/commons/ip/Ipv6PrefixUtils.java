@@ -15,15 +15,15 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
     }
     
     public static boolean isValidPrefix(Ipv6Range range) {
-        int prefixLength = Ipv6Utils.getCommonPrefixLength(range.start(), range.end());
-        Ipv6 lowerBoundForPrefix = Ipv6Utils.lowerBoundForPrefix(range.start(), prefixLength);
-        Ipv6 upperBoundForPrefix = Ipv6Utils.upperBoundForPrefix(range.end(), prefixLength);
+        int prefixLength = range.start().getCommonPrefixLength(range.end());
+        Ipv6 lowerBoundForPrefix = range.start().lowerBoundForPrefix(prefixLength);
+        Ipv6 upperBoundForPrefix = range.end().upperBoundForPrefix(prefixLength);
         return range.start().equals(lowerBoundForPrefix) && range.end().equals(upperBoundForPrefix);
     }
 
     public static int getPrefixLength(Ipv6Range range) {
         Validate.isTrue(isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
-        return Ipv6Utils.getCommonPrefixLength(range.start(), range.end());
+        return range.start().getCommonPrefixLength(range.end());
     }
     
     public static List<Ipv6Range> splitIntoPrefixes(Ipv6Range range) {
