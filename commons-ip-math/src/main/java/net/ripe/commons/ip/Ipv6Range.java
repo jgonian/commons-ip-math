@@ -12,6 +12,11 @@ public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
     }
 
     @Override
+    protected Ipv6Range newInstance(BigInteger start, BigInteger end) {
+        return Ipv6Range.from(start).to(end);
+    }
+
+    @Override
     protected Ipv6Range newInstance(Ipv6 start, Ipv6 end) {
         return new Ipv6Range(start, end);
     }

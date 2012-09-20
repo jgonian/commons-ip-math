@@ -4,6 +4,7 @@ import static junit.framework.Assert.*;
 import static net.ripe.commons.ip.Ipv4.FIRST_IPV4_ADDRESS;
 import static net.ripe.commons.ip.Ipv4.LAST_IPV4_ADDRESS;
 import static net.ripe.commons.ip.Ipv4.MAXIMUM_VALUE;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -244,5 +245,34 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         new Ipv4Range(ip1, null);
     }
 
-//    public void shouldContain
+    @Test
+    public void shouldSplitIntoPrefixes() {
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/32"}, "0.0.0.0-0.0.0.0");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/31"}, "0.0.0.0-0.0.0.1");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/30"}, "0.0.0.0-0.0.0.3");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/29"}, "0.0.0.0-0.0.0.7");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/31", "0.0.0.2/32"}, "0.0.0.0-0.0.0.2");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/30", "0.0.0.4/32"}, "0.0.0.0-0.0.0.4");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/30", "0.0.0.4/31"}, "0.0.0.0-0.0.0.5");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.0/30", "0.0.0.4/31", "0.0.0.6/32"}, "0.0.0.0-0.0.0.6");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.1/32"}, "0.0.0.1-0.0.0.1");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.1/32", "0.0.0.2/32"}, "0.0.0.1-0.0.0.2");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.1/32", "0.0.0.2/31"}, "0.0.0.1-0.0.0.3");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.2/31"}, "0.0.0.2-0.0.0.3");
+        validateSplitIntoPrefixes(new String[]{"0.0.0.2/31", "0.0.0.4/32"}, "0.0.0.2-0.0.0.4");
+    }
+
+    private void validateSplitIntoPrefixes(String[] expectedPrefixes, String rangeToSplit) {
+        List<Ipv4Range> expected = new ArrayList<Ipv4Range>();
+        for (String prefix : expectedPrefixes) {
+            expected.add(Ipv4Range.parse(prefix));
+        }
+        assertEquals(expected, Ipv4Range.parse(rangeToSplit).splitToPrefixes());
+    }
+
+    @Test
+    public void shouldSplitIntoPrefixesAllIpv4SpaceExceptFirstAddress() {
+        Ipv4Range range = Ipv4Range.from("0.0.0.1").to(Ipv4.LAST_IPV4_ADDRESS);
+        assertEquals(32, range.splitToPrefixes().size());
+    }
 }

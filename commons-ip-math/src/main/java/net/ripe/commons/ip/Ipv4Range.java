@@ -13,6 +13,11 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
     }
 
     @Override
+    protected Ipv4Range newInstance(BigInteger start, BigInteger end) {
+        return Ipv4Range.from(start).to(end);
+    }
+
+    @Override
     protected Ipv4Range newInstance(Ipv4 start, Ipv4 end) {
         return new Ipv4Range(start, end);
     }
@@ -85,7 +90,7 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
 
     // TODO(yg): refactor and move to parent
     public String toStringInSlashNotation() {
-        List<Ipv4Range> prefixes = Ipv4PrefixUtils.splitIntoPrefixes(this);
+        List<Ipv4Range> prefixes = splitToPrefixes();
         Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>getInstance());
         StringBuilder notation = new StringBuilder().append(start());
 
