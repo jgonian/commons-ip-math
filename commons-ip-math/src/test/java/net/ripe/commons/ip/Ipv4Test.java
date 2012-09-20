@@ -39,4 +39,9 @@ public class Ipv4Test {
     public void shouldFailOnOutOfBoundsByte_NegativeByte() {
         Ipv4.parse("13.-40.0.0");
     }
+
+    @Test
+    public void shouldHave32BitsSize() {
+        assertEquals(Ipv4.NUMBER_OF_BITS, Ipv4.FIRST_IPV4_ADDRESS.bitsSize());
+    }
 }

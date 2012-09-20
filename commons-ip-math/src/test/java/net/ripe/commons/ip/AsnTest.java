@@ -112,4 +112,9 @@ public class AsnTest {
         assertTrue(Asn.LAST_16_BIT_ASN.next().is32Bit());
         assertTrue(Asn.LAST_32_BIT_ASN.is32Bit());
     }
+
+    @Test
+    public void shouldHave32BitsSize() {
+        assertEquals(Asn.NUMBER_OF_BITS, Asn.FIRST_ASN.bitsSize());
+    }
 }

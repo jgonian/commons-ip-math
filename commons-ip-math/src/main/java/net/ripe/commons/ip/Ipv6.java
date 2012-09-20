@@ -265,4 +265,9 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         }
         return result == 0xFFFF;
     }
+
+    @Override
+    public int bitsSize() {
+        return NUMBER_OF_BITS;
+    }
 }

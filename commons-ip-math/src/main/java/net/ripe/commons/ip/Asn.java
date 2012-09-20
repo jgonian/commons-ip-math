@@ -14,6 +14,7 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     public static final Asn LAST_16_BIT_ASN = Asn.of(ASN_16_BIT_MAX_VALUE);
     public static final Asn LAST_32_BIT_ASN = Asn.of(ASN_32_BIT_MAX_VALUE);
 
+    public static final int NUMBER_OF_BITS = 32;
     private static final int _16 = 16;
 
     public Asn(Long value) {
@@ -101,5 +102,10 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     @Override
     public AsnRange asRange() {
         return new AsnRange(this, this);
+    }
+
+    @Override
+    public int bitsSize() {
+        return NUMBER_OF_BITS;
     }
 }

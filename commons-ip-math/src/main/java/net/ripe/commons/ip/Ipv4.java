@@ -138,4 +138,8 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
         return new Ipv4Range(this, this);
     }
 
+    @Override
+    public int bitsSize() {
+        return NUMBER_OF_BITS;
+    }
 }

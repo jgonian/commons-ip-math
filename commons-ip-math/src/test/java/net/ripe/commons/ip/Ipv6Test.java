@@ -400,4 +400,9 @@ public class Ipv6Test {
         assertTrue(Ipv6.of("1:2:3:4:5:6:7:8").hasPrevious());
         assertTrue(Ipv6.LAST_IPV6_ADDRESS.hasPrevious());
     }
+
+    @Test
+    public void shouldHave128BitsSize() {
+        assertEquals(Ipv6.NUMBER_OF_BITS, Ipv6.FIRST_IPV6_ADDRESS.bitsSize());
+    }
 }
