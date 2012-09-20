@@ -20,6 +20,7 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final String COLON = ":";
     private static final String ZERO = "0";
     private static final int BITS_PER_PART = 16;
+    private static final int TOTAL_OCTETS = 8;
     private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
@@ -84,8 +85,8 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
      */
     @Override
     public String toString() {
-        long[] parts = new long[8];
-        String[] formatted = new String[8];
+        long[] parts = new long[TOTAL_OCTETS];
+        String[] formatted = new String[TOTAL_OCTETS];
 
         BigInteger numberValue = value;
         for(int i = parts.length - 1; i >= 0; i--) {
@@ -149,8 +150,8 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
         }
 
-        String[] split = ipv6String.split(COLON, 8);
-        Validate.isTrue(split.length == 8, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+        String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
+        Validate.isTrue(split.length == TOTAL_OCTETS, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
             Validate.isTrue(part.length() <= 4, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);

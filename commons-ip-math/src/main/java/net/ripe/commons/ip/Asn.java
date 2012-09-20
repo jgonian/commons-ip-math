@@ -6,17 +6,18 @@ import java.math.BigInteger;
 public class Asn implements SingleInternetResource<Asn, AsnRange> {
 
     private static final long serialVersionUID = -1L;
+    private static final int SIXTEEN = 16;
+    private static final int THIRTY_TWO = 32;
 
     public static final long ASN_MIN_VALUE = 0L;
-    public static final long ASN_16_BIT_MAX_VALUE = (1L << 16) - 1L;
-    public static final long ASN_32_BIT_MAX_VALUE = (1L << 32) - 1L;
+    public static final long ASN_16_BIT_MAX_VALUE = (1L << SIXTEEN) - 1L;
+    public static final long ASN_32_BIT_MAX_VALUE = (1L << THIRTY_TWO) - 1L;
 
     public static final Asn FIRST_ASN = Asn.of(ASN_MIN_VALUE);
     public static final Asn LAST_16_BIT_ASN = Asn.of(ASN_16_BIT_MAX_VALUE);
     public static final Asn LAST_32_BIT_ASN = Asn.of(ASN_32_BIT_MAX_VALUE);
 
-    public static final int NUMBER_OF_BITS = 32;
-    private static final int SIXTEEN = 16;
+    public static final int NUMBER_OF_BITS = THIRTY_TWO;
 
     private final Long value;
 
