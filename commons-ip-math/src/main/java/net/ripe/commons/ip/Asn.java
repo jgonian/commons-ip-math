@@ -112,7 +112,7 @@ public class Asn implements SingleInternetResource<Asn, AsnRange> {
     }
 
     @Override
-    public int bitsSize() {
+    public int bitSize() {
         return NUMBER_OF_BITS;
     }
 

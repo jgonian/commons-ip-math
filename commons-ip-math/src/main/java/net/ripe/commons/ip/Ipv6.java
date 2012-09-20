@@ -274,7 +274,7 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     }
 
     @Override
-    public int bitsSize() {
+    public int bitSize() {
         return NUMBER_OF_BITS;
     }
 

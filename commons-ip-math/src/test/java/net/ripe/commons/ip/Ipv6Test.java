@@ -404,7 +404,7 @@ public class Ipv6Test {
 
     @Test
     public void shouldHave128BitsSize() {
-        assertEquals(Ipv6.NUMBER_OF_BITS, Ipv6.FIRST_IPV6_ADDRESS.bitsSize());
+        assertEquals(Ipv6.NUMBER_OF_BITS, Ipv6.FIRST_IPV6_ADDRESS.bitSize());
     }
 
     @Test

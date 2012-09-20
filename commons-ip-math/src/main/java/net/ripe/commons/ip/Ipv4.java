@@ -136,7 +136,7 @@ public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     }
 
     @Override
-    public int bitsSize() {
+    public int bitSize() {
         return NUMBER_OF_BITS;
     }
 

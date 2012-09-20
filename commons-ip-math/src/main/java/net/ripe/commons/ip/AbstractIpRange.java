@@ -43,7 +43,7 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
     public List<R> splitToPrefixes() {
         BigInteger rangeEnd = end().asBigInteger();
         BigInteger currentRangeStart = start().asBigInteger();
-        int startingPrefixLength = start().bitsSize();
+        int startingPrefixLength = start().bitSize();
         List<R> prefixes = new LinkedList<R>();
 
         while (currentRangeStart.compareTo(rangeEnd) <= 0) {

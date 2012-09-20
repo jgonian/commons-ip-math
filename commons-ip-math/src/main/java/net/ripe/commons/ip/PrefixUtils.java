@@ -27,13 +27,13 @@ public final class PrefixUtils {
 
     public static <C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
     Optional<R> findMinimumPrefixForPrefixLength(R range, int prefixLength) {
-        checkRange(prefixLength, 0, range.start().bitsSize());
+        checkRange(prefixLength, 0, range.start().bitSize());
         return findPrefixForPrefixLength(range, prefixLength, SizeComparator.<C, R>getInstance());
     }
 
     public static <C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
     Optional<R> findMaximumPrefixForPrefixLength(R range, int prefixLength) {
-        checkRange(prefixLength, 0, range.start().bitsSize());
+        checkRange(prefixLength, 0, range.start().bitSize());
         return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(SizeComparator.<C, R>getInstance()));
     }
 

@@ -43,7 +43,7 @@ public class Ipv4Test {
 
     @Test
     public void shouldHave32BitsSize() {
-        assertEquals(Ipv4.NUMBER_OF_BITS, Ipv4.FIRST_IPV4_ADDRESS.bitsSize());
+        assertEquals(Ipv4.NUMBER_OF_BITS, Ipv4.FIRST_IPV4_ADDRESS.bitSize());
     }
 
     @Test
