@@ -82,14 +82,6 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
         return ((value) << 8) | octet;
     }
 
-    /*
-    @Override
-    public int getCommonPrefixLength(Ipv4Address other) {
-        long temp = value ^ other.value;
-        return Integer.numberOfLeadingZeros((int) temp);
-    }
-    */
-
     @Override
     public int compareTo(Ipv4 other) {
         return value().compareTo(other.value());
