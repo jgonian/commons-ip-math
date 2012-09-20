@@ -1,16 +1,6 @@
 package net.ripe.commons.ip;
 
-import java.math.BigInteger;
-
-public abstract class AbstractIp<V extends Comparable<V>, T extends AbstractIp<V, T, R>, R extends AbstractIpRange<V, T, R>>
-        extends SingleValue<V>
+public abstract class AbstractIp<T extends AbstractIp<T, R>, R extends AbstractIpRange<T, R>>
         implements SingleInternetResource<T, R> {
 
-    protected AbstractIp(V value) {
-        super(value);
-    }
-
-    protected BigInteger asBigInteger() {
-        return new BigInteger(value().toString());
-    }
 }

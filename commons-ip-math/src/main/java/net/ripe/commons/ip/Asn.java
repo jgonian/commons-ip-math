@@ -1,8 +1,9 @@
 package net.ripe.commons.ip;
 
 import static net.ripe.commons.ip.RangeUtils.checkRange;
+import java.math.BigInteger;
 
-public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn, AsnRange> {
+public class Asn implements SingleInternetResource<Asn, AsnRange> {
 
     private static final long serialVersionUID = -1L;
 
@@ -17,9 +18,15 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     public static final int NUMBER_OF_BITS = 32;
     private static final int _16 = 16;
 
+    private final Long value;
+
     public Asn(Long value) {
-        super(value);
+        this.value = Validate.notNull(value, "value is required");
         checkRange(value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
+    }
+
+    long value() {
+        return value;
     }
 
     public static Asn of(Long value) {
@@ -71,17 +78,17 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     @Override
     public int compareTo(Asn other) {
-        return value().compareTo(other.value());
+        return value.compareTo(other.value);
     }
 
     @Override
     public Asn next() {
-        return new Asn(value() + 1);
+        return new Asn(value + 1);
     }
 
     @Override
     public Asn previous() {
-        return new Asn(value() - 1);
+        return new Asn(value - 1);
     }
 
     @Override
@@ -96,7 +103,7 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
 
     @Override
     public String toString() {
-        return "AS" + value();
+        return "AS" + value;
     }
 
     @Override
@@ -107,5 +114,30 @@ public class Asn extends SingleValue<Long> implements SingleInternetResource<Asn
     @Override
     public int bitsSize() {
         return NUMBER_OF_BITS;
+    }
+
+    @Override
+    public BigInteger asBigInteger() {
+        return BigInteger.valueOf(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Asn that = (Asn) o;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 }

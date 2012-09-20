@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-public abstract class AbstractIpRange<V extends Comparable<V>, C extends AbstractIp<V, C, R>, R extends AbstractIpRange<V, C, R>>
+public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
         extends AbstractRange<C, R>
         implements InternetResourceRange<C, R> {
 

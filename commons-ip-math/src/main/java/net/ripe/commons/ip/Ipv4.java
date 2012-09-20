@@ -2,7 +2,7 @@ package net.ripe.commons.ip;
 
 import java.math.BigInteger;
 
-public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
+public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;
 
@@ -17,15 +17,20 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     private static final int TOTAL_OCTETS = 4;
     private static final int MAX_OCTET_VALUE = 255;
     private static final int MIN_OCTET_VALUE = 0;
+    private static final int THREE_OCTETS = 24;
+    private static final int TWO_OCTETS = 16;
+    private static final int ONE_OCTET = 8;
 
-    static final int THREE_OCTETS = 24;
-    static final int TWO_OCTETS = 16;
-    static final int ONE_OCTET = 8;
+    private Long value;
 
     protected Ipv4(Long value) {
-        super(value);
+        this.value = Validate.notNull(value, "value is required");
         Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv4 has to be greater than or equal to " + MINIMUM_VALUE);
         Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv4 has to be less than or equal to " + MAXIMUM_VALUE);
+    }
+
+    long value() {
+        return value;
     }
 
     public static Ipv4 of(BigInteger from) {
@@ -84,16 +89,15 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     @Override
     public int compareTo(Ipv4 other) {
-        return value().compareTo(other.value());
+        return value.compareTo(other.value);
     }
 
     @Override
     public String toString() {
-        long value = value();
         int a = (int) (value >> THREE_OCTETS);
         int b = (int) (value >> TWO_OCTETS) & BYTE_MASK;
         int c = (int) (value >> ONE_OCTET) & BYTE_MASK;
-        int d = (int) value & BYTE_MASK;
+        int d = (int) (value & BYTE_MASK);
 
         return a + "." + b + "." + c + "." + d;
     }
@@ -107,12 +111,12 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
 
     @Override
     public Ipv4 next() {
-        return new Ipv4(value() + 1);
+        return new Ipv4(value + 1);
     }
 
     @Override
     public Ipv4 previous() {
-        return new Ipv4(value() - 1);
+        return new Ipv4(value - 1);
     }
 
     @Override
@@ -133,5 +137,30 @@ public class Ipv4 extends AbstractIp<Long, Ipv4, Ipv4Range> {
     @Override
     public int bitsSize() {
         return NUMBER_OF_BITS;
+    }
+
+    @Override
+    public BigInteger asBigInteger() {
+        return BigInteger.valueOf(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ipv4 that = (Ipv4) o;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 }

@@ -4,7 +4,7 @@ import static java.math.BigInteger.*;
 import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
 
-public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
+public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = -1L;
 
@@ -23,10 +23,16 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
 
+    private final BigInteger value;
+
     protected Ipv6(BigInteger value) {
-        super(value);
+        this.value = Validate.notNull(value, "value is required");
         Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv6 has to be greater than or equal to " + MINIMUM_VALUE);
         Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv6 has to be less than or equal to " + MAXIMUM_VALUE);
+    }
+
+    BigInteger value() {
+        return value;
     }
 
     public static Ipv6 of(BigInteger value) {
@@ -39,17 +45,17 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
 
     @Override
     public int compareTo(Ipv6 other) {
-        return value().compareTo(other.value());
+        return value.compareTo(other.value);
     }
 
     @Override
     public Ipv6 next() {
-        return new Ipv6(value().add(ONE));
+        return new Ipv6(value.add(ONE));
     }
 
     @Override
     public Ipv6 previous() {
-        return new Ipv6(value().subtract(ONE));
+        return new Ipv6(value.subtract(ONE));
     }
 
     @Override
@@ -80,7 +86,7 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
         long[] parts = new long[8];
         String[] formatted = new String[8];
 
-        BigInteger numberValue = value();
+        BigInteger numberValue = value;
         for(int i = parts.length - 1; i >= 0; i--) {
             parts[i] = numberValue.and(FOUR_OCTECT_MASK).longValue();
             formatted[i] = Long.toHexString(parts[i]);
@@ -269,5 +275,30 @@ public class Ipv6 extends AbstractIp<BigInteger, Ipv6, Ipv6Range> {
     @Override
     public int bitsSize() {
         return NUMBER_OF_BITS;
+    }
+
+    @Override
+    public BigInteger asBigInteger() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ipv6 that = (Ipv6) o;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 }
