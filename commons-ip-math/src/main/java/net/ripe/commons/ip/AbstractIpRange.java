@@ -21,7 +21,7 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
 
     @Override
     public String toString() {
-        if (PrefixUtils.isValidPrefix(this)) {
+        if (PrefixUtils.isLegalPrefix(this)) {
             return toStringInCidrNotation();
         } else {
             return toStringInRangeNotation();

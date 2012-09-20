@@ -12,16 +12,16 @@ public class PrefixUtilsIpv6Test {
 
     @Test
     public void shouldReturnTrueForValidPrefix() {
-        assertTrue(PrefixUtils.isValidPrefix(Ipv6Range.parse("::/0")));
+        assertTrue(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::/0")));
     }
 
     @Test
     public void shouldReturnFalseForInvalidPrefix() {
-        assertFalse(PrefixUtils.isValidPrefix(Ipv6Range.parse("::0-::2")));
-        assertFalse(PrefixUtils.isValidPrefix(Ipv6Range.parse("::1-::3")));
-        assertFalse(PrefixUtils.isValidPrefix(Ipv6Range.parse("::1-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff")));
-        assertFalse(PrefixUtils.isValidPrefix(Ipv6Range.parse("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
-        assertFalse(PrefixUtils.isValidPrefix(Ipv6Range.parse("::2-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
+        assertFalse(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::0-::2")));
+        assertFalse(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::1-::3")));
+        assertFalse(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::1-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff")));
+        assertFalse(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
+        assertFalse(PrefixUtils.isLegalPrefix(Ipv6Range.parse("::2-ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe")));
     }
 
     @Test
