@@ -82,7 +82,7 @@ public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
 
     @Override
     public String toString() {
-        if (Ipv6PrefixUtils.isValidPrefix(this)) {
+        if (PrefixUtils.isValidPrefix(this)) {
             return toStringInCidrNotation();
         } else {
             return toStringInRangeNotation();

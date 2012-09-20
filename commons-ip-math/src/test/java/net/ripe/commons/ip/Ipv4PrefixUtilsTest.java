@@ -58,22 +58,6 @@ public class Ipv4PrefixUtilsTest {
     public void findBiggestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooBig() {
         findMaximumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), 129);
     }
-
-    @Test
-    public void shouldReturnTrueForValidPrefix() {
-        assertTrue(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0/0")));
-    }
-
-    @Test
-    public void shouldReturnFalseForInvalidPrefix() {
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0-0.0.0.2")));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.from(1585324288l).to(1585324799l)));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-0.0.0.3")));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.255")));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.0-255.255.255.254")));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.254")));
-        assertFalse(Ipv4PrefixUtils.isValidPrefix(Ipv4Range.parse("0.0.0.2-255.255.255.254")));
-    }
     
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix() {

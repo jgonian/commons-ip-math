@@ -86,7 +86,7 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
 
     @Override
     public String toString() {
-        if (Ipv4PrefixUtils.isValidPrefix(this)) {
+        if (PrefixUtils.isValidPrefix(this)) {
             return toStringInCidrNotation();
         } else {
             return toStringInRangeNotation();

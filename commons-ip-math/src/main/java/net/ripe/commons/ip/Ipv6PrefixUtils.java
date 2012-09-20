@@ -13,16 +13,9 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
 
     private Ipv6PrefixUtils() {
     }
-    
-    public static boolean isValidPrefix(Ipv6Range range) {
-        int prefixLength = range.start().getCommonPrefixLength(range.end());
-        Ipv6 lowerBoundForPrefix = range.start().lowerBoundForPrefix(prefixLength);
-        Ipv6 upperBoundForPrefix = range.end().upperBoundForPrefix(prefixLength);
-        return range.start().equals(lowerBoundForPrefix) && range.end().equals(upperBoundForPrefix);
-    }
 
     public static int getPrefixLength(Ipv6Range range) {
-        Validate.isTrue(isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
+        Validate.isTrue(PrefixUtils.isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
         return range.start().getCommonPrefixLength(range.end());
     }
     
