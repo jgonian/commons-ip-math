@@ -1,6 +1,9 @@
 package net.ripe.commons.ip;
 
-public class StringUtils {
+public final class StringUtils {
+
+    private StringUtils() {
+    }
 
     public static String join(String[] strings, String delimiter) {
         return join(strings, delimiter, 0, strings.length);

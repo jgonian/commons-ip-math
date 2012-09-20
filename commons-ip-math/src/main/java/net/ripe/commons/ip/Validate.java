@@ -1,6 +1,9 @@
 package net.ripe.commons.ip;
 
-public class Validate {
+public final class Validate {
+
+    private Validate() {
+    }
 
     public static void isTrue(boolean expression, String message) {
         if (!expression) {

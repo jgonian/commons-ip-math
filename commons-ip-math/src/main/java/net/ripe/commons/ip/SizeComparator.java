@@ -1,7 +1,11 @@
 package net.ripe.commons.ip;
 
-public class SizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
-        implements RangeComparator<C, R> {
+import java.io.Serializable;
+
+public final class SizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
+        implements RangeComparator<C, R>, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private static SizeComparator<?, ?> instance;
 

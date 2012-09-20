@@ -16,7 +16,7 @@ public class Asn implements SingleInternetResource<Asn, AsnRange> {
     public static final Asn LAST_32_BIT_ASN = Asn.of(ASN_32_BIT_MAX_VALUE);
 
     public static final int NUMBER_OF_BITS = 32;
-    private static final int _16 = 16;
+    private static final int SIXTEEN = 16;
 
     private final Long value;
 
@@ -55,16 +55,16 @@ public class Asn implements SingleInternetResource<Asn, AsnRange> {
             }
             long low;
             long high = 0L;
-            int indexOfDot = asnString.indexOf(".");
+            int indexOfDot = asnString.indexOf('.');
             if (indexOfDot != -1) {
                 low = checkRange(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
                 high = checkRange(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
             } else {
                 low = Long.valueOf(asnString);
             }
-            return new Asn((high << _16) | low);
+            return new Asn((high << SIXTEEN) | low);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Invalid AS number: '" + text + "'. Details: " + ex.getMessage());
+            throw new IllegalArgumentException("Invalid AS number: '" + text + "'. Details: " + ex.getMessage(), ex);
         }
     }
 
