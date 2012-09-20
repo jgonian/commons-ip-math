@@ -61,18 +61,6 @@ public class Ipv6PrefixUtilsTest {
     }
 
     @Test
-    public void shouldGetPrefixLengthWhenCorrectPrefix() {
-        assertEquals(128, Ipv6PrefixUtils.getPrefixLength(Ipv6Range.parse("::0-::0")));
-        assertEquals(128, Ipv6PrefixUtils.getPrefixLength(Ipv6Range.parse("::1-::1")));
-        assertEquals(126, Ipv6PrefixUtils.getPrefixLength(Ipv6Range.parse("::0-::3")));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldFailToGetPrefixLengthWhenInvalidPrefix() {
-        Ipv6PrefixUtils.getPrefixLength(Ipv6Range.parse("::0-::2"));
-    }
-
-    @Test
     public void shouldSplitIntoPrefixes() {
         validateSplitIntoPrefixes(new String[]{"::/128"}, "::0-::0");
         validateSplitIntoPrefixes(new String[]{"::/127"}, "::0-::1");

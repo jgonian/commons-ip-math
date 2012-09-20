@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
+
     private static final long serialVersionUID = 1L;
-    private static final String SLASH = "/";
-    private static final String DASH = "-";
 
     protected Ipv4Range(Ipv4 start, Ipv4 end) {
         super(start, end);
@@ -84,34 +83,14 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
         return (end().value() - start().value()) + 1;
     }
 
-    @Override
-    public String toString() {
-        if (PrefixUtils.isValidPrefix(this)) {
-            return toStringInCidrNotation();
-        } else {
-            return toStringInRangeNotation();
-        }
-    }
-
-    public String toStringInRangeNotation() {
-        return start() + DASH + end();
-    }
-
-    public String toStringInCidrNotation() {
-        return start() + SLASH + Ipv4PrefixUtils.getPrefixLength(this);
-    }
-
-    public String toStringInDecimalNotation() {
-        return start().value() + DASH + end().value();
-    }
-
+    // TODO(yg): refactor and move to parent
     public String toStringInSlashNotation() {
         List<Ipv4Range> prefixes = Ipv4PrefixUtils.splitIntoPrefixes(this);
         Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>getInstance());
         StringBuilder notation = new StringBuilder().append(start());
 
         for (Ipv4Range ipv4Range : prefixes) {
-            notation.append(SLASH).append(Ipv4PrefixUtils.getPrefixLength(ipv4Range));
+            notation.append(SLASH).append(PrefixUtils.getPrefixLength(ipv4Range));
             notation.append(",");
         }
         String noted = notation.toString();

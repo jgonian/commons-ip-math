@@ -14,11 +14,6 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
     private Ipv6PrefixUtils() {
     }
 
-    public static int getPrefixLength(Ipv6Range range) {
-        Validate.isTrue(PrefixUtils.isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
-        return range.start().getCommonPrefixLength(range.end());
-    }
-    
     public static List<Ipv6Range> splitIntoPrefixes(Ipv6Range range) {
         BigInteger dynamicStart = range.start().value();
         List<Ipv6Range> result = new ArrayList<Ipv6Range>();
@@ -55,7 +50,7 @@ public final class Ipv6PrefixUtils { // TODO(yg): Investigate how to abstract fo
         List<Ipv6Range> prefixes = splitIntoPrefixes(range);
         Collections.sort(prefixes, comparator);
         for (Ipv6Range prefix : prefixes) {
-            if (prefixLength >= getPrefixLength(prefix)) {
+            if (prefixLength >= PrefixUtils.getPrefixLength(prefix)) {
                 return Optional.of(prefix);
             }
         }

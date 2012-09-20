@@ -5,8 +5,7 @@ import java.math.BigInteger;
 
 public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
 
-    private static final String DASH = "-";
-    private static final String SLASH = "/";
+    private static final long serialVersionUID = 1L;
 
     protected Ipv6Range(Ipv6 start, Ipv6 end) {
         super(start, end);
@@ -78,27 +77,6 @@ public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
     @Override
     public BigInteger size() {
         return (end().value().subtract(start().value())).add(ONE);
-    }
-
-    @Override
-    public String toString() {
-        if (PrefixUtils.isValidPrefix(this)) {
-            return toStringInCidrNotation();
-        } else {
-            return toStringInRangeNotation();
-        }
-    }
-
-    public String toStringInRangeNotation() {
-        return start() + DASH + end();
-    }
-
-    public String toStringInCidrNotation() {
-        return start() + SLASH + Ipv6PrefixUtils.getPrefixLength(this);
-    }
-
-    public String toStringInDecimalNotation() {
-        return start().value() + DASH + end().value();
     }
 
     public static class Ipv6RangeBuilder extends AbstractRangeBuilder<Ipv6, Ipv6Range> {

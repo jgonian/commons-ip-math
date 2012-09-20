@@ -12,11 +12,6 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
     private Ipv4PrefixUtils() {
     }
 
-    public static int getPrefixLength(Ipv4Range range) {
-        Validate.isTrue(PrefixUtils.isValidPrefix(range), range.toStringInRangeNotation() + " is not a valid prefix, cannot get prefix length!");
-        return range.start().getCommonPrefixLength(range.end());
-    }
-
     public static List<Ipv4Range> splitIntoPrefixes(Ipv4Range range) {
         Long dynamicStart = range.start().value();
         List<Ipv4Range> result = new ArrayList<Ipv4Range>();
@@ -49,7 +44,7 @@ public final class Ipv4PrefixUtils {   // TODO(yg): Investigate how to abstract 
         List<Ipv4Range> prefixes = splitIntoPrefixes(range);
         Collections.sort(prefixes, comparator);
         for (Ipv4Range prefix : prefixes) {
-            if (prefixLength >= getPrefixLength(prefix)) {
+            if (prefixLength >= PrefixUtils.getPrefixLength(prefix)) {
                 return Optional.of(prefix);
             }
         }
