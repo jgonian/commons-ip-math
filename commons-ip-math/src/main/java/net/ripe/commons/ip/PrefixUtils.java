@@ -1,6 +1,8 @@
 package net.ripe.commons.ip;
 
+import static java.math.BigInteger.ZERO;
 import static net.ripe.commons.ip.RangeUtils.checkRange;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +49,22 @@ public final class PrefixUtils {
             }
         }
         return Optional.absent();
+    }
+
+    // TODO(yg): generify and move to AbstractIp
+    public static int findMaxPrefixLengthForAddress(Ipv6 address) {
+        return getMaxValidPrefix(address.value());
+    }
+
+    private static int getMaxValidPrefix(BigInteger number) {
+        int powerOfTwo = 0;
+        int maxPowerOfTwo = powerOfTwo;
+
+        while (powerOfTwo <= Ipv6.NUMBER_OF_BITS && number.divideAndRemainder(BigInteger.ONE.shiftLeft(powerOfTwo))[1].compareTo(ZERO) == 0) {
+            maxPowerOfTwo = powerOfTwo;
+            powerOfTwo++;
+        }
+        return Ipv6.NUMBER_OF_BITS - maxPowerOfTwo;
     }
 
 }
