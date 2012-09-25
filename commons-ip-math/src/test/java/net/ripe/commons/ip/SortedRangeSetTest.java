@@ -1,11 +1,14 @@
 package net.ripe.commons.ip;
 
+import static junit.framework.Assert.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.*;
-
-import static junit.framework.Assert.*;
 
 public class SortedRangeSetTest {
 
@@ -558,6 +561,87 @@ public class SortedRangeSetTest {
         subject.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
         subject.add(new AsnRange(Asn.of(10l), Asn.of(20l)));
         assertEquals("[AS0-AS5, AS10-AS20]", subject.toString());
+    }
+    
+    @Test
+    public void shouldEqualsWhenEqual() {
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        other.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        assertTrue(subject.equals(other));
+    }
+    
+    @Test
+    public void shouldNotConsiderEqualsWhenNotEqualSets() {
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(1l)));
+        other.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        assertFalse(subject.equals(other));
+    }
+    
+    @Test
+    public void shouldIntersectTwoSetsWhenIdenticalSets() {
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        other.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        
+        SortedRangeSet<Asn, AsnRange> expected = new SortedRangeSet<Asn, AsnRange>();
+        expected.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        
+        assertEquals(expected, subject.intersection(other));
+        
+    }
+    
+    @Test
+    public void shouldIntersectTwoSetsWhenEmptySets() {
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        SortedRangeSet<Asn, AsnRange> expected = new SortedRangeSet<Asn, AsnRange>();
+        
+        assertEquals(expected, subject.intersection(other));
+    }
+    
+    @Test
+    public void shouldIntersectTwoSetsWhenOneOverlappingRange() {
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        other.add(new AsnRange(Asn.of(0l), Asn.of(1l)));
+        
+        SortedRangeSet<Asn, AsnRange> expected = new SortedRangeSet<Asn, AsnRange>();
+        expected.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        
+        assertEquals(expected, subject.intersection(other));
+    }
+    
+    @Test
+    public void shouldIntersectTwoSetsWhenTwoOverlappingRanges() {
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(1l)));
+        subject.add(new AsnRange(Asn.of(3l), Asn.of(4l)));
+        
+        SortedRangeSet<Asn, AsnRange> other = new SortedRangeSet<Asn, AsnRange>();
+        other.add(new AsnRange(Asn.of(1l), Asn.of(2l)));
+        other.add(new AsnRange(Asn.of(4l), Asn.of(5l)));
+        
+        
+        SortedRangeSet<Asn, AsnRange> expected = new SortedRangeSet<Asn, AsnRange>();
+        expected.add(new AsnRange(Asn.of(1l), Asn.of(1l)));
+        expected.add(new AsnRange(Asn.of(4l), Asn.of(4l)));
+        
+        assertEquals(expected, subject.intersection(other));
+    }
+    
+    @Test
+    public void shouldGetFloor() {
+        subject.add(new AsnRange(Asn.of(2l), Asn.of(2l)));
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        assertEquals(new AsnRange(Asn.of(2l), Asn.of(2l)), subject.floor(new AsnRange(Asn.of(3l), Asn.of(3l))));
+    }
+    
+    @Test
+    public void shouldGetCeiling() {
+        subject.add(new AsnRange(Asn.of(2l), Asn.of(2l)));
+        subject.add(new AsnRange(Asn.of(0l), Asn.of(0l)));
+        assertEquals(new AsnRange(Asn.of(2l), Asn.of(2l)), subject.ceiling(new AsnRange(Asn.of(1l), Asn.of(1l))));
     }
 
 }

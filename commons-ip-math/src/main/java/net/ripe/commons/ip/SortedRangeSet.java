@@ -1,6 +1,13 @@
 package net.ripe.commons.ip;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> implements Iterable<R> {
 
@@ -92,6 +99,35 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         set.addAll(remainders);
         return removed;
     }
+    
+    public SortedRangeSet<C, R> intersection(SortedRangeSet<C, R> other) {
+        SortedRangeSet<C, R> result = new SortedRangeSet<C, R>();
+        for (R thisRange : set) {
+            R leftSide = other.set.floor(thisRange);
+            R rightSide = other.set.ceiling(thisRange);
+            if (thisRange.overlaps(leftSide)) {
+                result.add(thisRange.intersection(leftSide));
+            }
+            if (thisRange.overlaps(rightSide)) {
+                result.add(thisRange.intersection(rightSide));
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        
+        SortedRangeSet<C,R> other = (SortedRangeSet<C,R>) o;
+
+        return this.set.equals(other.set);
+    }
 
     public boolean contains(R range) {
         R leftmost = set.floor(range);
@@ -114,6 +150,14 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
     public R getSingleRange() {
         Validate.isTrue(set.size() == 1, "Expected exactly one range");
         return set.first();
+    }
+    
+    public R floor(R range) {
+        return set.floor(range);
+    }
+    
+    public R ceiling(R range) {
+        return set.ceiling(range);
     }
 
     /**
