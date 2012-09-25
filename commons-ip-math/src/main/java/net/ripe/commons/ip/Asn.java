@@ -1,9 +1,9 @@
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.RangeUtils.checkRange;
+import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
 
-public class Asn implements SingleInternetResource<Asn, AsnRange> {
+public class Asn implements SingleInternetResource<Asn, AsnRange>, Comparable<Asn> {
 
     private static final long serialVersionUID = -1L;
     private static final int SIXTEEN = 16;
