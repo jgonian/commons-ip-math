@@ -84,8 +84,8 @@ public class SortedRangeSetSpeedTest {
                     System.out.println("fail");
                     break;
                 }
-                for (Ipv4Range ipv4Range : set) {
-                    if (!correctSet.contains(ipv4Range)) {
+                for (Ipv4Range range : set) {
+                    if (!correctSet.contains(range)) {
                         System.out.println("missmatch in sets");
                         break;
                     }

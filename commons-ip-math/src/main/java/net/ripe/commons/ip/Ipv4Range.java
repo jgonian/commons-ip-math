@@ -94,8 +94,8 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
         Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>getInstance());
         StringBuilder notation = new StringBuilder().append(start());
 
-        for (Ipv4Range ipv4Range : prefixes) {
-            notation.append(SLASH).append(PrefixUtils.getPrefixLength(ipv4Range));
+        for (Ipv4Range range : prefixes) {
+            notation.append(SLASH).append(PrefixUtils.getPrefixLength(range));
             notation.append(",");
         }
         String noted = notation.toString();
