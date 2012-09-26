@@ -1,6 +1,7 @@
 package net.ripe.commons.ip;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -100,6 +101,34 @@ public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
         }
         String noted = notation.toString();
         return noted.substring(0, noted.length() - 1);
+    }
+
+    // renamed from relativeComplement, see http://en.wikipedia.org/wiki/Set_theory#Basic_concepts
+    // TODO (bh) add tests as net.ripe.rs.domain.RangeTest
+    public List<Ipv4Range> difference(Ipv4Range other) {
+        if (!other.overlaps(this)) {
+            return Collections.singletonList(this);
+        }
+
+        if (other.contains(this)) {
+            return Collections.emptyList();
+        }
+
+        if (other.start().compareTo(this.start()) <= 0) {
+            // Other overlaps start
+            return Collections.singletonList(newInstance(other.end().asBigInteger().add(BigInteger.ONE), this.end().asBigInteger()));
+        }
+
+        if (other.end().compareTo(this.end()) >= 0) {
+            // Other overlaps finish
+            return Collections.singletonList(newInstance(this.start().asBigInteger(), other.start().asBigInteger().subtract(BigInteger.ONE)));
+        }
+
+        // Other is contained in this
+        List<Ipv4Range> asList = new ArrayList<Ipv4Range>();
+        asList.add(newInstance(this.start().asBigInteger(), other.start().asBigInteger().subtract(BigInteger.ONE)));
+        asList.add(newInstance(other.end().asBigInteger().add(BigInteger.ONE), this.end().asBigInteger()));
+        return asList;
     }
 
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
