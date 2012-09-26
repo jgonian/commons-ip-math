@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
         extends AbstractRange<C, R>
-        implements InternetResourceRange<C, R> {
+        implements InternetResourceRange<C, R>, Comparable<R> {
 
     protected static final String SLASH = "/";
     protected static final String DASH = "-";
@@ -72,5 +72,19 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
 
     private boolean canBeDividedByThePowerOfTwo(BigInteger number, int power) {
         return number.remainder(TWO.pow(power)).equals(ZERO);
+    }
+
+    @Override
+    public int compareTo(R o) {
+        if (start().compareTo(o.start()) > 0) {
+            return 2;
+        } else if (start().compareTo(o.start()) < 0) {
+            return -2;
+        } else if (end().compareTo(o.end()) < 0) {
+            return 1;
+        } else if (end().compareTo(o.end()) > 0) {
+            return -1;
+        }
+        return 0;
     }
 }
