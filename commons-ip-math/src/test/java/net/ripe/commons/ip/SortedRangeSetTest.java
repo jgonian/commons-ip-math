@@ -533,7 +533,7 @@ public class SortedRangeSetTest {
         AsnRange range1 = new AsnRange(Asn.of(0l), Asn.of(5l));
         subject.add(range1);
 
-        Set<AsnRange> copy = subject.copyToSet();
+        Set<AsnRange> copy = subject.modifiableSet();
         assertEquals(1, copy.size());
 
         AsnRange range2 = new AsnRange(Asn.of(10l), Asn.of(20l));
