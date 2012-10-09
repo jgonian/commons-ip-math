@@ -114,7 +114,7 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         }
         return result;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -123,10 +123,14 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        
-        SortedRangeSet<C,R> other = (SortedRangeSet<C,R>) o;
+        SortedRangeSet that = (SortedRangeSet) o;
+        if (set != null ? !set.equals(that.set) : that.set != null) return false;
+        return true;
+    }
 
-        return this.set.equals(other.set);
+    @Override
+    public int hashCode() {
+        return set != null ? set.hashCode() : 0;
     }
 
     public boolean contains(R range) {
