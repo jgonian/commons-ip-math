@@ -147,6 +147,10 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         return set.isEmpty();
     }
 
+    public int size() {
+        return set.size();
+    }
+
     /**
      * @return an unmodifiable instance of this {@link SortedRangeSet} as a {@link Set}
      */

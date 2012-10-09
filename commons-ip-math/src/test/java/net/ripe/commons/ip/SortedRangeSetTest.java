@@ -499,6 +499,20 @@ public class SortedRangeSetTest {
     }
 
     @Test
+    public void testSize() {
+        subject.clear();
+        assertEquals(0, subject.size());
+        subject.add(AsnRange.parse("0-10"));
+        assertEquals(1, subject.size());
+        subject.add(AsnRange.parse("20-30"));
+        assertEquals(2, subject.size());
+        subject.add(AsnRange.parse("10-40"));
+        assertEquals(1, subject.size());
+        subject.remove(AsnRange.parse("0-100"));
+        assertEquals(0, subject.size());
+    }
+
+    @Test
     public void shouldGetSingleRange() {
         AsnRange range = new AsnRange(Asn.of(0l), Asn.of(5l));
         subject.add(range);
