@@ -147,8 +147,20 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         return set.isEmpty();
     }
 
+    /**
+     * @return an unmodifiable instance of this {@link SortedRangeSet} as a {@link Set}
+     */
     public Set<R> unmodifiableSet() {
         return Collections.unmodifiableSet(set);
+    }
+
+    /**
+     * @return a modifiable copy of this {@link SortedRangeSet} as a {@link Set}
+     */
+    public Set<R> modifiableSet() {
+        TreeSet<R> copy = new TreeSet<R>(set.comparator());
+        copy.addAll(set);
+        return copy;
     }
 
     public R getSingleRange() {
@@ -162,15 +174,6 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
     
     public R ceiling(R range) {
         return set.ceiling(range);
-    }
-
-    /**
-     * @return a cloned set of this range
-     */
-    public Set<R> copyToSet() {
-        TreeSet<R> copy = new TreeSet<R>(set.comparator());
-        copy.addAll(set);
-        return copy;
     }
 
     @Override
