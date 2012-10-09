@@ -10,7 +10,7 @@ public final class SizeComparator<C extends Rangeable<C, R>, R extends Range<C, 
     private static SizeComparator<?, ?> instance;
 
     @SuppressWarnings({"unchecked"})
-    public static <C extends Rangeable<C, R>, R extends Range<C, R>> RangeComparator<C, R> getInstance() {
+    public static <C extends Rangeable<C, R>, R extends Range<C, R>> SizeComparator<C, R> getInstance() {
         if (instance == null) {
             instance = new SizeComparator<C, R>();
         }
