@@ -9,12 +9,12 @@
 
     <groupId>net.ripe.commons</groupId>
     <artifactId>commons-ip-math-parent</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
 
     <scm>
-        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/trunk</connection>
+        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/tags/RELEASE-1.7-20121009</connection>
     </scm>
 
     <properties>
