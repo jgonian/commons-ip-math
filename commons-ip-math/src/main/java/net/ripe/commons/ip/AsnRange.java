@@ -1,6 +1,6 @@
 package net.ripe.commons.ip;
 
-public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange>, Comparable<AsnRange> {
+public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
 
     protected AsnRange(Asn start, Asn end) {
         super(start, end);
@@ -47,20 +47,6 @@ public class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetRe
     @Override
     public Long size() {
         return (end().value() - start().value()) + 1;
-    }
-
-    @Override
-    public int compareTo(AsnRange o) {
-        if (start().compareTo(o.start()) > 0) {
-            return 2;
-        } else if (start().compareTo(o.start()) < 0) {
-            return -2;
-        } else if (end().compareTo(o.end()) < 0) {
-            return 1;
-        } else if (end().compareTo(o.end()) > 0) {
-            return -1;
-        }
-        return 0;
     }
 
     public static class AsnRangeBuilder extends AbstractRangeBuilder<Asn, AsnRange> {
