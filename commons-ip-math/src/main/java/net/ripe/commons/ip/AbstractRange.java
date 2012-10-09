@@ -13,7 +13,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     protected AbstractRange(C start, C end) {
         this.start = Validate.notNull(start, "start of range must not be null");
         this.end = Validate.notNull(end, "end of range must not be null");
-        Validate.isTrue(this.start.compareTo(this.end) <= 0, "Invalid range [" + start + "-" + end + "]");
+        Validate.isTrue(this.start.compareTo(this.end) <= 0, "Invalid range [" + start + ".." + end + "]");
     }
 
     protected abstract R newInstance(C start, C end);
@@ -142,7 +142,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
 
     @Override
     public String toString() {
-        return "[" + start.toString() + "commons-ip-math/src/test" + end.toString() + "]";
+        return "[" + start.toString() + ".." + end.toString() + "]";
     }
 
     @Override
