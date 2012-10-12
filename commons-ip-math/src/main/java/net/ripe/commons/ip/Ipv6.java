@@ -8,7 +8,7 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = -1L;
 
-    public static final BigInteger FOUR_OCTECT_MASK = BigInteger.valueOf(0xffff);
+    public static final BigInteger FOUR_OCTECT_MASK = BigInteger.valueOf(0xFFFF);
     public static final int NUMBER_OF_BITS = 128;
     public static final BigInteger MINIMUM_VALUE = BigInteger.ZERO;
     public static final BigInteger MAXIMUM_VALUE = new BigInteger(String.valueOf((ONE.shiftLeft(NUMBER_OF_BITS)).subtract(ONE)));
@@ -16,6 +16,9 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     public static final Ipv6 FIRST_IPV6_ADDRESS = Ipv6.of(MINIMUM_VALUE);
     public static final Ipv6 LAST_IPV6_ADDRESS = Ipv6.of(MAXIMUM_VALUE);
 
+    private static final int MIN_PART_VALUE = 0x0;
+    private static final int MAX_PART_VALUE = 0xFFFF;
+    private static final int MAX_PART_LENGTH = 4;
     private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: ";
     private static final String COLON = ":";
     private static final String ZERO = "0";
@@ -154,8 +157,8 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         Validate.isTrue(split.length == TOTAL_OCTETS, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
-            Validate.isTrue(part.length() <= 4, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            checkRange(Integer.parseInt(part, BITS_PER_PART), 0x0, 0xFFFF);
+            Validate.isTrue(part.length() <= MAX_PART_LENGTH, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+            checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
             ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
         }
         return new Ipv6(ipv6value);
@@ -271,7 +274,7 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
                 return false;
             }
         }
-        return result == 0xFFFF;
+        return result == MAX_PART_VALUE;
     }
 
     @Override

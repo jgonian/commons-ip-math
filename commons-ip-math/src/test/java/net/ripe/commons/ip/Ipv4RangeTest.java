@@ -203,12 +203,12 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         Ipv4Range.from(ip3).to(ip1);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullStart() {
         Ipv4Range.from((Ipv4) null).to(ip3);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullEnd() {
         Ipv4Range.from(ip1).to((Ipv4) null);
     }
@@ -235,12 +235,12 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
         Ipv4Range.from("0.0.0.2").andPrefixLength(33);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorWithNullStart() {
         new Ipv4Range(null, ip3);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorWithNullEnd() {
         new Ipv4Range(ip1, null);
     }

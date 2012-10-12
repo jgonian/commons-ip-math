@@ -124,7 +124,9 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
             return false;
         }
         SortedRangeSet that = (SortedRangeSet) o;
-        if (set != null ? !set.equals(that.set) : that.set != null) return false;
+        if (set != null ? !set.equals(that.set) : that.set != null) {
+            return false;
+        }
         return true;
     }
 

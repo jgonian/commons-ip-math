@@ -184,12 +184,12 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
         Ipv6Range.from(ip3).to(ip1);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullStart() {
         Ipv6Range.from((Ipv6) null).to(ip3);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBuilderWithNullEnd() {
         Ipv6Range.from(ip1).to((Ipv6) null);
     }
@@ -216,12 +216,12 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
         Ipv6Range.from("::2").andPrefixLength(129);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorWithNullStart() {
         new Ipv6Range(null, ip3);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorWithNullEnd() {
         new Ipv6Range(ip1, null);
     }

@@ -1,7 +1,9 @@
 package net.ripe.commons.ip;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import org.junit.Ignore;
@@ -146,7 +148,7 @@ public class Ipv6Test {
         }
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldNotParseNull() {
         Ipv6.parse(null);
     }
