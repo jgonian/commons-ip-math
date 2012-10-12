@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
-public class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
+public final class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = 1L;
 

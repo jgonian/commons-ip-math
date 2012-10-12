@@ -3,7 +3,7 @@ package net.ripe.commons.ip;
 import static java.math.BigInteger.*;
 import java.math.BigInteger;
 
-public class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
+public final class Ipv6Range extends AbstractIpRange<Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = 1L;
 

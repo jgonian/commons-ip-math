@@ -1,9 +1,16 @@
 package net.ripe.commons.ip;
 
 import static org.junit.Assert.*;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 public class AsnTest {
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Asn.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
+    }
 
     @Test
     public void shouldHaveConformingTextualRepresentation() {

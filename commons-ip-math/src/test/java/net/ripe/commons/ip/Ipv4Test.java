@@ -1,10 +1,18 @@
 package net.ripe.commons.ip;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 public class Ipv4Test {
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Ipv4.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
+    }
 
     @Test
     public void testHasNext() {

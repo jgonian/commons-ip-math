@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +25,11 @@ public class SortedRangeSetTest {
         subject.add(new AsnRange(Asn.of(0l), Asn.of(5l)));
         subject.add(new AsnRange(Asn.of(10l), Asn.of(15l)));
         subject.add(new AsnRange(Asn.of(20l), Asn.of(25l)));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(SortedRangeSet.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     //---------------------------------------------------------------

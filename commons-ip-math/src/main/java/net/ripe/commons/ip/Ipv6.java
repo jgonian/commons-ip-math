@@ -4,7 +4,7 @@ import static java.math.BigInteger.*;
 import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
 
-public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
+public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     private static final long serialVersionUID = -1L;
 
@@ -319,14 +319,11 @@ public class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             return false;
         }
         Ipv6 that = (Ipv6) o;
-        if (value != null ? !value.equals(that.value) : that.value != null) {
-            return false;
-        }
-        return true;
+        return value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return value.hashCode();
     }
 }

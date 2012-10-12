@@ -3,7 +3,7 @@ package net.ripe.commons.ip;
 import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
 
-public class Asn implements SingleInternetResource<Asn, AsnRange>, Comparable<Asn> {
+public final class Asn implements SingleInternetResource<Asn, AsnRange>, Comparable<Asn> {
 
     private static final long serialVersionUID = -1L;
     private static final int SIXTEEN = 16;
@@ -131,14 +131,11 @@ public class Asn implements SingleInternetResource<Asn, AsnRange>, Comparable<As
             return false;
         }
         Asn that = (Asn) o;
-        if (value != null ? !value.equals(that.value) : that.value != null) {
-            return false;
-        }
-        return true;
+        return value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return value.hashCode();
     }
 }

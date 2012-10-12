@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends AbstractRange<C, R>> {
@@ -29,6 +31,11 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
 
     @Test
     public abstract void testIterator();
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(AbstractRange.class).suppress(Warning.NULL_FIELDS).verify();
+    }
 
     //---------------------------------------------------------------
     // boolean overlaps(R arg)

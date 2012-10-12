@@ -6,10 +6,17 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class Ipv6Test {
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Ipv6.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
+    }
 
     @Test
     public void testFactoryMethodWithBigInteger() {

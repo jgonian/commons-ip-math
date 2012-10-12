@@ -173,28 +173,27 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof AbstractRange)) {
             return false;
         }
         AbstractRange that = (AbstractRange) o;
-
-        if (end != null ? !end.equals(that.end) : that.end != null) {
+        if (!start.equals(that.start)) {
             return false;
         }
-        if (start != null ? !start.equals(that.start) : that.start != null) {
+        if (!end.equals(that.end)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public int hashCode() {
-        int result = start != null ? start.hashCode() : 0;
-        result = 31 * result + (end != null ? end.hashCode() : 0);
+    public final int hashCode() {
+        int result = start.hashCode();
+        result = 31 * result + end.hashCode();
         return result;
     }
 

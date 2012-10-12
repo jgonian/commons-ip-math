@@ -3,7 +3,7 @@ package net.ripe.commons.ip;
 import static net.ripe.commons.ip.RangeUtils.checkRange;
 import java.math.BigInteger;
 
-public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
+public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
 
     private static final long serialVersionUID = -1L;
 
@@ -23,7 +23,7 @@ public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     private static final int ONE_OCTET = 8;
     private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv4 address: ";
 
-    private Long value;
+    private final Long value;
 
     protected Ipv4(Long value) {
         this.value = Validate.notNull(value, "value is required");
@@ -175,14 +175,11 @@ public class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
             return false;
         }
         Ipv4 that = (Ipv4) o;
-        if (value != null ? !value.equals(that.value) : that.value != null) {
-            return false;
-        }
-        return true;
+        return value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return value.hashCode();
     }
 }
