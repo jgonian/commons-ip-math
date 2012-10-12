@@ -10,7 +10,7 @@ import org.junit.Test;
 public class Ipv4Test {
 
     @Test
-    public void equalsContract() {
+    public void testEqualsContract() {
         EqualsVerifier.forClass(Ipv4.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
     }
 

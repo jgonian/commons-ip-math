@@ -28,7 +28,7 @@ public class SortedRangeSetTest {
     }
 
     @Test
-    public void equalsContract() {
+    public void testEqualsContract() {
         EqualsVerifier.forClass(SortedRangeSet.class).suppress(Warning.NULL_FIELDS).verify();
     }
 

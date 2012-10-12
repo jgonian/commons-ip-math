@@ -8,7 +8,7 @@ import org.junit.Test;
 public class AsnTest {
 
     @Test
-    public void equalsContract() {
+    public void testEqualsContract() {
         EqualsVerifier.forClass(Asn.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
     }
 

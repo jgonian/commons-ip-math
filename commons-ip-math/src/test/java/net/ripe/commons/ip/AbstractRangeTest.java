@@ -33,7 +33,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     public abstract void testIterator();
 
     @Test
-    public void equalsContract() {
+    public void testEqualsContract() {
         EqualsVerifier.forClass(AbstractRange.class).suppress(Warning.NULL_FIELDS).verify();
     }
 

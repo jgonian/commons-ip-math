@@ -14,7 +14,7 @@ import org.junit.Test;
 public class Ipv6Test {
 
     @Test
-    public void equalsContract() {
+    public void testEqualsContract() {
         EqualsVerifier.forClass(Ipv6.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
     }
 
