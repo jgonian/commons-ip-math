@@ -32,6 +32,11 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     @Test
     public abstract void testIterator();
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIteratorDoesNotSupportRemove() {
+        getTestRange(from("1"), to("10")).iterator().remove();
+    }
+
     @Test
     public void testEqualsContract() {
         EqualsVerifier.forClass(AbstractRange.class).suppress(Warning.NULL_FIELDS).verify();

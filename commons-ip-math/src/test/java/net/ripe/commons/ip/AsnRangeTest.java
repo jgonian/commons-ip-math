@@ -64,6 +64,27 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
         AsnRange.parse("AS3333");
     }
 
+    @Test
+    public void shouldContainOnly16BitAsns() {
+        AsnRange range = AsnRange.from(Asn.FIRST_ASN).to(Asn.LAST_16_BIT_ASN);
+        assertTrue(range.containsOnly16BitAsns());
+        assertFalse(range.containsOnly32BitAsns());
+    }
+
+    @Test
+    public void shouldContainOnly32BitAsns() {
+        AsnRange range = AsnRange.from(Asn.LAST_16_BIT_ASN.next()).to(Asn.LAST_32_BIT_ASN);
+        assertFalse(range.containsOnly16BitAsns());
+        assertTrue(range.containsOnly32BitAsns());
+    }
+
+    @Test
+    public void shouldNotContainOnly16Or32BitAsns() {
+        AsnRange range = AsnRange.from(Asn.LAST_16_BIT_ASN).to(Asn.LAST_16_BIT_ASN.next());
+        assertFalse(range.containsOnly16BitAsns());
+        assertFalse(range.containsOnly32BitAsns());
+    }
+
     @Override
     public void testToString() {
         assertEquals("AS1", AsnRange.from(as1).to(as1).toString());

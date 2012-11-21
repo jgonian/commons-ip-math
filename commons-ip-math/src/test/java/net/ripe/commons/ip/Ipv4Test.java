@@ -3,6 +3,7 @@ package net.ripe.commons.ip;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import java.math.BigInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
@@ -12,6 +13,29 @@ public class Ipv4Test {
     @Test
     public void testEqualsContract() {
         EqualsVerifier.forClass(Ipv4.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
+    }
+
+    @Test
+    public void testBuilderMethods() {
+        Ipv4 sample = new Ipv4(1l);
+        assertEquals(sample, Ipv4.of(BigInteger.ONE));
+        assertEquals(sample, Ipv4.of(1l));
+        assertEquals(sample, Ipv4.of("0.0.0.1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderWithNull() {
+        Ipv4.of((BigInteger) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpperBound() {
+        new Ipv4(Ipv4.MAXIMUM_VALUE + 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testLowerBound() {
+        new Ipv4(Ipv4.MINIMUM_VALUE - 1);
     }
 
     @Test
@@ -37,6 +61,31 @@ public class Ipv4Test {
     @Test
     public void shouldParseIPv4AddressWithLeadingAndTrailingSpaces() {
         assertEquals("127.0.8.12", Ipv4.parse("  127.0.8.12  ").toString());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailOnLessOctets() {
+        Ipv4.parse("10.1.1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailOnMoreOctets() {
+        Ipv4.parse("10.1.1.1.1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailWhenEndingWithNonDigit() {
+        Ipv4.parse("10.1.1.1.");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailWhenStartingWithNonDigit() {
+        Ipv4.parse(".10.1.1.1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailWhenOctetContainsNonDigit() {
+        Ipv4.parse("10.a.1.0");
     }
 
     @Test(expected = IllegalArgumentException.class)

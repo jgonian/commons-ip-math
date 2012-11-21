@@ -1,6 +1,7 @@
 package net.ripe.commons.ip;
 
 import static org.junit.Assert.*;
+import java.math.BigInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
@@ -123,5 +124,10 @@ public class AsnTest {
     @Test
     public void shouldHave32BitsSize() {
         assertEquals(Asn.NUMBER_OF_BITS, Asn.FIRST_ASN.bitSize());
+    }
+
+    @Test
+    public void testAsBigInteger() {
+        assertEquals(BigInteger.valueOf(Asn.ASN_32_BIT_MAX_VALUE), Asn.LAST_32_BIT_ASN.asBigInteger());
     }
 }

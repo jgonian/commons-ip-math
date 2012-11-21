@@ -51,7 +51,7 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     }
 
     public static Ipv4 parse(String ipv4Address) {
-        String ipv4String = Validate.notNull(ipv4Address, "Input IPv4 string must not be empty").trim();
+        String ipv4String = Validate.notNull(ipv4Address, DEFAULT_PARSING_ERROR_MESSAGE + ipv4Address).trim();
         Validate.isTrue(!ipv4String.isEmpty()
                 && Character.isDigit(ipv4String.charAt(0))
                 && Character.isDigit(ipv4String.charAt(ipv4String.length() - 1)), DEFAULT_PARSING_ERROR_MESSAGE + ipv4Address);
@@ -59,9 +59,7 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
         long value = 0;
         int octet = 0;
         int octetCount = 1;
-        int length = ipv4String.length();
-
-        for (int i = 0; i < length; ++i) {
+        for (int i = 0; i < ipv4String.length(); ++i) {
             char ch = ipv4String.charAt(i);
             if (Character.isDigit(ch)) {
                 octet = octet * 10 + (ch - '0');
@@ -74,14 +72,8 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
                 throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv4String);
             }
         }
-
-        value = addOctet(value, octet);
-
-        if (octetCount != TOTAL_OCTETS) {
-            throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv4String);
-        }
-
-        return new Ipv4(value);
+        Validate.isTrue(octetCount == TOTAL_OCTETS, DEFAULT_PARSING_ERROR_MESSAGE + ipv4String);
+        return new Ipv4(addOctet(value, octet));
     }
 
     private static long addOctet(long value, int octet) {
