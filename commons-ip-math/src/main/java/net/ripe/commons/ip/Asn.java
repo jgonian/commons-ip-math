@@ -19,11 +19,11 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
 
     public static final int NUMBER_OF_BITS = THIRTY_TWO;
 
-    private final Long value;
+    private final long value;
 
     public Asn(Long value) {
         this.value = Validate.notNull(value, "value is required");
-        checkRange(value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
+        checkRange(this.value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
     }
 
     long value() {
@@ -79,7 +79,7 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
 
     @Override
     public int compareTo(Asn other) {
-        return value.compareTo(other.value);
+        return value > other.value ? 1 : value < other.value ? -1 : 0;
     }
 
     @Override
@@ -131,11 +131,11 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
             return false;
         }
         Asn that = (Asn) o;
-        return value.equals(that.value);
+        return value == that.value;
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return (int) (value ^ (value >>> 32));
     }
 }
