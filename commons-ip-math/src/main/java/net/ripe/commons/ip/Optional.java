@@ -68,6 +68,9 @@ public abstract class Optional<T> implements Serializable {
 
     public static final class Absent<T> extends Optional<T> {
 
+        private Absent() {
+        }
+
         @Override
         public T get() {
             throw new NoSuchElementException("Absent.get");
