@@ -64,6 +64,11 @@ public abstract class Optional<T> implements Serializable {
         public int hashCode() {
             return value.hashCode();
         }
+
+        @Override
+        public String toString() {
+            return String.format("Present(%s)", value);
+        }
     }
 
     public static final class Absent<T> extends Optional<T> {
@@ -79,6 +84,11 @@ public abstract class Optional<T> implements Serializable {
         @Override
         public boolean isPresent() {
             return false;
+        }
+
+        @Override
+        public String toString() {
+            return "Absent";
         }
     }
 }

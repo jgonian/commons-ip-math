@@ -47,4 +47,10 @@ public class OptionalTest {
         EqualsVerifier.forClass(Optional.Present.class).suppress(Warning.NULL_FIELDS).withRedefinedSuperclass().verify();
         EqualsVerifier.forClass(Optional.Absent.class).withRedefinedSuperclass().verify();
     }
+
+    @Test
+    public void shouldConvertToString() {
+        assertThat(Optional.of("value").toString(), is("Present(value)"));
+        assertThat(Optional.absent().toString(), is("Absent"));
+    }
 }
