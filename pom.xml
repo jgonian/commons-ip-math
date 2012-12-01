@@ -11,10 +11,10 @@
     <artifactId>commons-ip-math-parent</artifactId>
     <version>1.8-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>RIPE NCC Commons - IP Math</name>
 
     <scm>
-        <connection>scm:svn:https://svn.ripe.net/svn/ba/commons-ip-math/trunk</connection>
+        <connection>scm:git:ssh://ba-git@git.ripe.net/commons/commons-ip-math</connection>
     </scm>
 
     <properties>
