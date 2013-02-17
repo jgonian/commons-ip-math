@@ -78,25 +78,9 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         return new Ipv6Range(this, this);
     }
 
-    /**
-     * Returns a text representation of this IPv6 address. Note this representation adheres to the
-     * recommendations of RFC 5952.
-     *
-     * @return a text representation of this IPv6 address
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc5952">rfc5952 - A Recommendation for IPv6 Address Text Representation</a>
-     */
     @Override
     public String toString() {
-        long[] parts = new long[TOTAL_OCTETS];
-        String[] formatted = new String[TOTAL_OCTETS];
-
-        BigInteger numberValue = value;
-        for(int i = parts.length - 1; i >= 0; i--) {
-            parts[i] = numberValue.and(FOUR_OCTECT_MASK).longValue();
-            formatted[i] = Long.toHexString(parts[i]);
-            numberValue = numberValue.shiftRight(BITS_PER_PART);
-        }
+        long[] parts = new long[8];
 
         // Find longest sequence of zeroes. Use the first one if there are
         // multiple sequences of zeroes with the same length.
@@ -105,6 +89,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         int maxZeroPartsLength = 0;
         int maxZeroPartsStart = 0;
         for (int i = 0; i < parts.length; ++i) {
+            parts[i] = value().shiftRight((7 - i) * BITS_PER_PART).and(FOUR_OCTECT_MASK).longValue();
             if (parts[i] == 0) {
                 if (currentZeroPartsLength == 0) {
                     currentZeroPartsStart = i;
@@ -119,13 +104,25 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             }
         }
 
-        if (maxZeroPartsLength <= 1) {
-            return StringUtils.join(formatted, COLON);
-        } else {
-            String init = StringUtils.join(formatted, COLON, 0, maxZeroPartsStart);
-            String tail = StringUtils.join(formatted, COLON, maxZeroPartsStart + maxZeroPartsLength, formatted.length);
-            return init + "::" + tail;
+        StringBuilder sb = new StringBuilder(39);
+        if (maxZeroPartsStart == 0 && maxZeroPartsLength > 1) {
+            sb.append(COLON);
         }
+        String delimiter = "";
+        for (int i = 0; i < parts.length; ++i) {
+            if (i == maxZeroPartsStart && maxZeroPartsLength > 1) {
+                i += maxZeroPartsLength;
+                sb.append(COLON);
+            }
+            sb.append(delimiter);
+            if (i <= 7) {
+                sb.append(Long.toHexString(parts[i]));
+            } else {
+                break;
+            }
+            delimiter = COLON;
+        }
+        return sb.toString();
     }
 
     /**
