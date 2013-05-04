@@ -1,9 +1,10 @@
 package net.ripe.commons.ip;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public final class StartAndSizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
-        implements RangeComparator<C, R>, Serializable {
+        implements Comparator<R>, Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -21,7 +22,7 @@ public final class StartAndSizeComparator<C extends Rangeable<C, R>, R extends R
     }
 
     @Override
-    public int compare(Range<C, R> left, Range<C, R> right) {
+    public int compare(R left, R right) {
         int result = left.start().compareTo(right.start());
         if (result == 0) {
             result = left.end().compareTo(right.end());

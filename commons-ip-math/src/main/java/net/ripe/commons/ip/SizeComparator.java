@@ -1,20 +1,20 @@
 package net.ripe.commons.ip;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
-public final class SizeComparator<C extends Rangeable<C, R>, R extends Range<C, R>>
-        implements RangeComparator<C, R>, Serializable {
+public final class SizeComparator<R extends Range<?, R>> implements Comparator<R>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static SizeComparator<?, ?> instance;
+    private static SizeComparator<?> instance;
 
     @SuppressWarnings({"unchecked"})
-    public static <C extends Rangeable<C, R>, R extends Range<C, R>> SizeComparator<C, R> getInstance() {
+    public static <R extends Range<?, R>> SizeComparator<R> getInstance() {
         if (instance == null) {
-            instance = new SizeComparator<C, R>();
+            instance = new SizeComparator<R>();
         }
-        return (SizeComparator<C, R>) instance;
+        return (SizeComparator<R>) instance;
     }
 
     private SizeComparator() {
@@ -22,7 +22,7 @@ public final class SizeComparator<C extends Rangeable<C, R>, R extends Range<C, 
 
     @SuppressWarnings({"unchecked"})
     @Override
-    public int compare(Range<C, R> left, Range<C, R> right) {
+    public int compare(R left, R right) {
         return ((Comparable)left.size()).compareTo(right.size());
     }
 }
