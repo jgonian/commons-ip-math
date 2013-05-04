@@ -91,7 +91,7 @@ public final class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
     // TODO(yg): refactor and move to parent
     public String toStringInSlashNotation() {
         List<Ipv4Range> prefixes = splitToPrefixes();
-        Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>getInstance());
+        Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>get());
         StringBuilder notation = new StringBuilder().append(start());
 
         for (Ipv4Range range : prefixes) {

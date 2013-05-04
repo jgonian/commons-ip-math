@@ -12,7 +12,7 @@ public class SizeComparatorTest {
     private static final Asn _99 = _100.previous();
     private static final Asn _101 = _100.next();
 
-    private SizeComparator<AsnRange> comparator = SizeComparator.getInstance();
+    private SizeComparator<AsnRange> comparator = SizeComparator.get();
 
     @Test
     public void testCompare() {

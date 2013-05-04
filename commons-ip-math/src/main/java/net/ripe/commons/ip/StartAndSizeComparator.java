@@ -11,7 +11,7 @@ public final class StartAndSizeComparator<C extends Rangeable<C, R>, R extends R
     private static StartAndSizeComparator<?, ?> instance;
 
     @SuppressWarnings({"unchecked"})
-    public static <C extends Rangeable<C, R>, R extends Range<C, R>> StartAndSizeComparator<C, R> getInstance() {
+    public static <C extends Rangeable<C, R>, R extends Range<C, R>> StartAndSizeComparator<C, R> get() {
         if (instance == null) {
             instance = new StartAndSizeComparator<C, R>();
         }
