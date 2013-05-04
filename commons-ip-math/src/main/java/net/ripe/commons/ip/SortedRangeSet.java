@@ -20,11 +20,7 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
      * method of the compared ranges.</em>
      */
     public SortedRangeSet() {
-        this(StartAndSizeComparator.<C, R>getInstance());
-    }
-
-    public SortedRangeSet(StartAndSizeComparator<C, R> rangeComparator) {
-        set = new TreeSet<R>(rangeComparator);
+        set = new TreeSet<R>(StartAndSizeComparator.<C, R>getInstance());
     }
 
     public void addAll(SortedRangeSet<C, R> ranges) {
