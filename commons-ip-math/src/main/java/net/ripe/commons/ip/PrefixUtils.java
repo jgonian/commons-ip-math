@@ -35,7 +35,7 @@ public final class PrefixUtils {
     public static <C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
     Optional<R> findMaximumPrefixForPrefixLength(R range, int prefixLength) {
         checkRange(prefixLength, 0, range.start().bitSize());
-        return findPrefixForPrefixLength(range, prefixLength, Collections.reverseOrder(SizeComparator.<R>get()));
+        return findPrefixForPrefixLength(range, prefixLength, SizeComparator.<R>reverse());
     }
 
     private static <C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
