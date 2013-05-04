@@ -10,12 +10,9 @@ public final class StartAndSizeComparator<C extends Rangeable<C, R>, R extends R
     
     private static StartAndSizeComparator<?, ?> instance;
 
-    @SuppressWarnings({"unchecked"})
-    public static <C extends Rangeable<C, R>, R extends Range<C, R>> StartAndSizeComparator<C, R> get() {
-        if (instance == null) {
-            instance = new StartAndSizeComparator<C, R>();
-        }
-        return (StartAndSizeComparator<C, R>) instance;
+    @SuppressWarnings("unchecked")
+    public static <C extends Rangeable<C, R>, R extends Range<C, R>> Comparator<R> get() {
+        return (Comparator<R>) (instance == null ? instance = new StartAndSizeComparator<C, R>() : instance);
     }
 
     private StartAndSizeComparator() {

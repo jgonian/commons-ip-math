@@ -9,12 +9,9 @@ public final class SizeComparator<R extends Range<?, R>> implements Comparator<R
 
     private static SizeComparator<?> instance;
 
-    @SuppressWarnings({"unchecked"})
-    public static <R extends Range<?, R>> SizeComparator<R> get() {
-        if (instance == null) {
-            instance = new SizeComparator<R>();
-        }
-        return (SizeComparator<R>) instance;
+    @SuppressWarnings("unchecked")
+    public static <R extends Range<?, R>> Comparator<R> get() {
+        return (Comparator<R>) (instance == null ? instance = new SizeComparator<R>() : instance);
     }
 
     private SizeComparator() {

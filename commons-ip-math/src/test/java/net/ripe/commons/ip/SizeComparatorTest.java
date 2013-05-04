@@ -1,6 +1,7 @@
 package net.ripe.commons.ip;
 
 import static junit.framework.Assert.*;
+import java.util.Comparator;
 import org.junit.Test;
 
 public class SizeComparatorTest {
@@ -12,7 +13,12 @@ public class SizeComparatorTest {
     private static final Asn _99 = _100.previous();
     private static final Asn _101 = _100.next();
 
-    private SizeComparator<AsnRange> comparator = SizeComparator.get();
+    private Comparator<AsnRange> comparator = SizeComparator.get();
+
+    @Test
+    public void testSingletonFactoryMethod() {
+        assertSame(comparator, SizeComparator.<AsnRange>get());
+    }
 
     @Test
     public void testCompare() {
