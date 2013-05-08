@@ -434,54 +434,6 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     }
 
     //---------------------------------------------------------------
-    // boolean isAdjacent(R other)
-    //---------------------------------------------------------------
-
-    @Test
-    public void testIsAdjacent() {
-        // range       |------|       [10, 20]
-        // other |---|..      .       [5, 8]
-        // other  |---|.      .       [5, 9]
-        // other   |---|      .       [5, 10]
-        // other     |---|    .       [5, 15]
-        // other       |---|  .       [10, 15]
-        // other       . |---|.       [15, 19]
-        // other       .  |---|       [15, 20]
-        // other       .    |---|     [15, 25]
-        // other       .      |---|   [20, 25]
-        // other       .      .|---|  [21, 25]
-        // other       .      ..|---| [22, 25]
-        // other    |------------|    [5, 25]
-        // other       |------|       [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-
-        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("8")));
-        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("9")));
-        verifyAdjacentRanges(range, getTestRange(from("5"), to("10")));
-        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("15")));
-        verifyNotAdjacentRanges(range, getTestRange(from("10"), to("15")));
-        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("19")));
-        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("20")));
-        verifyNotAdjacentRanges(range, getTestRange(from("15"), to("25")));
-        verifyAdjacentRanges(range, getTestRange(from("20"), to("25")));
-        verifyNotAdjacentRanges(range, getTestRange(from("21"), to("25")));
-        verifyNotAdjacentRanges(range, getTestRange(from("22"), to("25")));
-        verifyNotAdjacentRanges(range, getTestRange(from("5"), to("25")));
-        verifyNotAdjacentRanges(range, getTestRange(from("10"), to("20")));
-        assertFalse(range.isAdjacent((R) null));
-    }
-
-    private void verifyAdjacentRanges(R range, R other) {
-        assertTrue(range.isAdjacent(other));
-        assertTrue(other.isAdjacent(range));
-    }
-
-    private void verifyNotAdjacentRanges(R range, R other) {
-        assertFalse(range.isAdjacent(other));
-        assertFalse(other.isAdjacent(range));
-    }
-
-    //---------------------------------------------------------------
     // boolean isConsecutive(R other)
     //---------------------------------------------------------------
 

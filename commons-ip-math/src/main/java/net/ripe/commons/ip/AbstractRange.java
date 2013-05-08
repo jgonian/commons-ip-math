@@ -45,11 +45,6 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     }
 
     @Override
-    public boolean isAdjacent(R other) {
-        return other != null && (this.end.equals(other.start()) || other.end().equals(this.start));
-    }
-
-    @Override
     public boolean isConsecutive(R other) {
         if (other == null) {
             return false;

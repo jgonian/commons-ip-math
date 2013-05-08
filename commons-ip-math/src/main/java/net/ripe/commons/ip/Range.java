@@ -18,8 +18,6 @@ public interface Range<C extends Rangeable<C, R>, R extends Range<C, R>>
 
     boolean overlaps(R other);
 
-    boolean isAdjacent(R other);
-
     boolean isConsecutive(R other);
 
     boolean isEmpty();
