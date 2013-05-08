@@ -12,7 +12,6 @@ import org.junit.Test;
 
 public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends AbstractRange<C, R>> {
 
-
     protected abstract C from(String s);
 
     protected abstract C to(String s);
@@ -544,185 +543,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     }
 
     //---------------------------------------------------------------
-    // R mergeOverlapping(R other)
-    //---------------------------------------------------------------
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldNotMergeOverlappingWhenOtherIsBefore() {
-        // range      |------|      [10, 20]
-        // other |---|              [2, 9]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("2"), to("9"));
-        range.mergeOverlapping(other);
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherMeetsBefore() {
-        // range        |------|    [10, 20]
-        // other    |---|           [5, 10]
-        // expected |----------|    [5, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("10"));
-        R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOnStart() {
-        // range      |------|     [10, 20]
-        // other      |            [10, 10]
-        // expected   |------|     [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("10"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOverlapsBefore() {
-        // range      |------|      [10, 20]
-        // other    |---|           [5, 15]
-        // expected |--------|      [5, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("15"));
-        R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherIsContainedAndOnStart() {
-        // range      |------|      [10, 20]
-        // other      |---|         [10, 15]
-        // expected   |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("15"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherIsContained() {
-        // range      |------|      [10, 20]
-        // other        |--|        [13, 15]
-        // expected   |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("13"), to("15"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherIsContainedAndOnFinish() {
-        // range      |------|      [10, 20]
-        // other         |---|      [15, 20]
-        // expected   |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("15"), to("20"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOverlapsAfter() {
-        // range      |------|      [10, 20]
-        // other           |---|    [15, 25]
-        // expected   |--------|    [10, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("15"), to("25"));
-        R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOnFinish() {
-        // range      |------|      [10, 20]
-        // other             |      [20, 20]
-        // expected   |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("20"), to("20"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherMeetsAfter() {
-        // range      |------|      [10, 20]
-        // other             |---|  [20, 25]
-        // expected   |------|      [10, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("20"), to("25"));
-        R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldMergeOverlappingWhenOtherIsAfter() {
-        // range      |------|      [10, 20]
-        // other              |---| [21, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("21"), to("25"));
-        range.mergeOverlapping(other);
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOverlapsStartAndOnFinish() {
-        // range      |------|      [10, 20]
-        // other    |--------|      [5, 20]
-        // expected |--------|      [5, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("20"));
-        R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherEquals() {
-        // range      |------|      [10, 20]
-        // other      |------|      [10, 20]
-        // expected   |------|      [10, 20]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("20"));
-        R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOverlapsFinishAndOnStart() {
-        // range      |------|      [10, 20]
-        // other      |--------|    [10, 25]
-        // expected   |--------|    [10, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("10"), to("25"));
-        R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    @Test
-    public void shouldMergeOverlappingWhenOtherOverlapsStartAndFinish() {
-        // range      |------|      [10, 20]
-        // other    |----------|    [5, 25]
-        // expected |----------|    [5, 25]
-        R range = getTestRange(from("10"), to("20"));
-        R other = getTestRange(from("5"), to("25"));
-        R expected = getTestRange(from("5"), to("25"));
-        assertEquals(expected, range.mergeOverlapping(other));
-        assertEquals(expected, other.mergeOverlapping(range));
-    }
-
-    //---------------------------------------------------------------
-    // R mergeConsecutive(R other)
+    // R merge(R other)
     //---------------------------------------------------------------
 
     @Test(expected = IllegalArgumentException.class)
@@ -731,7 +552,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         // other |---|             [2, 8]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("2"), to("8"));
-        range.mergeConsecutive(other);
+        range.merge(other);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -740,7 +561,7 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         // other               |---|   [22, 25]
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("22"), to("25"));
-        range.mergeConsecutive(other);
+        range.merge(other);
     }
 
     @Test
@@ -751,8 +572,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("2"), to("9"));
         R expected = getTestRange(from("2"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -763,8 +584,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("21"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -775,8 +596,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("10"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -787,8 +608,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("10"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -799,8 +620,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("15"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -811,8 +632,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("15"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -823,8 +644,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("13"), to("15"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -835,8 +656,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -847,8 +668,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("15"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -859,8 +680,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -871,8 +692,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("20"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -883,8 +704,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("20"));
         R expected = getTestRange(from("5"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -895,8 +716,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("20"));
         R expected = getTestRange(from("10"), to("20"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -907,8 +728,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("10"), to("25"));
         R expected = getTestRange(from("10"), to("25"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     @Test
@@ -919,8 +740,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         R range = getTestRange(from("10"), to("20"));
         R other = getTestRange(from("5"), to("25"));
         R expected = getTestRange(from("5"), to("25"));
-        assertEquals(expected, range.mergeConsecutive(other));
-        assertEquals(expected, other.mergeConsecutive(range));
+        assertEquals(expected, range.merge(other));
+        assertEquals(expected, other.merge(range));
     }
 
     //---------------------------------------------------------------

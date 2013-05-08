@@ -24,9 +24,7 @@ public interface Range<C extends Rangeable<C, R>, R extends Range<C, R>>
 
     boolean isEmpty();
 
-    R mergeOverlapping(R other);
-
-    R mergeConsecutive(R other);
+    R merge(R other);
 
     R intersection(R other);
 

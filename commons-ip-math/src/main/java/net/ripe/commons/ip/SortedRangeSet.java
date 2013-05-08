@@ -49,12 +49,12 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
             set.add(range);
         }
         if (range.overlaps(rightSide) || range.isConsecutive(rightSide)) {
-            R merged = range.mergeConsecutive(rightSide);
+            R merged = range.merge(rightSide);
             remove(rightSide);
             freeAndMergeConsecutive(merged);
         }
         if (range.overlaps(leftSide) || range.isConsecutive(leftSide)) {
-            R merged = range.mergeConsecutive(leftSide);
+            R merged = range.merge(leftSide);
             remove(leftSide);
             freeAndMergeConsecutive(merged);
         }
@@ -81,7 +81,7 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
             removed = true;
             rightSide = set.higher(rightSide);
         }
-        List<R> remainders = new LinkedList<R>(); 
+        List<R> remainders = new LinkedList<R>();
         if (leftSide != null && leftSide.overlaps(range)) {
             set.remove(leftSide);
             remainders.addAll(leftSide.exclude(range));
@@ -95,7 +95,7 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         set.addAll(remainders);
         return removed;
     }
-    
+
     public SortedRangeSet<C, R> intersection(SortedRangeSet<C, R> other) {
         SortedRangeSet<C, R> result = new SortedRangeSet<C, R>();
         for (R thisRange : set) {
@@ -166,11 +166,11 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         Validate.isTrue(set.size() == 1, "Expected exactly one range");
         return set.first();
     }
-    
+
     public R floor(R range) {
         return set.floor(range);
     }
-    
+
     public R ceiling(R range) {
         return set.ceiling(range);
     }

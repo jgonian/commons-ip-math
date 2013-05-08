@@ -64,18 +64,8 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     }
 
     @Override
-    public R mergeOverlapping(R other) {
-        Validate.isTrue(this.overlaps(other), "Merge is only possible for overlapping ranges");
-        return merge(other);
-    }
-
-    @Override
-    public R mergeConsecutive(R other) {
+    public R merge(R other) {
         Validate.isTrue(this.overlaps(other) || this.isConsecutive(other), "Merge is only possible for overlapping or consecutive ranges");
-        return merge(other);
-    }
-
-    private R merge(R other) {
         C min = min(this.start, other.start());
         C max = max(this.end, other.end());
         return newInstance(min, max);
