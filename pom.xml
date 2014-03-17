@@ -9,7 +9,7 @@
 
     <groupId>net.ripe.commons</groupId>
     <artifactId>commons-ip-math-parent</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.8</version>
     <packaging>pom</packaging>
     <name>RIPE NCC Commons - IP Math</name>
 
