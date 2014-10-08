@@ -41,7 +41,7 @@ public final class AsnRange extends AbstractRange<Asn, AsnRange> implements Inte
 
     @Override
     public String toString() {
-        return isEmpty() ? start().toString() : start() + "-" + end();
+        return start() + "-" + end();
     }
 
     @Override
