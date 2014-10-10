@@ -52,6 +52,8 @@
                     </properties>
                     <excludes>
                         <exclude>.idea/**/*.*</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>README.md</exclude>
                     </excludes>
                 </configuration>
                 <executions>
