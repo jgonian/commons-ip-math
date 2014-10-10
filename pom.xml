@@ -18,6 +18,14 @@
         <module>commons-ip-math-gwt</module>
     </modules>
 
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://raw.github.com/ygoniana/common-ip-math/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <build>
         <plugins>
             <plugin>
@@ -29,6 +37,30 @@
                     <target>${target.jdk}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.10.b1</version>
+                <configuration>
+                    <strictCheck>true</strictCheck>
+                    <header>LICENSE.txt</header>
+                    <properties>
+                        <owner>Yannis Gonianakis</owner>
+                        <email>jgonian@gmail.com</email>
+                    </properties>
+                    <excludes>
+                        <exclude>.idea/**/*.*</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
