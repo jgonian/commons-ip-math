@@ -7,29 +7,9 @@
     <packaging>pom</packaging>
     <name>RIPE NCC Commons - IP Math</name>
 
-    <distributionManagement>
-        <repository>
-            <id>ripe-releases</id>
-            <name>BA repository (nexus)</name>
-            <url>http://${dist.repo.url}/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>bad-public-snapshots</id>
-            <name>BA snapshots repository (nexus)</name>
-            <url>http://${dist.repo.url}/nexus/content/repositories/snapshots</url>
-            <uniqueVersion>true</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <scm>
-        <connection>scm:git:ssh://ba-git@git.ripe.net/commons/commons-ip-math</connection>
-    </scm>
-
     <properties>
         <target.jdk>1.6</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dist.repo.url>nexus.ripe.net</dist.repo.url>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     </properties>
 
     <modules>
