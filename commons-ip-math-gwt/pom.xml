@@ -8,7 +8,6 @@
         <version>1.11-SNAPSHOT</version>
     </parent>
 
-    <groupId>net.ripe.commons</groupId>
     <artifactId>commons-ip-math-gwt</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
