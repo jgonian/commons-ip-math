@@ -6,6 +6,7 @@
     <version>1.11-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RIPE NCC Commons - IP Math</name>
+    <url>http://github.com/jgonian/common-ip-math</url>
 
     <properties>
         <target.jdk>1.6</target.jdk>
