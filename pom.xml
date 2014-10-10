@@ -26,6 +26,12 @@
         </license>
     </licenses>
 
+    <scm>
+        <url>https://github.com/jgonian/common-ip-math.git</url>
+        <connection>scm:git:git@github.com:jgonian/common-ip-math.git</connection>
+        <developerConnection>scm:git:git@github.com:jgonian/common-ip-math.git</developerConnection>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
