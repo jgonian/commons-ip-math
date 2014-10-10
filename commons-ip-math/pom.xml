@@ -92,8 +92,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <recompileMode>incremental</recompileMode>
                     <scalaVersion>${scala.version}</scalaVersion>
+                    <recompileMode>incremental</recompileMode>
+                    <useZincServer>true</useZincServer>
                 </configuration>
             </plugin>
         </plugins>
