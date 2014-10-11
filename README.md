@@ -101,6 +101,10 @@ for (Ipv4 ip : Ipv4Range.parse("10.0.0.0/30")) {
 
 and more
 
+License
+--------
+The commons-ip-math is released under the MIT license.
+
 Acknowledgements
 ------------
 The project started as a fork of [IP Resource](https://github.com/RIPE-NCC/ipresource) and it has been evolved 
