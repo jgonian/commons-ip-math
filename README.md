@@ -1,3 +1,7 @@
+<div style="float: right">
+[![Build Status](https://travis-ci.org/jgonian/common-ip-math.svg?branch=master)](https://travis-ci.org/jgonian/common-ip-math)
+</div>
+
 Common IP Math
 ================
 
