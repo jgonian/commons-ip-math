@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.ripe.commons</groupId>
         <artifactId>commons-ip-math-parent</artifactId>
-        <version>1.20</version>
+        <version>1.21-SNAPSHOT</version>
     </parent>
 
     <artifactId>commons-ip-math</artifactId>
