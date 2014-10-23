@@ -24,7 +24,7 @@
 package net.ripe.commons.ip;
 
 import static java.math.BigInteger.ZERO;
-import static net.ripe.commons.ip.RangeUtils.checkRange;
+import static net.ripe.commons.ip.Validate.checkRange;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Comparator;

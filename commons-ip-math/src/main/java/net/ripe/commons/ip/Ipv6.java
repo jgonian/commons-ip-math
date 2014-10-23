@@ -24,7 +24,7 @@
 package net.ripe.commons.ip;
 
 import static java.math.BigInteger.*;
-import static net.ripe.commons.ip.RangeUtils.*;
+
 import java.math.BigInteger;
 
 public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
@@ -178,7 +178,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         BigInteger ipv6value = BigInteger.ZERO;
         for (String part : split) {
             Validate.isTrue(part.length() <= MAX_PART_LENGTH, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
+            Validate.checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
             ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
         }
         return new Ipv6(ipv6value);
@@ -309,14 +309,14 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     @Override
     public Ipv6 lowerBoundForPrefix(int prefixLength) {
-        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        Validate.checkRange(prefixLength, 0, NUMBER_OF_BITS);
         BigInteger mask = bitMask(0).xor(bitMask(prefixLength));
         return new Ipv6(value.and(mask));
     }
 
     @Override
     public Ipv6 upperBoundForPrefix(int prefixLength) {
-        checkRange(prefixLength, 0, NUMBER_OF_BITS);
+        Validate.checkRange(prefixLength, 0, NUMBER_OF_BITS);
         return new Ipv6(value.or(bitMask(prefixLength)));
     }
 

@@ -23,7 +23,7 @@
  */
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.RangeUtils.checkRange;
+import static net.ripe.commons.ip.Validate.checkRange;
 import java.math.BigInteger;
 
 public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
@@ -100,7 +100,7 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     }
 
     private static long addOctet(long value, int octet) {
-        RangeUtils.checkRange(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
+        Validate.checkRange(octet, MIN_OCTET_VALUE, MAX_OCTET_VALUE);
         return ((value) << 8) | octet;
     }
 

@@ -23,15 +23,24 @@
  */
 package net.ripe.commons.ip;
 
-public final class RangeUtils {
+import org.junit.Test;
 
-    private RangeUtils() {
+public class ValidateTest {
+
+    @Test
+    public void shouldPassRangeCheck() {
+        Validate.checkRange(10, 10, 20);
+        Validate.checkRange(20, 10, 20);
+        Validate.checkRange(15, 10, 20);
     }
 
-    public static <T extends Comparable<T>> T checkRange(T value, T begin, T end) {
-        if (value.compareTo(begin) >= 0 && value.compareTo(end) <= 0) {
-            return value;
-        }
-        throw new IllegalArgumentException("Value [" + value + "] out of range: [" + begin + ".." + end + "]");
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailIfValueIsOutsideTheLowerBound() {
+        Validate.checkRange(9, 10, 20);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailIfValueIsOutsideTheUpperBound() {
+        Validate.checkRange(21, 10, 20);
     }
 }

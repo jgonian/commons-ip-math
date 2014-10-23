@@ -23,7 +23,6 @@
  */
 package net.ripe.commons.ip;
 
-import static net.ripe.commons.ip.RangeUtils.*;
 import java.math.BigInteger;
 
 public final class Asn implements SingleInternetResource<Asn, AsnRange>, Comparable<Asn> {
@@ -46,7 +45,7 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
 
     public Asn(Long value) {
         this.value = Validate.notNull(value, "value is required");
-        checkRange(this.value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
+        Validate.checkRange(this.value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
     }
 
     long value() {
@@ -81,8 +80,8 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
             long high = 0L;
             int indexOfDot = asnString.indexOf('.');
             if (indexOfDot != -1) {
-                low = checkRange(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
-                high = checkRange(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+                low = Validate.checkRange(Long.valueOf(asnString.substring(indexOfDot + 1)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
+                high = Validate.checkRange(Long.valueOf(asnString.substring(0, indexOfDot)), ASN_MIN_VALUE, ASN_16_BIT_MAX_VALUE);
             } else {
                 low = Long.valueOf(asnString);
             }
