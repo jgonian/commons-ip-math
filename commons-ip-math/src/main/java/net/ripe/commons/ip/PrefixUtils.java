@@ -89,4 +89,21 @@ public final class PrefixUtils {
         return Ipv6.NUMBER_OF_BITS - maxPowerOfTwo;
     }
 
+    public static int sumIpv4Prefixes(List<Integer> ipv4Prefixes) {
+        return doSumIpvX(ipv4Prefixes, Ipv4.NUMBER_OF_BITS);
+    }
+
+    public static int sumIpv6Prefixes(List<Integer> ipv6Prefixes) {
+        return doSumIpvX(ipv6Prefixes, Ipv6.NUMBER_OF_BITS);
+    }
+
+    private static int doSumIpvX(List<Integer> prefixes, int bitSize) {
+        double addressSize = 0;
+        for (Integer prefix: prefixes) {
+            Validate.isTrue(prefix >= 1 && prefix <= bitSize, prefix + " is not a legal prefix length (must be between 1 and " + bitSize + ")");
+            addressSize += Math.pow(2, bitSize - prefix);
+        }
+        return (int) Math.floor(bitSize - (Math.log(addressSize) / Math.log(2)));
+    }
+
 }
