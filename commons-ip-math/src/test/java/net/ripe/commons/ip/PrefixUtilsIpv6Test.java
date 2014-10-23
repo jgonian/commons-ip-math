@@ -26,12 +26,14 @@ package net.ripe.commons.ip;
 import static net.ripe.commons.ip.PrefixUtils.*;
 import static org.junit.Assert.*;
 import java.math.BigInteger;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
  * Tests {@link PrefixUtils} with Ipv6
  */
-public class PrefixUtilsIpv6Test {
+public class PrefixUtilsIpv6Test  extends AbstractPrefixUtilsTest {
 
     @Test
     public void shouldReturnTrueForValidPrefix() {
@@ -109,4 +111,23 @@ public class PrefixUtilsIpv6Test {
     public void findBiggestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooBig() {
         findMaximumPrefixForPrefixLength(Ipv6Range.parse("::1-::10"), 129);
     }
+
+    @Test
+    public void shouldSumIpv6Prefixes() {
+        List<Integer> ipv6Prefixes = ipvXPrefixes(49, 49, 49, 48);
+        assertEquals(46, sumIpv6Prefixes(ipv6Prefixes));
+    }
+
+    @Test
+    public void shouldSumIpv6PrefixesDouble() {
+        List<Integer> ipv6Prefixes = ipvXPrefixes(52, 52);
+        assertEquals(51, sumIpv6Prefixes(ipv6Prefixes));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldValidateForNonValidPrefixes() {
+        List<Integer> ipv6Prefixes = ipvXPrefixes(Ipv6.NUMBER_OF_BITS + 1);
+        sumIpv6Prefixes(ipv6Prefixes);
+    }
+
 }

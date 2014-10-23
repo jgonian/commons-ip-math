@@ -27,10 +27,12 @@ import static net.ripe.commons.ip.PrefixUtils.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * Tests {@link PrefixUtils} with Ipv4
  */
-public class PrefixUtilsIpv4Test {
+public class PrefixUtilsIpv4Test extends AbstractPrefixUtilsTest {
 
     @Test
     public void shouldReturnTrueForValidPrefix() {
@@ -110,4 +112,35 @@ public class PrefixUtilsIpv4Test {
     public void findBiggestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooBig() {
         findMaximumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), 129);
     }
+
+    @Test
+    public void shouldSumIpv4Prefixes() {
+        List<Integer> ipvXPrefixes = ipvXPrefixes(23, 23, 23, 25, 26);
+        assertEquals(21, sumIpv4Prefixes(ipvXPrefixes));
+    }
+
+    @Test
+    public void shouldSumIpv4PrefixesSingle() {
+        List<Integer> ipvXPrefixes = ipvXPrefixes(22);
+        assertEquals(22, sumIpv4Prefixes(ipvXPrefixes));
+    }
+
+    @Test
+    public void shouldSumIpv4PrefixesDouble() {
+        List<Integer> ipvXPrefixes = ipvXPrefixes(23, 23);
+        assertEquals(22, sumIpv4Prefixes(ipvXPrefixes));
+    }
+
+    @Test
+    public void shouldAttemptToSumIpv4PrefixesEvenIfResultIsTooBig() {
+        List<Integer> ipvXPrefixes = ipvXPrefixes(1, 1, 1, 2, 3, 4, 5, 6);
+        assertEquals(-1, sumIpv4Prefixes(ipvXPrefixes));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldValidateForNonValidPrefixes() {
+        List<Integer> ipvXPrefixes = ipvXPrefixes(Ipv4.NUMBER_OF_BITS + 1);
+        sumIpv4Prefixes(ipvXPrefixes);
+    }
+    
 }
