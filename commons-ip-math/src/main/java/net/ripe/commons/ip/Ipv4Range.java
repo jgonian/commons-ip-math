@@ -111,20 +111,6 @@ public final class Ipv4Range extends AbstractIpRange<Ipv4, Ipv4Range> {
         return (end().value() - start().value()) + 1;
     }
 
-    // TODO(yg): refactor and move to parent
-    public String toStringInSlashNotation() {
-        List<Ipv4Range> prefixes = splitToPrefixes();
-        Collections.sort(prefixes, StartAndSizeComparator.<Ipv4, Ipv4Range>get());
-        StringBuilder notation = new StringBuilder().append(start());
-
-        for (Ipv4Range range : prefixes) {
-            notation.append(SLASH).append(PrefixUtils.getPrefixLength(range));
-            notation.append(",");
-        }
-        String noted = notation.toString();
-        return noted.substring(0, noted.length() - 1);
-    }
-
     public static class Ipv4RangeBuilder extends AbstractRangeBuilder<Ipv4, Ipv4Range> {
 
         private final Ipv4 from;

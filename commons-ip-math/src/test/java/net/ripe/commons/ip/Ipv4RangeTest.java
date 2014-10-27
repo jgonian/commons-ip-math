@@ -179,13 +179,6 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     }
 
     @Test
-    public void testToStringInSlashNotation() {
-        assertEquals("77.34.132.0/22,/22", Ipv4Range.parse("77.34.132.0 - 77.34.139.255").toStringInSlashNotation());
-    }
-
-
-
-    @Test
     public void testSize() {
         assertEquals(new Long(1), ip1.asRange().size());
         assertEquals(new Long(MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
