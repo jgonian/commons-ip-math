@@ -11,6 +11,7 @@
     <artifactId>commons-ip-math-parent</artifactId>
     <version>1.21-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A project to make it easier to work with Internet resources, such as IPv4, IPv6 and AS numbers.</description>
     <url>http://github.com/jgonian/common-ip-math</url>
