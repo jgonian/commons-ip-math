@@ -96,6 +96,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <repoToken>yWIi7WIxCaHW66aj7eMHm0wjpKT7obPEC</repoToken>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

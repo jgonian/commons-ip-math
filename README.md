@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/jgonian/common-ip-math.svg?branch=master)](https://travis-ci.org/jgonian/common-ip-math)
+[![Coverage Status](https://img.shields.io/coveralls/jgonian/common-ip-math.svg)](https://coveralls.io/r/jgonian/common-ip-math)
 
 Common IP Math
 ================
