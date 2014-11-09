@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A project to make it easier to work with Internet resources, such as IPv4, IPv6 and AS numbers.</description>
-    <url>http://github.com/jgonian/common-ip-math</url>
+    <url>http://github.com/jgonian/commons-ip-math</url>
 
     <properties>
         <target.jdk>1.6</target.jdk>
@@ -28,7 +28,7 @@
     <licenses>
         <license>
             <name>The MIT License</name>
-            <url>https://raw.github.com/ygoniana/common-ip-math/master/LICENSE.txt</url>
+            <url>https://raw.github.com/jgonian/commons-ip-math/master/LICENSE.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -42,9 +42,9 @@
     </developers>
 
     <scm>
-        <url>https://github.com/jgonian/common-ip-math.git</url>
-        <connection>scm:git:git@github.com:jgonian/common-ip-math.git</connection>
-        <developerConnection>scm:git:git@github.com:jgonian/common-ip-math.git</developerConnection>
+        <url>https://github.com/jgonian/commons-ip-math.git</url>
+        <connection>scm:git:git@github.com:jgonian/commons-ip-math.git</connection>
+        <developerConnection>scm:git:git@github.com:jgonian/commons-ip-math.git</developerConnection>
     </scm>
 
     <distributionManagement>
