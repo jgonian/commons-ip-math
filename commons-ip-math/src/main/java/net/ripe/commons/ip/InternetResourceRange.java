@@ -23,8 +23,8 @@
  */
 package net.ripe.commons.ip;
 
-public interface InternetResourceRange<T extends Rangeable<T, R>, R extends InternetResourceRange<T, R>>
-        extends Range<T, R> {
+public interface InternetResourceRange<S extends SingleInternetResource<S, R>, R extends InternetResourceRange<S, R>>
+        extends Range<S, R> {
 
     Comparable<?> size();
 }
