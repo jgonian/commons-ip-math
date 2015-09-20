@@ -161,16 +161,16 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         String ipv6String = Validate.notNull(ipv6Address, "IPv6 address must not be null").trim();
         Validate.isTrue(!ipv6String.isEmpty(), "IPv6 address must not be empty");
 
+        boolean isIpv6AddressWithEmbeddedIpv4 = isIpv6AddressWithEmbeddedIpv4(ipv6String);
+        if (isIpv6AddressWithEmbeddedIpv4) {
+            ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
+        }
+
         int indexOfDoubleColons = ipv6String.indexOf("::");
         boolean isShortened = indexOfDoubleColons != -1;
         if (isShortened) {
             Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
             ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
-        }
-
-        boolean isIpv6AddressWithEmbeddedIpv4 = isIpv6AddressWithEmbeddedIpv4(ipv6String);
-        if (isIpv6AddressWithEmbeddedIpv4) {
-            ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
         }
 
         String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
@@ -217,28 +217,20 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     private static String getIpv6AddressWithIpv4SectionInIpv6Notation(String ipv6String) {
         try {
-            int indexOfLastColon = ipv6String.lastIndexOf(COLON);
-            String ipv6Section = ipv6String.substring(0, indexOfLastColon);
-            String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
-            Ipv4 ipv4 = Ipv4.parse(ipv4Section);
-            Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
-            String ipv4SectionInIpv6Notation = ipv6FromIpv4.toString().substring(2);
-            return ipv6Section + COLON + ipv4SectionInIpv6Notation;
+            final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
+            final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
+            final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
+            final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
+            final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
+            return ipv6Section + ipv6FromIpv4.toString().substring(1);
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("Embedded IPv4 in IPv6 address is invalid: " + ipv6String, e);
         }
     }
 
-    // TODO(yg) make it compliant with RFC6052 (http://tools.ietf.org/html/rfc6052)
+    // TODO(yg): check compliance with RFC6052 (http://tools.ietf.org/html/rfc6052)
     private static boolean isIpv6AddressWithEmbeddedIpv4(String ipv6String) {
-        if (ipv6String.contains(".")) {
-            int indexOfLastColon = ipv6String.lastIndexOf(COLON);
-            Validate.isTrue(isIpv4CompatibleIpv6Address(ipv6String, indexOfLastColon) ^
-                            isIpv4MappedToIpv6Address(ipv6String, indexOfLastColon),
-                    "Invalid IPv6 address with embedded IPv4");
-            return true;
-        }
-        return false;
+        return ipv6String.contains(".");
     }
 
     /*
