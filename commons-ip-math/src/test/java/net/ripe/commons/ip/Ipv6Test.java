@@ -23,16 +23,16 @@
  */
 package net.ripe.commons.ip;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Ipv6Test {
 
@@ -224,12 +224,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("2001:0000:1234: 0000:0000:C1C0:ABCD:0876");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("2001:0000:1234:0000 :0000:C1C0:ABCD:0876");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -238,12 +238,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("02001:0000:1234:0000:0000:C1C0:ABCD:0876");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("2001:0000:01234:0000:0000:C1C0:ABCD:0876");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -252,12 +252,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("3ffe:b00::1::a");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1111:2222:3333:4444:5555:6666::");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -266,12 +266,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("::2ffff:10");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::-2:10");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -329,57 +329,57 @@ public class Ipv6Test {
         try {
             Ipv6.parse("::400.2.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::260.2.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::256.2.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.256.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.2.256.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.2.256.256");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::300.2.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.300.3.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.2.300.4");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::1.2.3.300");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::256.256.256.256");
             fail();
-        } catch(IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -388,12 +388,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("::255Z255X255Y255");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("::192x168.1.26");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -402,12 +402,12 @@ public class Ipv6Test {
         try {
             Ipv6.parse("1.2.3.4:FFFF:0000:0000:0000::0000");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
         try {
             Ipv6.parse("1.2.3.4::");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
@@ -417,7 +417,7 @@ public class Ipv6Test {
         try {
             Ipv6.parse("::FFFF:254.157.241.086");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 
