@@ -29,9 +29,14 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class Ipv4Test {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testEqualsContract() {
@@ -46,18 +51,24 @@ public class Ipv4Test {
         assertEquals(sample, Ipv4.of("0.0.0.1"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBuilderWithNull() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("from cannot be null");
         Ipv4.of((BigInteger) null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUpperBound() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Value of IPv4 has to be less than or equal to 4294967295");
         new Ipv4(Ipv4.MAXIMUM_VALUE + 1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testLowerBound() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Value of IPv4 has to be greater than or equal to 0");
         new Ipv4(Ipv4.MINIMUM_VALUE - 1);
     }
 
@@ -86,38 +97,52 @@ public class Ipv4Test {
         assertEquals("127.0.8.12", Ipv4.parse("  127.0.8.12  ").toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailOnLessOctets() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: 10.1.1");
         Ipv4.parse("10.1.1");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailOnMoreOctets() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: 10.1.1.1.1");
         Ipv4.parse("10.1.1.1.1");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailWhenEndingWithNonDigit() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: 10.1.1.1.");
         Ipv4.parse("10.1.1.1.");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailWhenStartingWithNonDigit() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: .10.1.1.1");
         Ipv4.parse(".10.1.1.1");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailWhenOctetContainsNonDigit() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: 10.a.1.0");
         Ipv4.parse("10.a.1.0");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailOnOutOfBoundsByte() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Value [256] out of range: [0..255]");
         Ipv4.parse("256.0.0.0");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailOnOutOfBoundsByte_NegativeByte() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: 13.-40.0.0");
         Ipv4.parse("13.-40.0.0");
     }
 
@@ -139,13 +164,17 @@ public class Ipv4Test {
         assertEquals(Ipv4.parse("192.168.0.100"), address.upperBoundForPrefix(32));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailToCalculateLowerBoundWhenPrefixIsOutOfRange() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Value [33] out of range: [0..32]");
         Ipv4.parse("192.168.0.100").lowerBoundForPrefix(33);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldFailToCalculateUpperBoundWhenPrefixIsOutOfRange() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Value [33] out of range: [0..32]");
         Ipv4.parse("192.168.0.100").upperBoundForPrefix(33);
     }
 
