@@ -19,14 +19,12 @@
         </repository>
     </repositories>
 
-    <properties></properties>
-
     <dependencies>
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
