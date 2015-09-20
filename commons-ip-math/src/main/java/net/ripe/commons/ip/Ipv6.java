@@ -229,16 +229,9 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         }
     }
 
-    // TODO(yg) make it compliant with RFC6052 (http://tools.ietf.org/html/rfc6052)
+    // TODO(yg): check compliance with RFC6052 (http://tools.ietf.org/html/rfc6052)
     private static boolean isIpv6AddressWithEmbeddedIpv4(String ipv6String) {
-        if (ipv6String.contains(".")) {
-            int indexOfLastColon = ipv6String.lastIndexOf(COLON);
-            Validate.isTrue(isIpv4CompatibleIpv6Address(ipv6String, indexOfLastColon) ^
-                            isIpv4MappedToIpv6Address(ipv6String, indexOfLastColon),
-                    "Invalid IPv6 address with embedded IPv4");
-            return true;
-        }
-        return false;
+        return ipv6String.contains(".");
     }
 
     /*

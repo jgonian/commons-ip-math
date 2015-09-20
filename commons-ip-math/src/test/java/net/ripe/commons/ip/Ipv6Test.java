@@ -298,22 +298,30 @@ public class Ipv6Test {
     }
 
     @Test
-    public void shouldFailToParseInvalidIpv4EmbeddedFormat() {
-        try {
-            Ipv6.parse("a:b:c:d:e:f:13.1.68.3");
-            fail();
-        } catch(IllegalArgumentException e) {
-        }
-        try {
-            Ipv6.parse("a:b:c:d:e:0000:13.1.68.3");
-            fail();
-        } catch(IllegalArgumentException e) {
-        }
-        try {
-            Ipv6.parse("a:b:c:d:e:ffff:13.1.68.3");
-            fail();
-        } catch(IllegalArgumentException e) {
-        }
+    public void shouldParseIpv4EmbeddedFormat() {
+        // Examples are copied from http://download.dartware.com/thirdparty/test-ipv6-regex.pl
+        Ipv6.parse("1:2:3:4:5:6:1.2.3.4");
+        Ipv6.parse("1:2:3:4:5::1.2.3.4");
+        Ipv6.parse("1:2:3:4::1.2.3.4");
+        Ipv6.parse("1:2:3::1.2.3.4");
+        Ipv6.parse("1:2::1.2.3.4");
+        Ipv6.parse("1::1.2.3.4");
+        Ipv6.parse("1:2:3:4::5:1.2.3.4");
+        Ipv6.parse("1:2:3::5:1.2.3.4");
+        Ipv6.parse("1:2::5:1.2.3.4");
+        Ipv6.parse("1::5:1.2.3.4");
+        Ipv6.parse("1::5:11.22.33.44");
+        Ipv6.parse("fe80::217:f2ff:254.7.237.98");
+        Ipv6.parse("::ffff:192.168.1.26");
+        Ipv6.parse("::ffff:192.168.1.1");
+
+        Ipv6.parse("0:0:0:0:0:0:13.1.68.3");        // IPv4-compatible IPv6 address, full, deprecated
+        Ipv6.parse("::13.1.68.3");                  // IPv4-compatible IPv6 address, compressed, deprecated
+        Ipv6.parse("0:0:0:0:0:FFFF:129.144.52.38"); // IPv4-mapped IPv6 address, full
+        Ipv6.parse("::FFFF:129.144.52.38");         // IPv4-mapped IPv6 address, compressed
+        Ipv6.parse("fe80:0:0:0:204:61ff:254.157.241.86");
+        Ipv6.parse("fe80::204:61ff:254.157.241.86");
+        Ipv6.parse("::ffff:12.34.56.78");
     }
 
     @Test
@@ -367,6 +375,11 @@ public class Ipv6Test {
             Ipv6.parse("::1.2.3.300");
             fail();
         } catch(IllegalArgumentException e) {
+        }
+        try {
+            Ipv6.parse("::256.256.256.256");
+            fail();
+        } catch(IllegalArgumentException ignored) {
         }
     }
 
