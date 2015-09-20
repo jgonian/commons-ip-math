@@ -421,6 +421,18 @@ public class Ipv6Test {
         }
     }
 
+    @Test
+    public void shouldParseIfIpv4PartContainsSingleZeros() {
+        assertEquals(Ipv6.parse("::0.0.0.0"), Ipv6.parse("::"));
+        assertEquals(Ipv6.parse("::0.0.0.1"), Ipv6.parse("::1"));
+        assertEquals(Ipv6.parse("::0.0.1.0"), Ipv6.parse("::100"));
+        assertEquals(Ipv6.parse("::0.1.0.0"), Ipv6.parse("::1:0"));
+        assertEquals(Ipv6.parse("::1.0.0.0"), Ipv6.parse("::100:0"));
+        assertEquals(Ipv6.parse("::0.0.255.255"), Ipv6.parse("::ffff"));
+        assertEquals(Ipv6.parse("::0.1.255.255"), Ipv6.parse("::1:ffff"));
+        assertEquals(Ipv6.parse("::255.255.255.255"), Ipv6.parse("::ffff:ffff"));
+    }
+
     // IPv6 Ranges
 
     @Test(expected = IllegalArgumentException.class)
