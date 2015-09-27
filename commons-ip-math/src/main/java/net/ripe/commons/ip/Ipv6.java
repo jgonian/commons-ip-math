@@ -224,7 +224,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
             return ipv6Section + ipv6FromIpv4.toString().substring(1);
         } catch(IllegalArgumentException e) {
-            throw new IllegalArgumentException("Embedded IPv4 in IPv6 address is invalid: " + ipv6String, e);
+            throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv6String, e);
         }
     }
 
