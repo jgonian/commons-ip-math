@@ -23,9 +23,9 @@
  */
 package net.ripe.commons.ip;
 
-import static java.math.BigInteger.*;
-
 import java.math.BigInteger;
+
+import static java.math.BigInteger.ONE;
 
 public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
@@ -47,7 +47,6 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final String ZERO = "0";
     private static final int BITS_PER_PART = 16;
     private static final int TOTAL_OCTETS = 8;
-    private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
@@ -157,7 +156,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
      * @throws IllegalArgumentException if the string cannot be parsed
      * @see <a href="http://tools.ietf.org/html/rfc4291">rfc4291 - IP Version 6 Addressing Architecture</a>
      */
-    public static Ipv6 parse(String ipv6Address) {
+    public static Ipv6 parse(final String ipv6Address) {
         String ipv6String = Validate.notNull(ipv6Address, "IPv6 address must not be null").trim();
         Validate.isTrue(!ipv6String.isEmpty(), "IPv6 address must not be empty");
 
@@ -166,11 +165,11 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
         }
 
-        int indexOfDoubleColons = ipv6String.indexOf("::");
-        boolean isShortened = indexOfDoubleColons != -1;
+        final int indexOfDoubleColons = ipv6String.indexOf("::");
+        final boolean isShortened = indexOfDoubleColons != -1;
         if (isShortened) {
             Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
+            ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons, countColons(ipv6String), ipv6Address);
         }
 
         String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
@@ -184,9 +183,9 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         return new Ipv6(ipv6value);
     }
 
-    private static String expandMissingColons(String ipv6String, int indexOfDoubleColons) {
-        int colonCount = ipv6String.contains(".") ? COLON_COUNT_FOR_EMBEDDED_IPV4 : COLON_COUNT_IPV6;
-        int count = colonCount - countColons(ipv6String) + 2;
+    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons, final int colonCount, final String ipv6Address) {
+        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+        final int missingZeros = COLON_COUNT_IPV6 - colonCount + 1;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
         String rightPart = ipv6String.substring(indexOfDoubleColons + 2);
         if (leftPart.isEmpty()) {
@@ -197,7 +196,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(leftPart);
-        for (int i = 0; i < count - 1; i++) {
+        for (int i = 0; i < missingZeros; i++) {
             sb.append(COLON).append(ZERO);
         }
         sb.append(COLON).append(rightPart);
