@@ -161,7 +161,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         String ipv6String = Validate.notNull(ipv6Address, "IPv6 address must not be null").trim();
         Validate.isTrue(!ipv6String.isEmpty(), "IPv6 address must not be empty");
 
-        boolean isIpv6AddressWithEmbeddedIpv4 = isIpv6AddressWithEmbeddedIpv4(ipv6String);
+        final boolean isIpv6AddressWithEmbeddedIpv4 = ipv6String.contains(".");
         if (isIpv6AddressWithEmbeddedIpv4) {
             ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
         }
@@ -226,11 +226,6 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv6String, e);
         }
-    }
-
-    // TODO(yg): check compliance with RFC6052 (http://tools.ietf.org/html/rfc6052)
-    private static boolean isIpv6AddressWithEmbeddedIpv4(String ipv6String) {
-        return ipv6String.contains(".");
     }
 
     /*
