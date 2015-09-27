@@ -228,62 +228,6 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         }
     }
 
-    /*
-     * RFC4291 - http://tools.ietf.org/html/rfc4291#section-2.5.5.1
-     * +-----------------------------------------------------------------+
-     * |                80 bits               | 16 |      32 bits        |
-     * +--------------------------------------+--------------------------+
-     * |0000..............................0000|0000|    IPv4 address     |
-     * +--------------------------------------+----+---------------------+
-     */
-    private static boolean isIpv4CompatibleIpv6Address(String ipv6String, int indexOfLastColon) {
-        int i = indexOfLastColon - 1;
-        char charAt = ipv6String.charAt(i);
-        boolean result = (charAt == ':');
-        while (charAt != ':') {
-            if (charAt == '0') {
-                result = true;
-            } else {
-                return false;
-            }
-            charAt = ipv6String.charAt(--i);
-        }
-        char[] chars = ipv6String.toCharArray();
-        for (int k = 0; k < i; k++) {
-            if (chars[k] != '0' && chars[k] != ':') {
-                return false;
-            }
-        }
-        return result;
-    }
-
-    /*
-     * RFC4291 - http://tools.ietf.org/html/rfc4291#section-2.5.5.2
-     * +-----------------------------------------------------------------+
-     * |                80 bits               | 16 |      32 bits        |
-     * +--------------------------------------+--------------------------+
-     * |0000..............................0000|FFFF|    IPv4 address     |
-     * +--------------------------------------+----+---------------------+
-     */
-    private static boolean isIpv4MappedToIpv6Address(String ipv6String, int indexOfLastColon) {
-        int i = indexOfLastColon - 1;
-        int result = 0x0;
-        char charAt = ipv6String.charAt(i);
-        while (charAt != ':') {
-            if (charAt == 'f' || charAt == 'F') {
-                result = (result << 4) + 0xf;
-            }
-            charAt = ipv6String.charAt(--i);
-        }
-        char[] chars = ipv6String.toCharArray();
-        for (int k = 0; k < i; k++) {
-            if (chars[k] != '0' && chars[k] != ':') {
-                return false;
-            }
-        }
-        return result == MAX_PART_VALUE;
-    }
-
     @Override
     public int bitSize() {
         return NUMBER_OF_BITS;
