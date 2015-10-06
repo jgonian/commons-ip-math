@@ -23,8 +23,10 @@
  */
 package net.ripe.commons.ip;
 
+import java.io.Serializable;
+
 public interface InternetResourceRange<S extends SingleInternetResource<S, R>, R extends InternetResourceRange<S, R>>
-        extends Range<S, R> {
+        extends Range<S, R>, Serializable {
 
     Comparable<?> size();
 }
