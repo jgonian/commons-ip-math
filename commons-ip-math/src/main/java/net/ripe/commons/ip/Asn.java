@@ -48,7 +48,7 @@ public final class Asn implements SingleInternetResource<Asn, AsnRange>, Compara
         Validate.checkRange(this.value, ASN_MIN_VALUE, ASN_32_BIT_MAX_VALUE);
     }
 
-    long value() {
+    public long value() {
         return value;
     }
 
