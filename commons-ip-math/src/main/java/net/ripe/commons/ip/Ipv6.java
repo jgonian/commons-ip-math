@@ -219,16 +219,12 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     }
 
     private static String getIpv6AddressWithIpv4SectionInIpv6Notation(String ipv6String) {
-        try {
-            final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
-            final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
-            final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
-            final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
-            final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
-            return ipv6Section + ipv6FromIpv4.toString().substring(1);
-        } catch(IllegalArgumentException e) {
-            throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv6String, e);
-        }
+        final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
+        final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
+        final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
+        final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
+        final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
+        return ipv6Section + ipv6FromIpv4.toString().substring(1);
     }
 
     @Override
