@@ -23,7 +23,7 @@ public class Ipv6DoubleColonTest {
     @Test
     public void test() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv6 address: " + input);
+        thrown.expectMessage("Invalid IPv6 address: '" + input + "'");
         Ipv6.parse(input);
     }
 

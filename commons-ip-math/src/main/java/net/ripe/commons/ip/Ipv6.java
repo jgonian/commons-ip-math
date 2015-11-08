@@ -42,7 +42,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final int MIN_PART_VALUE = 0x0;
     private static final int MAX_PART_VALUE = 0xFFFF;
     private static final int MAX_PART_LENGTH = 4;
-    private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: ";
+    private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: '%s'";
     private static final String COLON = ":";
     private static final String ZERO = "0";
     private static final int BITS_PER_PART = 16;
@@ -158,8 +158,8 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
      */
     public static Ipv6 parse(final String ipv6Address) {
         try {
-            String ipv6String = Validate.notNull(ipv6Address, "IPv6 address must not be null").trim();
-            Validate.isTrue(!ipv6String.isEmpty(), "IPv6 address must not be empty");
+            String ipv6String = Validate.notNull(ipv6Address).trim();
+            Validate.isTrue(!ipv6String.isEmpty());
 
             final boolean isIpv6AddressWithEmbeddedIpv4 = ipv6String.contains(".");
             if (isIpv6AddressWithEmbeddedIpv4) {
@@ -169,27 +169,27 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             final int indexOfDoubleColons = ipv6String.indexOf("::");
             final boolean isShortened = indexOfDoubleColons != -1;
             if (isShortened) {
-                Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-                ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons, ipv6Address);
+                Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"));
+                ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
             }
 
             String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
-            Validate.isTrue(split.length == TOTAL_OCTETS, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+            Validate.isTrue(split.length == TOTAL_OCTETS);
             BigInteger ipv6value = BigInteger.ZERO;
             for (String part : split) {
-                Validate.isTrue(part.length() <= MAX_PART_LENGTH, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+                Validate.isTrue(part.length() <= MAX_PART_LENGTH);
                 Validate.checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
                 ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
             }
             return new Ipv6(ipv6value);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address, e);
+            throw new IllegalArgumentException(String.format(DEFAULT_PARSING_ERROR_MESSAGE, ipv6Address), e);
         }
     }
 
-    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons, final String ipv6Address) {
+    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons) {
         final int colonCount = countColons(ipv6String);
-        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
+        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6);
         final int missingZeros = COLON_COUNT_IPV6 - colonCount + 1;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
         String rightPart = ipv6String.substring(indexOfDoubleColons + 2);
