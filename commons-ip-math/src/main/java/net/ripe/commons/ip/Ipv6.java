@@ -170,7 +170,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
             final boolean isShortened = indexOfDoubleColons != -1;
             if (isShortened) {
                 Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-                ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons, countColons(ipv6String), ipv6Address);
+                ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons, ipv6Address);
             }
 
             String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
@@ -187,7 +187,8 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         }
     }
 
-    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons, final int colonCount, final String ipv6Address) {
+    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons, final String ipv6Address) {
+        final int colonCount = countColons(ipv6String);
         Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
         final int missingZeros = COLON_COUNT_IPV6 - colonCount + 1;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
