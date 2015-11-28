@@ -182,7 +182,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
                 ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
             }
             return new Ipv6(ipv6value);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(String.format(DEFAULT_PARSING_ERROR_MESSAGE, ipv6Address), e);
         }
     }
