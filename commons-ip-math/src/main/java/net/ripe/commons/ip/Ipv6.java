@@ -23,9 +23,9 @@
  */
 package net.ripe.commons.ip;
 
-import static java.math.BigInteger.*;
-
 import java.math.BigInteger;
+
+import static java.math.BigInteger.ONE;
 
 public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
@@ -42,12 +42,11 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final int MIN_PART_VALUE = 0x0;
     private static final int MAX_PART_VALUE = 0xFFFF;
     private static final int MAX_PART_LENGTH = 4;
-    private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: ";
+    private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv6 address: '%s'";
     private static final String COLON = ":";
     private static final String ZERO = "0";
     private static final int BITS_PER_PART = 16;
     private static final int TOTAL_OCTETS = 8;
-    private static final int COLON_COUNT_FOR_EMBEDDED_IPV4 = 6;
     private static final int COLON_COUNT_IPV6 = 7;
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
@@ -157,38 +156,48 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
      * @throws IllegalArgumentException if the string cannot be parsed
      * @see <a href="http://tools.ietf.org/html/rfc4291">rfc4291 - IP Version 6 Addressing Architecture</a>
      */
-    public static Ipv6 parse(String ipv6Address) {
-        String ipv6String = Validate.notNull(ipv6Address, "IPv6 address must not be null").trim();
-        Validate.isTrue(!ipv6String.isEmpty(), "IPv6 address must not be empty");
+    public static Ipv6 parse(final String ipv6Address) {
+        try {
+            String ipv6String = Validate.notNull(ipv6Address).trim();
+            Validate.isTrue(!ipv6String.isEmpty());
 
-        boolean isIpv6AddressWithEmbeddedIpv4 = isIpv6AddressWithEmbeddedIpv4(ipv6String);
-        if (isIpv6AddressWithEmbeddedIpv4) {
-            ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
-        }
+            final boolean isIpv6AddressWithEmbeddedIpv4 = ipv6String.contains(".");
+            if (isIpv6AddressWithEmbeddedIpv4) {
+                ipv6String = getIpv6AddressWithIpv4SectionInIpv6Notation(ipv6String);
+            }
 
-        int indexOfDoubleColons = ipv6String.indexOf("::");
-        boolean isShortened = indexOfDoubleColons != -1;
-        if (isShortened) {
-            Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"), DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
-        }
+            final int indexOfDoubleColons = ipv6String.indexOf("::");
+            final boolean isShortened = indexOfDoubleColons != -1;
+            if (isShortened) {
+                Validate.isTrue(indexOfDoubleColons == ipv6String.lastIndexOf("::"));
+                ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
+            }
 
-        String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
-        Validate.isTrue(split.length == TOTAL_OCTETS, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-        BigInteger ipv6value = BigInteger.ZERO;
-        for (String part : split) {
-            Validate.isTrue(part.length() <= MAX_PART_LENGTH, DEFAULT_PARSING_ERROR_MESSAGE + ipv6Address);
-            Validate.checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
-            ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
+            final String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
+            Validate.isTrue(split.length == TOTAL_OCTETS);
+            BigInteger ipv6value = BigInteger.ZERO;
+            for (String part : split) {
+                Validate.isTrue(part.length() <= MAX_PART_LENGTH);
+                Validate.checkRange(Integer.parseInt(part, BITS_PER_PART), MIN_PART_VALUE, MAX_PART_VALUE);
+                ipv6value = ipv6value.shiftLeft(BITS_PER_PART).add(new BigInteger(part, BITS_PER_PART));
+            }
+            return new Ipv6(ipv6value);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(String.format(DEFAULT_PARSING_ERROR_MESSAGE, ipv6Address), e);
         }
-        return new Ipv6(ipv6value);
     }
 
-    private static String expandMissingColons(String ipv6String, int indexOfDoubleColons) {
-        int colonCount = ipv6String.contains(".") ? COLON_COUNT_FOR_EMBEDDED_IPV4 : COLON_COUNT_IPV6;
-        int count = colonCount - countColons(ipv6String) + 2;
+    private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons) {
+        final int colonCount = countColons(ipv6String);
+        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6 + 1);
+        final int missingZeros = COLON_COUNT_IPV6 - colonCount + 1;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
         String rightPart = ipv6String.substring(indexOfDoubleColons + 2);
+
+        if (missingZeros == 0) {
+            Validate.isTrue(leftPart.isEmpty() || rightPart.isEmpty());
+        }
+
         if (leftPart.isEmpty()) {
             leftPart = ZERO;
         }
@@ -197,7 +206,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         }
         StringBuilder sb = new StringBuilder();
         sb.append(leftPart);
-        for (int i = 0; i < count - 1; i++) {
+        for (int i = 0; i < missingZeros; i++) {
             sb.append(COLON).append(ZERO);
         }
         sb.append(COLON).append(rightPart);
@@ -216,77 +225,12 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     }
 
     private static String getIpv6AddressWithIpv4SectionInIpv6Notation(String ipv6String) {
-        try {
-            final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
-            final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
-            final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
-            final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
-            final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
-            return ipv6Section + ipv6FromIpv4.toString().substring(1);
-        } catch(IllegalArgumentException e) {
-            throw new IllegalArgumentException("Embedded IPv4 in IPv6 address is invalid: " + ipv6String, e);
-        }
-    }
-
-    // TODO(yg): check compliance with RFC6052 (http://tools.ietf.org/html/rfc6052)
-    private static boolean isIpv6AddressWithEmbeddedIpv4(String ipv6String) {
-        return ipv6String.contains(".");
-    }
-
-    /*
-     * RFC4291 - http://tools.ietf.org/html/rfc4291#section-2.5.5.1
-     * +-----------------------------------------------------------------+
-     * |                80 bits               | 16 |      32 bits        |
-     * +--------------------------------------+--------------------------+
-     * |0000..............................0000|0000|    IPv4 address     |
-     * +--------------------------------------+----+---------------------+
-     */
-    private static boolean isIpv4CompatibleIpv6Address(String ipv6String, int indexOfLastColon) {
-        int i = indexOfLastColon - 1;
-        char charAt = ipv6String.charAt(i);
-        boolean result = (charAt == ':');
-        while (charAt != ':') {
-            if (charAt == '0') {
-                result = true;
-            } else {
-                return false;
-            }
-            charAt = ipv6String.charAt(--i);
-        }
-        char[] chars = ipv6String.toCharArray();
-        for (int k = 0; k < i; k++) {
-            if (chars[k] != '0' && chars[k] != ':') {
-                return false;
-            }
-        }
-        return result;
-    }
-
-    /*
-     * RFC4291 - http://tools.ietf.org/html/rfc4291#section-2.5.5.2
-     * +-----------------------------------------------------------------+
-     * |                80 bits               | 16 |      32 bits        |
-     * +--------------------------------------+--------------------------+
-     * |0000..............................0000|FFFF|    IPv4 address     |
-     * +--------------------------------------+----+---------------------+
-     */
-    private static boolean isIpv4MappedToIpv6Address(String ipv6String, int indexOfLastColon) {
-        int i = indexOfLastColon - 1;
-        int result = 0x0;
-        char charAt = ipv6String.charAt(i);
-        while (charAt != ':') {
-            if (charAt == 'f' || charAt == 'F') {
-                result = (result << 4) + 0xf;
-            }
-            charAt = ipv6String.charAt(--i);
-        }
-        char[] chars = ipv6String.toCharArray();
-        for (int k = 0; k < i; k++) {
-            if (chars[k] != '0' && chars[k] != ':') {
-                return false;
-            }
-        }
-        return result == MAX_PART_VALUE;
+        final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
+        final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
+        final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
+        final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
+        final Ipv6 ipv6FromIpv4 = new Ipv6(BigInteger.valueOf(ipv4.value()));
+        return ipv6Section + ipv6FromIpv4.toString().substring(1);
     }
 
     @Override

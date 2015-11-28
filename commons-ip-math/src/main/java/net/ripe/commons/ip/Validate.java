@@ -28,10 +28,18 @@ public final class Validate {
     private Validate() {
     }
 
+    public static void isTrue(boolean expression) {
+        isTrue(expression, "");
+    }
+
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    public static <T> T notNull(T object) {
+        return notNull(object, "");
     }
 
     public static <T> T notNull(T object, String message) {
