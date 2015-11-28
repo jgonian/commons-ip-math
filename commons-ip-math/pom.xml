@@ -11,14 +11,6 @@
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 
-    <repositories>
-        <repository>
-            <id>oss.sonatype.org</id>
-            <name>releases</name>
-            <url>http://oss.sonatype.org/content/repositories/releases</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- Test dependencies -->
         <dependency>
