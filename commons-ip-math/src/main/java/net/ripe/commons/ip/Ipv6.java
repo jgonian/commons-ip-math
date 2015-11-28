@@ -173,7 +173,7 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
                 ipv6String = expandMissingColons(ipv6String, indexOfDoubleColons);
             }
 
-            String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
+            final String[] split = ipv6String.split(COLON, TOTAL_OCTETS);
             Validate.isTrue(split.length == TOTAL_OCTETS);
             BigInteger ipv6value = BigInteger.ZERO;
             for (String part : split) {
