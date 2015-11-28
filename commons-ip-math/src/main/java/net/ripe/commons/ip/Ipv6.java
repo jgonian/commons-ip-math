@@ -189,10 +189,15 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
 
     private static String expandMissingColons(final String ipv6String, final int indexOfDoubleColons) {
         final int colonCount = countColons(ipv6String);
-        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6);
+        Validate.isTrue(colonCount >= 2 && colonCount <= COLON_COUNT_IPV6 + 1);
         final int missingZeros = COLON_COUNT_IPV6 - colonCount + 1;
         String leftPart = ipv6String.substring(0, indexOfDoubleColons);
         String rightPart = ipv6String.substring(indexOfDoubleColons + 2);
+
+        if (missingZeros == 0) {
+            Validate.isTrue(leftPart.isEmpty() || rightPart.isEmpty());
+        }
+
         if (leftPart.isEmpty()) {
             leftPart = ZERO;
         }
