@@ -23,10 +23,14 @@
  */
 package net.ripe.commons.ip;
 
+import static net.ripe.commons.ip.Ipv6Range.parse;
 import static net.ripe.commons.ip.PrefixUtils.*;
 import static org.junit.Assert.*;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.SortedSet;
 
 import org.junit.Test;
 
@@ -128,6 +132,18 @@ public class PrefixUtilsIpv6Test  extends AbstractPrefixUtilsTest {
     public void shouldValidateForNonValidPrefixes() {
         List<Integer> ipv6Prefixes = ipvXPrefixes(Ipv6.NUMBER_OF_BITS + 1);
         sumIpv6Prefixes(ipv6Prefixes);
+    }
+
+    @Test
+    public void shouldExcludeIpv6Prefixes() {
+        HashSet<Ipv6Range> excludeRanges = new HashSet<Ipv6Range>();
+        excludeRanges.addAll(Arrays.asList(parse("::2-::3"), parse("::5-::6")));
+
+        final SortedSet<Ipv6Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("::1-::6"), excludeRanges);
+
+        HashSet<Ipv6Range> expectedPrefixes = new HashSet<Ipv6Range>();
+        expectedPrefixes.addAll(Arrays.asList(parse("::1/128"), parse("::4/128")));
+        assertEquals(expectedPrefixes, actual);
     }
 
 }

@@ -29,6 +29,9 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class PrefixUtils {
 
@@ -104,6 +107,23 @@ public final class PrefixUtils {
             addressSize += Math.pow(2, bitSize - prefix);
         }
         return (int) Math.floor(bitSize - (Math.log(addressSize) / Math.log(2)));
+    }
+
+    public static <C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
+    SortedSet<R> excludeFromRangeAndSplitIntoPrefixes(R originalRange, Set<R> rangesToExclude) {
+
+        SortedRangeSet<C, R> remainingRanges = new SortedRangeSet<C, R>();
+        remainingRanges.add(originalRange);
+        remainingRanges.removeAll(rangesToExclude);
+
+        SortedSet<R> prefixes = new TreeSet<R>(StartAndSizeComparator.<C, R>get());
+
+        for (R assignmentRange : remainingRanges) {
+            for (R range : assignmentRange.splitToPrefixes()) {
+                prefixes.add(range);
+            }
+        }
+        return prefixes;
     }
 
 }
