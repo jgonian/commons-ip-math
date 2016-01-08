@@ -23,11 +23,15 @@
  */
 package net.ripe.commons.ip;
 
+import static net.ripe.commons.ip.Ipv4Range.parse;
 import static net.ripe.commons.ip.PrefixUtils.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.SortedSet;
 
 /**
  * Tests {@link PrefixUtils} with Ipv4
@@ -36,54 +40,54 @@ public class PrefixUtilsIpv4Test extends AbstractPrefixUtilsTest {
 
     @Test
     public void shouldReturnTrueForValidPrefix() {
-        assertTrue(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.0/0")));
+        assertTrue(PrefixUtils.isLegalPrefix(parse("0.0.0.0/0")));
     }
 
     @Test
     public void shouldReturnFalseForInvalidPrefix() {
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.0-0.0.0.2")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.0-0.0.0.2")));
         assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.from(1585324288l).to(1585324799l)));
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.1-0.0.0.3")));
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.255")));
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.0-255.255.255.254")));
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.1-255.255.255.254")));
-        assertFalse(PrefixUtils.isLegalPrefix(Ipv4Range.parse("0.0.0.2-255.255.255.254")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.1-0.0.0.3")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.1-255.255.255.255")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.0-255.255.255.254")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.1-255.255.255.254")));
+        assertFalse(PrefixUtils.isLegalPrefix(parse("0.0.0.2-255.255.255.254")));
     }
 
     @Test
     public void shouldGetPrefixLengthWhenCorrectPrefix() {
-        assertEquals(32, PrefixUtils.getPrefixLength(Ipv4Range.parse("0.0.0.0-0.0.0.0")));
-        assertEquals(32, PrefixUtils.getPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.1")));
-        assertEquals(30, PrefixUtils.getPrefixLength(Ipv4Range.parse("0.0.0.0-0.0.0.3")));
+        assertEquals(32, PrefixUtils.getPrefixLength(parse("0.0.0.0-0.0.0.0")));
+        assertEquals(32, PrefixUtils.getPrefixLength(parse("0.0.0.1-0.0.0.1")));
+        assertEquals(30, PrefixUtils.getPrefixLength(parse("0.0.0.0-0.0.0.3")));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToGetPrefixLengthWhenInvalidPrefix() {
-        PrefixUtils.getPrefixLength(Ipv4Range.parse("0.0.0.0-0.0.0.2"));
+        PrefixUtils.getPrefixLength(parse("0.0.0.0-0.0.0.2"));
     }
 
     @Test
     public void shouldFindBiggestAndSmallestPrefixWhenRangeIsSingleValidPrefix() {
-        Ipv4Range range = Ipv4Range.parse("0.0.0.0/0");
-        assertEquals(Ipv4Range.parse("0.0.0.0/0"), findMinimumPrefixForPrefixLength(range, 0).get());
-        assertEquals(Ipv4Range.parse("0.0.0.0/0"), findMaximumPrefixForPrefixLength(range, 32).get());
+        Ipv4Range range = parse("0.0.0.0/0");
+        assertEquals(parse("0.0.0.0/0"), findMinimumPrefixForPrefixLength(range, 0).get());
+        assertEquals(parse("0.0.0.0/0"), findMaximumPrefixForPrefixLength(range, 32).get());
     }
 
     @Test
     public void shouldFindBiggestAndSmallestPrefixWhenRangeIsNotValidPrefix() {
         Ipv4Range range = Ipv4Range.from("0.0.0.1").to("0.0.0.4");
-        assertEquals(Ipv4Range.parse("0.0.0.2/31"), findMaximumPrefixForPrefixLength(range, 31).get());
-        assertEquals(Ipv4Range.parse("0.0.0.2/31"), findMinimumPrefixForPrefixLength(range, 31).get());
-        assertEquals(Ipv4Range.parse("0.0.0.2/31"), findMaximumPrefixForPrefixLength(range, 32).get());
-        assertEquals(Ipv4Range.parse("0.0.0.1/32"), findMinimumPrefixForPrefixLength(range, 32).get());
+        assertEquals(parse("0.0.0.2/31"), findMaximumPrefixForPrefixLength(range, 31).get());
+        assertEquals(parse("0.0.0.2/31"), findMinimumPrefixForPrefixLength(range, 31).get());
+        assertEquals(parse("0.0.0.2/31"), findMaximumPrefixForPrefixLength(range, 32).get());
+        assertEquals(parse("0.0.0.1/32"), findMinimumPrefixForPrefixLength(range, 32).get());
 
         Ipv4Range otherRange = Ipv4Range.from("0.0.0.0").to((long) Math.pow(2, 32) - 2L);
-        assertEquals(Ipv4Range.parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 1).get());
-        assertEquals(Ipv4Range.parse("0.0.0.0/1"), findMinimumPrefixForPrefixLength(otherRange, 1).get());
-        assertEquals(Ipv4Range.parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 2).get());
-        assertEquals(Ipv4Range.parse("128.0.0.0/2"), findMinimumPrefixForPrefixLength(otherRange, 2).get());
-        assertEquals(Ipv4Range.parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 32).get());
-        assertEquals(Ipv4Range.parse("255.255.255.254/32"), findMinimumPrefixForPrefixLength(otherRange, 32).get());
+        assertEquals(parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 1).get());
+        assertEquals(parse("0.0.0.0/1"), findMinimumPrefixForPrefixLength(otherRange, 1).get());
+        assertEquals(parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 2).get());
+        assertEquals(parse("128.0.0.0/2"), findMinimumPrefixForPrefixLength(otherRange, 2).get());
+        assertEquals(parse("0.0.0.0/1"), findMaximumPrefixForPrefixLength(otherRange, 32).get());
+        assertEquals(parse("255.255.255.254/32"), findMinimumPrefixForPrefixLength(otherRange, 32).get());
     }
 
     @Test
@@ -95,22 +99,22 @@ public class PrefixUtilsIpv4Test extends AbstractPrefixUtilsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void findSmallestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooSmall() {
-        findMinimumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), -1);
+        findMinimumPrefixForPrefixLength(parse("0.0.0.1-0.0.0.10"), -1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void findSmallestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooBig() {
-        findMinimumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), 129);
+        findMinimumPrefixForPrefixLength(parse("0.0.0.1-0.0.0.10"), 129);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void findBiggestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooSmall() {
-        findMaximumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), -1);
+        findMaximumPrefixForPrefixLength(parse("0.0.0.1-0.0.0.10"), -1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void findBiggestPrefixShouldThrowAnExceptionWhenRequestedPrefixLengthIsTooBig() {
-        findMaximumPrefixForPrefixLength(Ipv4Range.parse("0.0.0.1-0.0.0.10"), 129);
+        findMaximumPrefixForPrefixLength(parse("0.0.0.1-0.0.0.10"), 129);
     }
 
     @Test
@@ -141,6 +145,40 @@ public class PrefixUtilsIpv4Test extends AbstractPrefixUtilsTest {
     public void shouldValidateForNonValidPrefixes() {
         List<Integer> ipvXPrefixes = ipvXPrefixes(Ipv4.NUMBER_OF_BITS + 1);
         sumIpv4Prefixes(ipvXPrefixes);
+    }
+
+    @Test
+    public void shouldExcludeIpv4Prefixes() {
+        HashSet<Ipv4Range> excludeRanges = new HashSet<Ipv4Range>();
+        excludeRanges.addAll(Arrays.asList(parse("0.0.0.2-0.0.0.3"), parse("0.0.0.5-0.0.0.6")));
+
+        final SortedSet<Ipv4Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("0.0.0.1-0.0.0.6"), excludeRanges);
+
+        HashSet<Ipv4Range> expectedPrefixes = new HashSet<Ipv4Range>();
+        expectedPrefixes.addAll(Arrays.asList(parse("0.0.0.1/32"), parse("0.0.0.4/32")));
+        assertEquals(expectedPrefixes, actual);
+    }
+
+    @Test
+    public void shouldReturnOriginalRangeIfExcludeRangesAreEmpty() {
+        HashSet<Ipv4Range> excludeRanges = new HashSet<Ipv4Range>();
+
+        final SortedSet<Ipv4Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("0.0.0.0/30"), excludeRanges);
+
+        HashSet<Ipv4Range> expectedPrefixes = new HashSet<Ipv4Range>();
+        expectedPrefixes.addAll(Arrays.asList(parse("0.0.0.0/30")));
+        assertEquals(expectedPrefixes, actual);
+    }
+
+    @Test
+    public void shouldExcludeEverythingIfExcludeRangeIsBiggerThanOriginal() {
+        HashSet<Ipv4Range> excludeRanges = new HashSet<Ipv4Range>();
+        excludeRanges.addAll(Arrays.asList(parse("0.0.0.0/30")));
+
+        final SortedSet<Ipv4Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("0.0.0.0/31"), excludeRanges);
+
+        HashSet<Ipv4Range> expectedPrefixes = new HashSet<Ipv4Range>();
+        assertEquals(expectedPrefixes, actual);
     }
     
 }
