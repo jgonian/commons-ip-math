@@ -146,4 +146,26 @@ public class PrefixUtilsIpv6Test  extends AbstractPrefixUtilsTest {
         assertEquals(expectedPrefixes, actual);
     }
 
+    @Test
+    public void shouldReturnOriginalRangeIfExcludeRangesAreEmpty() {
+        HashSet<Ipv6Range> excludeRanges = new HashSet<Ipv6Range>();
+
+        final SortedSet<Ipv6Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( Ipv6Range.parse("::4/126"), excludeRanges);
+
+        HashSet<Ipv6Range> expectedPrefixes = new HashSet<Ipv6Range>();
+        expectedPrefixes.addAll(Arrays.asList(Ipv6Range.parse("::4/126")));
+        assertEquals(expectedPrefixes, actual);
+    }
+
+    @Test
+    public void shouldExcludeEverythingIfExcludeRangeIsBiggerThanOriginal() {
+        HashSet<Ipv6Range> excludeRanges = new HashSet<Ipv6Range>();
+        excludeRanges.addAll(Arrays.asList(Ipv6Range.parse("::4/126")));
+
+        final SortedSet<Ipv6Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( Ipv6Range.parse("::4/127"), excludeRanges);
+
+        HashSet<Ipv6Range> expectedPrefixes = new HashSet<Ipv6Range>();
+        assertEquals(expectedPrefixes, actual);
+    }
+
 }

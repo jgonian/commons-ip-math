@@ -158,5 +158,27 @@ public class PrefixUtilsIpv4Test extends AbstractPrefixUtilsTest {
         expectedPrefixes.addAll(Arrays.asList(parse("0.0.0.1/32"), parse("0.0.0.4/32")));
         assertEquals(expectedPrefixes, actual);
     }
+
+    @Test
+    public void shouldReturnOriginalRangeIfExcludeRangesAreEmpty() {
+        HashSet<Ipv4Range> excludeRanges = new HashSet<Ipv4Range>();
+
+        final SortedSet<Ipv4Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("0.0.0.0/30"), excludeRanges);
+
+        HashSet<Ipv4Range> expectedPrefixes = new HashSet<Ipv4Range>();
+        expectedPrefixes.addAll(Arrays.asList(parse("0.0.0.0/30")));
+        assertEquals(expectedPrefixes, actual);
+    }
+
+    @Test
+    public void shouldExcludeEverythingIfExcludeRangeIsBiggerThanOriginal() {
+        HashSet<Ipv4Range> excludeRanges = new HashSet<Ipv4Range>();
+        excludeRanges.addAll(Arrays.asList(parse("0.0.0.0/30")));
+
+        final SortedSet<Ipv4Range> actual = PrefixUtils.excludeFromRangeAndSplitIntoPrefixes( parse("0.0.0.0/31"), excludeRanges);
+
+        HashSet<Ipv4Range> expectedPrefixes = new HashSet<Ipv4Range>();
+        assertEquals(expectedPrefixes, actual);
+    }
     
 }
