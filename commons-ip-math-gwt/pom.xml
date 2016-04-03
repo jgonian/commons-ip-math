@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.ripe.commons</groupId>
+        <groupId>com.github.jgonian</groupId>
         <artifactId>commons-ip-math-parent</artifactId>
         <version>1.24-SNAPSHOT</version>
     </parent>
@@ -44,12 +44,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.ripe.commons</groupId>
+            <groupId>com.github.jgonian</groupId>
             <artifactId>commons-ip-math</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.ripe.commons</groupId>
+            <groupId>com.github.jgonian</groupId>
             <artifactId>commons-ip-math</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
