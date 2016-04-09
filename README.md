@@ -18,6 +18,25 @@ parsing, printing in several notations, checking if ranges are overlapping or ca
 
 It also provides Comparators, Set collections and other utilities for working with IP ranges and Prefixes.
 
+Dependency Information
+-----------------------
+
+Maven:
+```xml
+<dependency>
+    <groupId>com.github.jgonian</groupId>
+    <artifactId>commons-ip-math</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+
+SBT:
+```scala
+libraryDependencies += "com.github.jgonian" % "commons-ip-math" % s"${version}"
+```
+
+For the latest released `version`, check [the Central Repository](https://maven-badges.herokuapp.com/maven-central/com.github.jgonian/commons-ip-math).
+
 Examples
 ---------
 
