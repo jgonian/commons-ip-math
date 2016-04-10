@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jgonian/commons-ip-math.svg?branch=master)](https://travis-ci.org/jgonian/commons-ip-math)
 [![Coverage Status](https://img.shields.io/coveralls/jgonian/commons-ip-math.svg)](https://coveralls.io/r/jgonian/commons-ip-math)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.ripe.commons/commons-ip-math/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.jgonian/commons-ip-math)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.jgonian/commons-ip-math/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.jgonian/commons-ip-math)
 
 Commons IP Math
 ================
