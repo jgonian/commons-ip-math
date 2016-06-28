@@ -23,17 +23,17 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.*;
-import static com.github.jgonian.ipmath.Ipv4.FIRST_IPV4_ADDRESS;
-import static com.github.jgonian.ipmath.Ipv4.LAST_IPV4_ADDRESS;
-import static com.github.jgonian.ipmath.Ipv4.MAXIMUM_VALUE;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static com.github.jgonian.ipmath.Ipv4.FIRST_IPV4_ADDRESS;
+import static com.github.jgonian.ipmath.Ipv4.LAST_IPV4_ADDRESS;
+import static com.github.jgonian.ipmath.Ipv4.MAXIMUM_VALUE;
+import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -162,7 +162,12 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void testToStringInRangeNotation() {
         assertEquals("0.0.0.0-255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeNotation());
     }
-    
+
+    @Test
+    public void testToStringInRangeWithSpacesNotation() {
+        assertEquals("0.0.0.0 - 255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeWithSpacesNotation());
+    }
+
     @Test
     public void testToStringSpecialFoundInvalidCase() {
         assertFalse("94.126.33.0/23".equals(Ipv4Range.from(1585324288L).to(1585324799L).toString()));
