@@ -93,6 +93,12 @@
                 <version>3.0.1</version>
             </plugin>
 
+            <dependency>
+                <groupId>com.google.code.java-allocation-instrumenter</groupId>
+                <artifactId>java-allocation-instrumenter</artifactId>
+                <version>3.0</version>
+            </dependency>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
