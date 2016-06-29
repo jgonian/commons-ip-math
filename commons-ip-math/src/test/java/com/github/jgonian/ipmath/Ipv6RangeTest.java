@@ -160,8 +160,8 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     }
 
     @Test
-    public void testToStringInRangeWithSpacesNotation() {
-        assertEquals(":: - ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInRangeWithSpacesNotation());
+    public void testToStringInRangeNotationWithSpaces() {
+        assertEquals(":: - ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInRangeNotationWithSpaces());
     }
 
     @Test

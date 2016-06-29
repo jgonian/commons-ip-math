@@ -164,8 +164,8 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     }
 
     @Test
-    public void testToStringInRangeWithSpacesNotation() {
-        assertEquals("0.0.0.0 - 255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeWithSpacesNotation());
+    public void testToStringInRangeNotationWithSpaces() {
+        assertEquals("0.0.0.0 - 255.255.255.255", new Ipv4Range(FIRST_IPV4_ADDRESS, LAST_IPV4_ADDRESS).toStringInRangeNotationWithSpaces());
     }
 
     @Test

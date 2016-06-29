@@ -59,7 +59,7 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
         return start() + DASH + end();
     }
 
-    public String toStringInRangeWithSpacesNotation() {
+    public String toStringInRangeNotationWithSpaces() {
         return start() + DASH_WITH_SPACES + end();
     }
 
