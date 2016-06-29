@@ -24,10 +24,12 @@
 
 package com.github.jgonian.ipmath;
 
-import static java.math.BigInteger.*;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
+
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
 
 public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
         extends AbstractRange<C, R>
@@ -35,6 +37,7 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
 
     protected static final String SLASH = "/";
     protected static final String DASH = "-";
+    protected static final String DASH_WITH_SPACES = " - ";
     private static final BigInteger TWO = BigInteger.valueOf(2);
 
     protected AbstractIpRange(C start, C end) {
@@ -54,6 +57,10 @@ public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends Abst
 
     public String toStringInRangeNotation() {
         return start() + DASH + end();
+    }
+
+    public String toStringInRangeWithSpacesNotation() {
+        return start() + DASH_WITH_SPACES + end();
     }
 
     public String toStringInCidrNotation() {

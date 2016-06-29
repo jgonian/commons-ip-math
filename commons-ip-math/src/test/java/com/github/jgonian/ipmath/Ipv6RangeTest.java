@@ -23,15 +23,17 @@
  */
 package com.github.jgonian.ipmath;
 
-import static java.math.BigInteger.*;
-import static com.github.jgonian.ipmath.Ipv6.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static com.github.jgonian.ipmath.Ipv6.FIRST_IPV6_ADDRESS;
+import static com.github.jgonian.ipmath.Ipv6.LAST_IPV6_ADDRESS;
+import static java.math.BigInteger.ONE;
+import static org.junit.Assert.assertEquals;
 
 public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
 
@@ -155,6 +157,11 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
     @Test
     public void testToStringInRangeNotation() {
         assertEquals("::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInRangeNotation());
+    }
+
+    @Test
+    public void testToStringInRangeWithSpacesNotation() {
+        assertEquals(":: - ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", new Ipv6Range(FIRST_IPV6_ADDRESS, LAST_IPV6_ADDRESS).toStringInRangeWithSpacesNotation());
     }
 
     @Test
