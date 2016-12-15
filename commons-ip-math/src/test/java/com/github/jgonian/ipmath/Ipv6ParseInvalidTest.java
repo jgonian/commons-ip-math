@@ -136,8 +136,7 @@ public class Ipv6ParseInvalidTest {
                 // Testing IPv4 addresses represented as dotted-quads
                 // Leading zero's in IPv4 addresses not allowed: some systems treat the leading "0" in ".086" as the start of an octal number
                 // Update: The BNF in RFC-3986 explicitly defines the dec-octet (for IPv4 addresses) not to have a leading zero
-                // FIXME
-                //"fe80:0000:0000:0000:0204:61ff:254.157.241.086",
+                "fe80:0000:0000:0000:0204:61ff:254.157.241.086",
                 "XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:1.2.3.4",
                 "1111:2222:3333:4444:5555:6666:00.00.00.00",
                 "1111:2222:3333:4444:5555:6666:000.000.000.000",

@@ -25,7 +25,6 @@ package com.github.jgonian.ipmath;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -411,7 +410,6 @@ public class Ipv6Test {
         }
     }
 
-    @Ignore("TODO(yg): this ipv4 is valid but ambiguous due to leading zeros and octal notation - update parsing to make this test succeed")
     @Test
     public void shouldFailIfIpv4PartContainsLeadingZeros() {
         try {
@@ -431,6 +429,15 @@ public class Ipv6Test {
         assertEquals(Ipv6.parse("::0.0.255.255"), Ipv6.parse("::ffff"));
         assertEquals(Ipv6.parse("::0.1.255.255"), Ipv6.parse("::1:ffff"));
         assertEquals(Ipv6.parse("::255.255.255.255"), Ipv6.parse("::ffff:ffff"));
+
+        assertEquals(Ipv6.parse("::ffff:0.0.0.0"), Ipv6.parse("::ffff:0:0"));
+        assertEquals(Ipv6.parse("::ffff:0.0.0.1"), Ipv6.parse("::ffff:0:1"));
+        assertEquals(Ipv6.parse("::ffff:0.0.1.0"), Ipv6.parse("::ffff:0:100"));
+        assertEquals(Ipv6.parse("::ffff:0.1.0.0"), Ipv6.parse("::ffff:1:0"));
+        assertEquals(Ipv6.parse("::ffff:1.0.0.0"), Ipv6.parse("::ffff:100:0"));
+        assertEquals(Ipv6.parse("::ffff:0.0.255.255"), Ipv6.parse("::ffff:0:ffff"));
+        assertEquals(Ipv6.parse("::ffff:0.1.255.255"), Ipv6.parse("::ffff:1:ffff"));
+        assertEquals(Ipv6.parse("::ffff:255.255.255.255"), Ipv6.parse("::ffff:ffff:ffff"));
     }
 
     // IPv6 Ranges
