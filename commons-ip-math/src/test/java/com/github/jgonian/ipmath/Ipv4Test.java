@@ -148,6 +148,13 @@ public class Ipv4Test {
     }
 
     @Test
+    public void shouldFailOnLeadingZeros() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid IPv4 address: '192.168.08.1'");
+        Ipv4.parse("192.168.08.1");
+    }
+
+    @Test
     public void shouldHave32BitsSize() {
         assertEquals(Ipv4.NUMBER_OF_BITS, Ipv4.FIRST_IPV4_ADDRESS.bitSize());
     }

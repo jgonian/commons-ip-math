@@ -24,6 +24,7 @@
 package com.github.jgonian.ipmath;
 
 import java.math.BigInteger;
+import java.util.regex.Pattern;
 
 public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
 
@@ -44,6 +45,7 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     private static final int TWO_OCTETS = 16;
     private static final int ONE_OCTET = 8;
     private static final String DEFAULT_PARSING_ERROR_MESSAGE = "Invalid IPv4 address: '%s'";
+    private static final Pattern LEADING_ZERO_IN_IPV4 = Pattern.compile("(^|\\.)0[0-9]");
 
     private final Long value;
 
@@ -78,6 +80,9 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
             Validate.isTrue(!ipv4String.isEmpty()
                     && Character.isDigit(ipv4String.charAt(0))
                     && Character.isDigit(ipv4String.charAt(ipv4String.length() - 1)));
+
+            Validate.isTrue(!LEADING_ZERO_IN_IPV4.matcher(ipv4String).find(),
+                    "IPv4 cannot have leading zeros, as this may be mistaken for octal numbers.");
 
             long value = 0;
             int octet = 0;
