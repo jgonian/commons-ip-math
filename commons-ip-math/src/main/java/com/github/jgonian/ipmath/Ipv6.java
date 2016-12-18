@@ -51,8 +51,6 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
     private static final int COLON_COUNT_IPV6 = 7;
     private static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
-    private static final Pattern LEADING_ZERO_IN_IPV4 = Pattern.compile("(^|\\.)0[0-9]");
-
     private final BigInteger value;
 
     protected Ipv6(BigInteger value) {
@@ -231,8 +229,6 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         final int indexOfLastColon = ipv6String.lastIndexOf(COLON);
         final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
         final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
-        Validate.isTrue(!LEADING_ZERO_IN_IPV4.matcher(ipv4Section).find(),
-                "The IPv4 part in an IPv6 address cannot have leading zeros, as this may be mistaken for octal numbers.");
         final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
         final String ipv4FirstPart =  Long.toHexString( ipv4.value() >>> BITS_PER_PART);
         final String ipv4SecondPart =  Long.toHexString(ipv4.value() & MAX_PART_VALUE);
