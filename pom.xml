@@ -3,7 +3,7 @@
 
     <groupId>com.github.jgonian</groupId>
     <artifactId>commons-ip-math-parent</artifactId>
-    <version>1.32-SNAPSHOT</version>
+    <version>1.32</version>
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A project to make it easier to work with Internet resources, such as IPv4, IPv6 and AS numbers.</description>
@@ -37,7 +37,7 @@
         <url>https://github.com/jgonian/commons-ip-math.git</url>
         <connection>scm:git:git@github.com:jgonian/commons-ip-math.git</connection>
         <developerConnection>scm:git:git@github.com:jgonian/commons-ip-math.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>1.32</tag>
   </scm>
 
     <distributionManagement>
