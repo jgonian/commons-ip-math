@@ -101,49 +101,49 @@ public class Ipv4Test {
     @Test
     public void shouldFailOnLessOctets() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: 10.1.1");
+        thrown.expectMessage("Invalid IPv4 address: '10.1.1'");
         Ipv4.parse("10.1.1");
     }
 
     @Test
     public void shouldFailOnMoreOctets() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: 10.1.1.1.1");
+        thrown.expectMessage("Invalid IPv4 address: '10.1.1.1.1'");
         Ipv4.parse("10.1.1.1.1");
     }
 
     @Test
     public void shouldFailWhenEndingWithNonDigit() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: 10.1.1.1.");
+        thrown.expectMessage("Invalid IPv4 address: '10.1.1.1.'");
         Ipv4.parse("10.1.1.1.");
     }
 
     @Test
     public void shouldFailWhenStartingWithNonDigit() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: .10.1.1.1");
+        thrown.expectMessage("Invalid IPv4 address: '.10.1.1.1'");
         Ipv4.parse(".10.1.1.1");
     }
 
     @Test
     public void shouldFailWhenOctetContainsNonDigit() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: 10.a.1.0");
+        thrown.expectMessage("Invalid IPv4 address: '10.a.1.0'");
         Ipv4.parse("10.a.1.0");
     }
 
     @Test
     public void shouldFailOnOutOfBoundsByte() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Value [256] out of range: [0..255]");
+        thrown.expectMessage("Invalid IPv4 address: '256.0.0.0'");
         Ipv4.parse("256.0.0.0");
     }
 
     @Test
     public void shouldFailOnOutOfBoundsByte_NegativeByte() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: 13.-40.0.0");
+        thrown.expectMessage("Invalid IPv4 address: '13.-40.0.0'");
         Ipv4.parse("13.-40.0.0");
     }
 
