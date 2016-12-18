@@ -75,6 +75,7 @@
                         <exclude>.idea/**/*.*</exclude>
                         <exclude>.gitignore</exclude>
                         <exclude>.travis.yml</exclude>
+                        <exclude>.codeclimate.yml</exclude>
                         <exclude>README.md</exclude>
                     </excludes>
                 </configuration>
