@@ -10,10 +10,10 @@ Description
 
 This library contains a representation of internet resources:
 
-* IPv4 and IPv6 addresses and ranges
-* Autonomous System Numbers (ASNs)
+* `IPv4` and `IPv6` addresses and ranges
+* Autonomous System Numbers (`ASN`s)
 
-It provides a rich API for dealing with the most common operations performed with IP resources, such as:
+It provides a rich, type-safe API for dealing with the most common operations performed with IP resources, such as:
 parsing, printing in several notations, checking if ranges are overlapping or can be merged, etc.
 
 It also provides Comparators, Set collections and other utilities for working with IP ranges and Prefixes.
@@ -40,16 +40,26 @@ For the latest released `version`, check [the Central Repository](https://maven-
 Examples
 ---------
 
-### Autonomous System Numbers (ASNs)
+### IPv4 addresses
 
 ```java
-Asn.of("AS65546");  // AS65546
-Asn.of(65546l);     // AS65546
-Asn.of("1.10");     // AS65546
+Ipv4 start = Ipv4.of("192.168.0.0");
+Ipv4 end = Ipv4.of("192.168.0.255");
 
-Asn.of("AS65546").is32Bit() // true
+// Fluent API for creating new instances
+Ipv4Range a = Ipv4Range.from(start).to(end);
+Ipv4Range b = Ipv4Range.from("192.168.0.0").andPrefixLength(24);
+Ipv4Range c = Ipv4Range.parse("192.168.0.0/24");
+Ipv4Range d = Ipv4Range.parse("192.168.1.0/24");
+
+a.equals(b);        // true
+a.isEmpty();        // false
+a.size();           // 256
+a.contains(b);      // true
+a.overlaps(d);      // false
+a.isConsecutive(d); // true
+a.merge(d);         // 192.168.0.0/23
 ```
-Parsing of AS numbers complies with [RFC 5396](http://tools.ietf.org/html/rfc5396).
 
 ### IPv6 addresses
 
@@ -73,26 +83,16 @@ a.merge(d);         // 2001:db8::/111
 ```
 Printing of IPv6 addresses complies with [RFC 5952](http://tools.ietf.org/html/rfc5952).
 
-### IPv4 addresses
+### Autonomous System Numbers (ASNs)
 
 ```java
-Ipv4 start = Ipv4.of("192.168.0.0");
-Ipv4 end = Ipv4.of("192.168.0.255");
+Asn.of("AS65546");  // AS65546
+Asn.of(65546l);     // AS65546
+Asn.of("1.10");     // AS65546
 
-// Fluent API for creating new instances
-Ipv4Range a = Ipv4Range.from(start).to(end);
-Ipv4Range b = Ipv4Range.from("192.168.0.0").andPrefixLength(24);
-Ipv4Range c = Ipv4Range.parse("192.168.0.0/24");
-Ipv4Range d = Ipv4Range.parse("192.168.1.0/24");
-
-a.equals(b);        // true
-a.isEmpty();        // false
-a.size();           // 256
-a.contains(b);      // true
-a.overlaps(d);      // false
-a.isConsecutive(d); // true
-a.merge(d);         // 192.168.0.0/23
+Asn.of("AS65546").is32Bit() // true
 ```
+Parsing of AS numbers complies with [RFC 5396](http://tools.ietf.org/html/rfc5396).
 
 #### Sets
 ```java
