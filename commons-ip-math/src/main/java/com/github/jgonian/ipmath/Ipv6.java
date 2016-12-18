@@ -230,9 +230,9 @@ public final class Ipv6 extends AbstractIp<Ipv6, Ipv6Range> {
         final String ipv6Section = ipv6String.substring(0, indexOfLastColon);
         final String ipv4Section = ipv6String.substring(indexOfLastColon + 1);
         final Ipv4 ipv4 = Ipv4.parse(ipv4Section);
-        final String ipv4FirstPart =  Long.toHexString( ipv4.value() >>> BITS_PER_PART);
-        final String ipv4SecondPart =  Long.toHexString(ipv4.value() & MAX_PART_VALUE);
-        return ipv6Section + COLON +  ipv4FirstPart + COLON + ipv4SecondPart;
+        final String ipv4FirstPart = Long.toHexString(ipv4.value() >>> BITS_PER_PART);
+        final String ipv4SecondPart = Long.toHexString(ipv4.value() & MAX_PART_VALUE);
+        return ipv6Section + COLON + ipv4FirstPart + COLON + ipv4SecondPart;
     }
 
     @Override
