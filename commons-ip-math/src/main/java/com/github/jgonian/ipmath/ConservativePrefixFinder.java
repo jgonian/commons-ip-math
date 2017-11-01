@@ -25,6 +25,7 @@ package com.github.jgonian.ipmath;
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Optional;
 
 public class ConservativePrefixFinder extends PrefixFinder {
 
