@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>benchmarks</module>
         <module>commons-ip-math</module>
         <module>commons-ip-math-gwt</module>
     </modules>
