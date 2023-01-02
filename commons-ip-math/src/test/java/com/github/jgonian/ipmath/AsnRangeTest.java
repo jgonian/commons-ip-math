@@ -23,10 +23,12 @@
  */
 package com.github.jgonian.ipmath;
 
+import static com.github.jgonian.ipmath.Ipv6.LAST_IPV6_ADDRESS;
 import static junit.framework.Assert.*;
 import static com.github.jgonian.ipmath.Asn.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -129,6 +131,16 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
             result.add(asn);
         }
         assertEquals(Arrays.asList(as1, as2, as3), result);
+
+    }
+
+    @Override
+    public void testIteratorEnd() {
+        List<Asn> result = new ArrayList<Asn>();
+        for (Asn asn : AsnRange.from(LAST_32_BIT_ASN).to(LAST_32_BIT_ASN)) {
+            result.add(asn);
+        }
+        assertEquals(Collections.singletonList(LAST_32_BIT_ASN), result);
     }
 
     @Test

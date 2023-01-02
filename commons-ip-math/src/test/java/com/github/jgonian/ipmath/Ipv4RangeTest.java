@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.github.jgonian.ipmath.Ipv4.FIRST_IPV4_ADDRESS;
@@ -81,7 +83,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void shouldParseDashNotationWhenEmptyRange() {
         assertEquals(Ipv4.parse("192.168.0.1").asRange(), Ipv4Range.parse("192.168.0.1-192.168.0.1"));
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseDashNotationWhenIllegalRange() {
         Ipv4Range.parse("0.0.0.10-0.0.0.1");
@@ -106,7 +108,7 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
     public void shouldFailToParseCidrWhenIllegalPrefix() {
         Ipv4Range.parseCidr("0.0.0.10/33");
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToParseCidrWhenIllegalPrefixTwo() {
         Ipv4Range.parse("5.57.249.88/28");
@@ -196,6 +198,15 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
             result.add(ipv4);
         }
         assertEquals(Arrays.asList(ip1, ip2, ip3), result);
+    }
+
+    @Override
+    public void testIteratorEnd() {
+        List<Ipv4> result = new ArrayList<Ipv4>();
+        for (Ipv4 ipv4 : Ipv4Range.from(LAST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS)) {
+            result.add(ipv4);
+        }
+        assertEquals(Collections.singletonList(LAST_IPV4_ADDRESS), result);
     }
 
     @Test

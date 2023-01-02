@@ -28,6 +28,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.github.jgonian.ipmath.Ipv6.FIRST_IPV6_ADDRESS;
@@ -187,6 +188,15 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
             result.add(ipv6);
         }
         assertEquals(Arrays.asList(ip1, ip2, ip3), result);
+    }
+
+    @Override
+    public void testIteratorEnd() {
+        List<Ipv6> result = new ArrayList<Ipv6>();
+        for (Ipv6 ipv6 : Ipv6Range.from(LAST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS)) {
+            result.add(ipv6);
+        }
+        assertEquals(Collections.singletonList(LAST_IPV6_ADDRESS), result);
     }
 
     @Test
