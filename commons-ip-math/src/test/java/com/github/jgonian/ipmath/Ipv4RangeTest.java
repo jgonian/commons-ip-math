@@ -30,12 +30,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.github.jgonian.ipmath.Ipv4.FIRST_IPV4_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv4.LAST_IPV4_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv4.MAXIMUM_VALUE;
-import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
@@ -207,6 +208,15 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
             result.add(ipv4);
         }
         assertEquals(Collections.singletonList(LAST_IPV4_ADDRESS), result);
+    }
+
+    @Override
+    @Test(expected = NoSuchElementException.class)
+    public void testIteratorOutOfBounds() {
+        Ipv4Range range = Ipv4Range.from(LAST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS);
+        Iterator<Ipv4> iterator = range.iterator();
+        assertEquals(LAST_IPV4_ADDRESS, iterator.next());
+        iterator.next();
     }
 
     @Test

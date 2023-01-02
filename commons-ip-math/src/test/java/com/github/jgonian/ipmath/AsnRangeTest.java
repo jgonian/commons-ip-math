@@ -23,15 +23,22 @@
  */
 package com.github.jgonian.ipmath;
 
-import static com.github.jgonian.ipmath.Ipv6.LAST_IPV6_ADDRESS;
-import static junit.framework.Assert.*;
-import static com.github.jgonian.ipmath.Asn.*;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import org.junit.Test;
+import static com.github.jgonian.ipmath.Asn.ASN_16_BIT_MAX_VALUE;
+import static com.github.jgonian.ipmath.Asn.ASN_32_BIT_MAX_VALUE;
+import static com.github.jgonian.ipmath.Asn.FIRST_ASN;
+import static com.github.jgonian.ipmath.Asn.LAST_32_BIT_ASN;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
@@ -141,6 +148,15 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
             result.add(asn);
         }
         assertEquals(Collections.singletonList(LAST_32_BIT_ASN), result);
+    }
+
+    @Override
+    @Test(expected = NoSuchElementException.class)
+    public void testIteratorOutOfBounds() {
+        AsnRange range = AsnRange.from(LAST_32_BIT_ASN).to(LAST_32_BIT_ASN);
+        Iterator<Asn> iterator = range.iterator();
+        assertEquals(LAST_32_BIT_ASN, iterator.next());
+        iterator.next();
     }
 
     @Test
