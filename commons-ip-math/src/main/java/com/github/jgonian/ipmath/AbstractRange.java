@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C, R>> implements Range<C, R> {
 
@@ -161,16 +162,22 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
     private class RangeIterator implements Iterator<C> {
 
         private C nextValue = start;
+        private boolean reachedTheEnd = false;
 
         @Override
         public boolean hasNext() {
-            return nextValue.compareTo(end) <= 0;
+            return nextValue.compareTo(end) <= 0 && !reachedTheEnd;
         }
 
         @Override
         public C next() {
+            if (reachedTheEnd) throw new NoSuchElementException("range iterator out of bounds");
             C valueToReturn = nextValue;
-            nextValue = valueToReturn.next();
+            try {
+                nextValue = valueToReturn.next();
+            } catch (IllegalArgumentException ignored) {
+                reachedTheEnd = true;
+            }
             return valueToReturn;
         }
 
