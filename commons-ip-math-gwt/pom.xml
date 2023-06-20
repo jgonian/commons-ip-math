@@ -14,7 +14,7 @@
 
     <properties>
         <gwt.version>2.4.0</gwt.version>
-        <guava-gwt.version>30.0-jre</guava-gwt.version>
+        <guava-gwt.version>32.0.0-jre</guava-gwt.version>
         <gwt-maven-plugin.version>${gwt.version}</gwt-maven-plugin.version>
     </properties>
 
