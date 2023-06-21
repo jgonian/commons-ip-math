@@ -24,7 +24,6 @@
 package com.github.jgonian.ipmath;
 
 import java.math.BigInteger;
-import java.util.regex.Pattern;
 
 import static java.math.BigInteger.ONE;
 

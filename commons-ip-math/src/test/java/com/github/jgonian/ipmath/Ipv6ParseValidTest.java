@@ -23,22 +23,17 @@
  */
 package com.github.jgonian.ipmath;
 
-import org.junit.Rule;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RunWith(Parameterized.class)
 public class Ipv6ParseValidTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Parameter(0)
     public String input;

@@ -32,7 +32,7 @@ import java.util.List;
 import static com.github.jgonian.ipmath.Ipv4.FIRST_IPV4_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv4.LAST_IPV4_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv4.MAXIMUM_VALUE;
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 
 public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
@@ -185,8 +185,8 @@ public class Ipv4RangeTest extends AbstractRangeTest<Ipv4, Ipv4Range> {
 
     @Test
     public void testSize() {
-        assertEquals(new Long(1), ip1.asRange().size());
-        assertEquals(new Long(MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
+        assertEquals(Long.valueOf(1), ip1.asRange().size());
+        assertEquals(Long.valueOf(MAXIMUM_VALUE + 1), Ipv4Range.from(FIRST_IPV4_ADDRESS).to(LAST_IPV4_ADDRESS).size());
     }
 
     @Override

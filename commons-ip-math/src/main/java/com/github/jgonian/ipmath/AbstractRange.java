@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C, R>> implements Range<C, R> {
 
     private final C start;
@@ -188,7 +189,7 @@ public abstract class AbstractRange<C extends Rangeable<C, R>, R extends Range<C
         if (!(o instanceof AbstractRange)) {
             return false;
         }
-        AbstractRange that = (AbstractRange) o;
+        AbstractRange<?,?> that = (AbstractRange<?,?>) o;
         if (!start.equals(that.start)) {
             return false;
         }

@@ -23,21 +23,19 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+
 import java.math.BigInteger;
+
+import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class Ipv4Test {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testEqualsContract() {
@@ -54,23 +52,23 @@ public class Ipv4Test {
 
     @Test
     public void testBuilderWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("from cannot be null");
-        Ipv4.of((BigInteger) null);
+    	assertThrows("from cannot be null", IllegalArgumentException.class, () -> {
+            Ipv4.of((BigInteger) null);
+    	});
     }
 
     @Test
     public void testUpperBound() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Value of IPv4 has to be less than or equal to 4294967295");
-        new Ipv4(Ipv4.MAXIMUM_VALUE + 1);
+    	assertThrows("Value of IPv4 has to be less than or equal to 4294967295", IllegalArgumentException.class, () -> {
+            new Ipv4(Ipv4.MAXIMUM_VALUE + 1);
+    	});
     }
 
     @Test
     public void testLowerBound() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Value of IPv4 has to be greater than or equal to 0");
-        new Ipv4(Ipv4.MINIMUM_VALUE - 1);
+        assertThrows("Value of IPv4 has to be greater than or equal to 0", IllegalArgumentException.class, () -> {
+            new Ipv4(Ipv4.MINIMUM_VALUE - 1);
+        });
     }
 
     @Test
@@ -100,58 +98,58 @@ public class Ipv4Test {
 
     @Test
     public void shouldFailOnLessOctets() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '10.1.1'");
-        Ipv4.parse("10.1.1");
+        assertThrows("Invalid IPv4 address: '10.1.1'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("10.1.1");
+        });
     }
 
     @Test
     public void shouldFailOnMoreOctets() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '10.1.1.1.1'");
-        Ipv4.parse("10.1.1.1.1");
+        assertThrows("Invalid IPv4 address: '10.1.1.1.1'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("10.1.1.1.1");
+        });
     }
 
     @Test
     public void shouldFailWhenEndingWithNonDigit() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '10.1.1.1.'");
-        Ipv4.parse("10.1.1.1.");
+        assertThrows("Invalid IPv4 address: '10.1.1.1.'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("10.1.1.1.");
+        });
     }
 
     @Test
     public void shouldFailWhenStartingWithNonDigit() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '.10.1.1.1'");
-        Ipv4.parse(".10.1.1.1");
+        assertThrows("Invalid IPv4 address: '.10.1.1.1'", IllegalArgumentException.class, () -> {
+            Ipv4.parse(".10.1.1.1");
+        });
     }
 
     @Test
     public void shouldFailWhenOctetContainsNonDigit() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '10.a.1.0'");
-        Ipv4.parse("10.a.1.0");
+        assertThrows("Invalid IPv4 address: '10.a.1.0'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("10.a.1.0");
+        });
     }
 
     @Test
     public void shouldFailOnOutOfBoundsByte() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '256.0.0.0'");
-        Ipv4.parse("256.0.0.0");
+        assertThrows("Invalid IPv4 address: '256.0.0.0'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("256.0.0.0");
+        });
     }
 
     @Test
     public void shouldFailOnOutOfBoundsByte_NegativeByte() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '13.-40.0.0'");
-        Ipv4.parse("13.-40.0.0");
+        assertThrows("Invalid IPv4 address: '13.-40.0.0'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("13.-40.0.0");
+        });
     }
 
     @Test
     public void shouldFailOnLeadingZeros() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv4 address: '192.168.08.1'");
-        Ipv4.parse("192.168.08.1");
+        assertThrows("Invalid IPv4 address: '192.168.08.1'", IllegalArgumentException.class, () -> {
+            Ipv4.parse("192.168.08.1");
+        });
     }
 
     @Test
@@ -174,16 +172,16 @@ public class Ipv4Test {
 
     @Test
     public void shouldFailToCalculateLowerBoundWhenPrefixIsOutOfRange() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Value [33] out of range: [0..32]");
-        Ipv4.parse("192.168.0.100").lowerBoundForPrefix(33);
+        assertThrows("Value [33] out of range: [0..32]", IllegalArgumentException.class, () -> {
+            Ipv4.parse("192.168.0.100").lowerBoundForPrefix(33);
+        });
     }
 
     @Test
     public void shouldFailToCalculateUpperBoundWhenPrefixIsOutOfRange() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Value [33] out of range: [0..32]");
-        Ipv4.parse("192.168.0.100").upperBoundForPrefix(33);
+        assertThrows("Value [33] out of range: [0..32]", IllegalArgumentException.class, () -> {
+            Ipv4.parse("192.168.0.100").upperBoundForPrefix(33);
+        });
     }
 
     @Test

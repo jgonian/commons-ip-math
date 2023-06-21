@@ -142,7 +142,7 @@ public class SortedRangeSet<C extends Rangeable<C, R>, R extends Range<C, R>> im
         if (!(o instanceof SortedRangeSet)) {
             return false;
         }
-        SortedRangeSet that = (SortedRangeSet) o;
+        SortedRangeSet<?, ?> that = (SortedRangeSet<?, ?>) o;
         return set.equals(that.set);
     }
 

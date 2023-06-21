@@ -47,7 +47,7 @@ public final class SizeComparator<R extends Range<?, R>> implements Comparator<R
     private SizeComparator() {
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public int compare(R left, R right) {
         return ((Comparable)left.size()).compareTo(right.size());
