@@ -45,7 +45,7 @@ order to support [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_Syste
 
  * To use version *2.0* or later as a module, a minimum of Java 9 will be required. The module name is `com.github.jgonian.ipmath`.
  * To use version *2.0* or later as a traditional classpath library, a minimum of Java 8 will be required.  
- * To use with Java 1.6 and Java 1.7, your must use version *1.3* of this library   
+ * To use with Java 1.6 and Java 1.7, your should use latest the latest of the *1.x* versions of this library.   
 
 
 Examples
