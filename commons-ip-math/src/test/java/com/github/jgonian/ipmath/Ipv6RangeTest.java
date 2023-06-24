@@ -26,10 +26,9 @@ package com.github.jgonian.ipmath;
 import org.junit.Test;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+import static com.github.jgonian.ipmath.Ipv4.LAST_IPV4_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv6.FIRST_IPV6_ADDRESS;
 import static com.github.jgonian.ipmath.Ipv6.LAST_IPV6_ADDRESS;
 import static java.math.BigInteger.ONE;
@@ -187,6 +186,24 @@ public class Ipv6RangeTest extends AbstractRangeTest<Ipv6, Ipv6Range> {
             result.add(ipv6);
         }
         assertEquals(Arrays.asList(ip1, ip2, ip3), result);
+    }
+
+    @Override
+    public void testIteratorEnd() {
+        List<Ipv6> result = new ArrayList<Ipv6>();
+        for (Ipv6 ipv6 : Ipv6Range.from(LAST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS)) {
+            result.add(ipv6);
+        }
+        assertEquals(Collections.singletonList(LAST_IPV6_ADDRESS), result);
+    }
+
+    @Override
+    @Test(expected = NoSuchElementException.class)
+    public void testIteratorOutOfBounds() {
+        Ipv6Range range = Ipv6Range.from(LAST_IPV6_ADDRESS).to(LAST_IPV6_ADDRESS);
+        Iterator<Ipv6> iterator = range.iterator();
+        assertEquals(LAST_IPV6_ADDRESS, iterator.next());
+        iterator.next();
     }
 
     @Test

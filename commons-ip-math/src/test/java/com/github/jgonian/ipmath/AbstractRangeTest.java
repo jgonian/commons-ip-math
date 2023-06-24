@@ -55,6 +55,12 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
     @Test
     public abstract void testIterator();
 
+    @Test
+    public abstract void testIteratorEnd();
+
+    @Test
+    public abstract void testIteratorOutOfBounds();
+
     @Test(expected = UnsupportedOperationException.class)
     public void testIteratorDoesNotSupportRemove() {
         getTestRange(from("1"), to("10")).iterator().remove();

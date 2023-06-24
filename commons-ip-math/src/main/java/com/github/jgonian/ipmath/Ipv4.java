@@ -52,7 +52,7 @@ public final class Ipv4 extends AbstractIp<Ipv4, Ipv4Range> {
     protected Ipv4(Long value) {
         this.value = Validate.notNull(value, "value is required");
         Validate.isTrue(value.compareTo(MINIMUM_VALUE) >= 0, "Value of IPv4 has to be greater than or equal to " + MINIMUM_VALUE);
-        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv4 has to be less than or equal to " + MAXIMUM_VALUE);
+        Validate.isTrue(value.compareTo(MAXIMUM_VALUE) <= 0, "Value of IPv4 has to be less than or equal to " + MAXIMUM_VALUE + " was: " + value);
     }
 
     long value() {
