@@ -23,6 +23,7 @@
  */
 package com.github.jgonian.ipmath;
 
+@SuppressWarnings("serial")
 public final class AsnRange extends AbstractRange<Asn, AsnRange> implements InternetResourceRange<Asn, AsnRange> {
 
     protected AsnRange(Asn start, Asn end) {

@@ -23,31 +23,28 @@
  */
 package com.github.jgonian.ipmath;
 
-import org.junit.Rule;
+import static org.junit.Assert.assertThrows;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RunWith(Parameterized.class)
 public class Ipv6ParseInvalidTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Parameter(0)
     public String input;
 
     @Test
     public void test() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid IPv6 address: '" + input + "'");
-        Ipv6.parse(input);
+        assertThrows("Invalid IPv6 address: '" + input + "'", IllegalArgumentException.class, () -> {
+            Ipv6.parse(input);
+        });
     }
 
     // Invalid IPv6 examples are copied from http://download.dartware.com/thirdparty/test-ipv6-regex.pl

@@ -30,6 +30,7 @@ import java.util.List;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
+@SuppressWarnings("serial")
 public abstract class AbstractIpRange<C extends AbstractIp<C, R>, R extends AbstractIpRange<C, R>>
         extends AbstractRange<C, R>
         implements InternetResourceRange<C, R> {

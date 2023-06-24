@@ -23,7 +23,9 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static com.github.jgonian.ipmath.Asn.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,9 +119,9 @@ public class AsnRangeTest extends AbstractRangeTest<Asn, AsnRange> {
 
     @Test
     public void testSize() {
-        assertEquals(new Long(1), as1.asRange().size());
-        assertEquals(new Long(ASN_16_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_16_BIT_ASN).size());
-        assertEquals(new Long(ASN_32_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_32_BIT_ASN).size());
+        assertEquals(Long.valueOf(1), as1.asRange().size());
+        assertEquals(Long.valueOf(ASN_16_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_16_BIT_ASN).size());
+        assertEquals(Long.valueOf(ASN_32_BIT_MAX_VALUE + 1), AsnRange.from(FIRST_ASN).to(Asn.LAST_32_BIT_ASN).size());
     }
 
     @Override

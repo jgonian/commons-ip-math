@@ -37,6 +37,17 @@ libraryDependencies += "com.github.jgonian" % "commons-ip-math" % s"${version}"
 
 For the latest released `version`, check [the Central Repository](https://maven-badges.herokuapp.com/maven-central/com.github.jgonian/commons-ip-math).
 
+Versions
+--------
+
+Starting from version *2.0*, the minimum Java version required has changed to Java 8. This is in
+order to support [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System). 
+
+ * To use version *2.0* or later as a module, a minimum of Java 9 will be required. The module name is `com.github.jgonian.ipmath`.
+ * To use version *2.0* or later as a traditional classpath library, a minimum of Java 8 will be required.  
+ * To use with Java 1.6 and Java 1.7, your should use latest the latest of the *1.x* versions of this library.   
+
+
 Examples
 ---------
 

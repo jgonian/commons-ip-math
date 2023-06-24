@@ -23,9 +23,9 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -830,7 +830,8 @@ public abstract class AbstractRangeTest<C extends Rangeable<C, R>, R extends Abs
         assertEquals(result, range.exclude(other));
     }
 
-    @Test
+    @SuppressWarnings("serial")
+	@Test
     public void shouldRemoveIfOtherIsContained() {
         // range      |---------|    [10, 20]
         // other         |--|        [13, 15]

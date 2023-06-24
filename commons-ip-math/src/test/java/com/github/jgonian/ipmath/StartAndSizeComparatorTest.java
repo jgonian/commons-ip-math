@@ -23,7 +23,8 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 import java.util.Comparator;
 
 import org.junit.Test;

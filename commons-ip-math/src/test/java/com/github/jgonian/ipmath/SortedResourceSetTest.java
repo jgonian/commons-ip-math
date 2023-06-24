@@ -23,7 +23,9 @@
  */
 package com.github.jgonian.ipmath;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import java.util.HashSet;
 import java.util.Set;
 
